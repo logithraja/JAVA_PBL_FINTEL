@@ -28,13 +28,12 @@ public class LoginView {
 
     private Scene createScene(){
         javafx.scene.layout.HBox root = new javafx.scene.layout.HBox();
-        root.getStyleClass().add("split-root");
+        root.getStyleClass().addAll("main-background", "split-root");
         root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-background-color: #FFFFFF;");
 
-        // --- LEFT SIDE (Dark Blue + Image) ---
+        // --- LEFT SIDE (Deep Indigo Gradient + Hero Visual) ---
         VBox leftSide = new VBox(20);
-        leftSide.setStyle("-fx-background-color: #032b61;"); // Dark blue matching screenshot
+        leftSide.setStyle("-fx-background-color: linear-gradient(to bottom right, #0F172A 0%, #1E1B4B 60%, #312E81 100%);");
         leftSide.setAlignment(Pos.CENTER);
         javafx.scene.layout.HBox.setHgrow(leftSide, javafx.scene.layout.Priority.ALWAYS);
         leftSide.setMaxWidth(Double.MAX_VALUE);
@@ -43,14 +42,14 @@ public class LoginView {
             javafx.scene.image.Image logoImg = new javafx.scene.image.Image(java.util.Objects.requireNonNull(getClass().getResourceAsStream("/images/finvora_logo.png")));
             javafx.scene.image.ImageView logoView = new javafx.scene.image.ImageView(logoImg);
             logoView.setPreserveRatio(true);
-            logoView.setFitHeight(40);
+            logoView.setFitHeight(44);
             
             Label logoText = new Label("FINVORA");
-            logoText.setStyle("-fx-font-size: 24px; -fx-font-weight: 900; -fx-text-fill: white; -fx-letter-spacing: 2px;");
+            logoText.setStyle("-fx-font-size: 26px; -fx-font-weight: 900; -fx-text-fill: white; -fx-letter-spacing: 2px;");
             
             javafx.scene.layout.HBox logoBox = new javafx.scene.layout.HBox(15, logoView, logoText);
             logoBox.setAlignment(Pos.CENTER_LEFT);
-            logoBox.setPadding(new javafx.geometry.Insets(30, 0, 40, 50));
+            logoBox.setPadding(new javafx.geometry.Insets(35, 0, 30, 50));
             leftSide.getChildren().add(logoBox);
         } catch (Exception e) {
             System.err.println("Could not load logo image");
@@ -60,68 +59,72 @@ public class LoginView {
             javafx.scene.image.Image heroImg = new javafx.scene.image.Image(java.util.Objects.requireNonNull(getClass().getResourceAsStream("/images/finvora_login_hero.png")));
             javafx.scene.image.ImageView heroView = new javafx.scene.image.ImageView(heroImg);
             heroView.setPreserveRatio(true);
-            heroView.setFitHeight(350);
+            heroView.setFitHeight(340);
             leftSide.getChildren().add(heroView);
         } catch (Exception e) {
             System.err.println("Could not load login hero image");
         }
         
         Label quote = new Label("Get All Your Finances\nAt One Place.");
-        quote.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white; -fx-text-alignment: center;");
-        quote.setPadding(new javafx.geometry.Insets(40, 0, 0, 0));
+        quote.setStyle("-fx-font-size: 30px; -fx-font-weight: 800; -fx-text-fill: #FFFFFF; -fx-text-alignment: center;");
+        quote.setPadding(new javafx.geometry.Insets(30, 0, 0, 0));
         leftSide.getChildren().add(quote);
 
-        // --- RIGHT SIDE (Form) ---
+        // --- RIGHT SIDE (Elevated Card Form) ---
         VBox rightSide = new VBox();
         rightSide.setAlignment(Pos.CENTER);
-        rightSide.setStyle("-fx-background-color: #FFFFFF;");
+        rightSide.getStyleClass().add("main-background");
         javafx.scene.layout.HBox.setHgrow(rightSide, javafx.scene.layout.Priority.ALWAYS);
         rightSide.setMaxWidth(Double.MAX_VALUE);
         
-        VBox formContainer = new VBox(15);
+        VBox formContainer = new VBox(16);
+        formContainer.getStyleClass().addAll("card-elevated");
         formContainer.setAlignment(Pos.CENTER_LEFT);
-        formContainer.setMaxWidth(400); 
+        formContainer.setMaxWidth(420); 
         
         Label loginTitle = new Label("Login to your account");
-        loginTitle.setStyle("-fx-font-size: 28px; -fx-font-weight: 800; -fx-text-fill: #1A1A1A;");
+        loginTitle.getStyleClass().add("h1");
         
-        VBox headerBox = new VBox(10, loginTitle);
+        Label loginSub = new Label("Welcome back! Please enter your details.");
+        loginSub.getStyleClass().add("caption-text");
+        
+        VBox headerBox = new VBox(6, loginTitle, loginSub);
         headerBox.setAlignment(Pos.CENTER_LEFT);
-        headerBox.setPadding(new javafx.geometry.Insets(0, 0, 30, 0));
+        headerBox.setPadding(new javafx.geometry.Insets(0, 0, 15, 0));
 
         Label emailLabel = new Label("Email Address");
-        emailLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #1A1A1A; -fx-font-weight: bold;");
-        usernameField.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #D1D5DB; -fx-border-radius: 4px; -fx-padding: 10px; -fx-font-size: 14px;");
-        usernameField.setPromptText("Email Address");
-        VBox emailBox = new VBox(5, emailLabel, usernameField);
+        emailLabel.setStyle("-fx-font-size: 13px; -fx-font-weight: bold;");
+        usernameField.getStyleClass().add("input-field");
+        usernameField.setPromptText("Enter your email");
+        VBox emailBox = new VBox(6, emailLabel, usernameField);
 
         javafx.scene.layout.HBox passHeader = new javafx.scene.layout.HBox();
         Label passLabel = new Label("Password");
-        passLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #1A1A1A; -fx-font-weight: bold;");
-        Label forgotLabel = new Label("forgot password?");
-        forgotLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #032b61; -fx-cursor: hand;");
+        passLabel.setStyle("-fx-font-size: 13px; -fx-font-weight: bold;");
+        Label forgotLabel = new Label("Forgot password?");
+        forgotLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #4F46E5; -fx-cursor: hand; -fx-font-weight: 600;");
         javafx.scene.layout.Region passSpacer = new javafx.scene.layout.Region();
         javafx.scene.layout.HBox.setHgrow(passSpacer, javafx.scene.layout.Priority.ALWAYS);
         passHeader.getChildren().addAll(passLabel, passSpacer, forgotLabel);
 
-        passwordField.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #D1D5DB; -fx-border-radius: 4px; -fx-padding: 10px; -fx-font-size: 14px;");
-        passwordField.setPromptText("Enter password");
-        VBox passBox = new VBox(5, passHeader, passwordField);
+        passwordField.getStyleClass().add("input-field");
+        passwordField.setPromptText("••••••••");
+        VBox passBox = new VBox(6, passHeader, passwordField);
 
         javafx.scene.control.CheckBox rememberMe = new javafx.scene.control.CheckBox("Remember Me");
-        rememberMe.setStyle("-fx-text-fill: #1A1A1A; -fx-padding: 10 0 20 0;");
+        rememberMe.setStyle("-fx-padding: 6 0 10 0; -fx-font-size: 13px;");
 
         loginButton.setText("Sign In");
-        loginButton.setStyle("-fx-background-color: #032b61; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-background-radius: 4px; -fx-padding: 12px;");
+        loginButton.getStyleClass().addAll("btn-primary");
         loginButton.setMaxWidth(Double.MAX_VALUE);
 
-        javafx.scene.layout.HBox signupBox = new javafx.scene.layout.HBox(5);
+        javafx.scene.layout.HBox signupBox = new javafx.scene.layout.HBox(6);
         signupBox.setAlignment(Pos.CENTER);
-        signupBox.setPadding(new javafx.geometry.Insets(20, 0, 0, 0));
+        signupBox.setPadding(new javafx.geometry.Insets(14, 0, 0, 0));
         Label noAcc = new Label("Don't have an account?");
-        noAcc.setStyle("-fx-text-fill: #1A1A1A;");
+        noAcc.getStyleClass().add("body-text");
         signupLabel.setText("Sign Up");
-        signupLabel.setStyle("-fx-text-fill: #032b61; -fx-font-weight: bold; -fx-cursor: hand;");
+        signupLabel.setStyle("-fx-text-fill: #4F46E5; -fx-font-weight: bold; -fx-cursor: hand;");
         signupBox.getChildren().addAll(noAcc, signupLabel);
 
         formContainer.getChildren().addAll(headerBox, emailBox, passBox, rememberMe, loginButton, signupBox);

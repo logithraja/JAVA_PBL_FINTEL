@@ -146,14 +146,6 @@ public class DashboardView {
 
     public void show() {
         Scene scene = createScene();
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
-        
-        VBox rootVBox = (VBox) ((StackPane) scene.getRoot()).getChildren().get(0);
-        
-        rootVBox.getStyleClass().removeAll("main-background", "main-background-dark");
-        rootVBox.getStyleClass().add("main-background-light");
-        themeToggle.setVisible(false);
-        themeToggle.setManaged(false);
         
         ThemeManager.apply(scene);       
         new DashboardController(this);
@@ -168,6 +160,7 @@ public class DashboardView {
 
     private Scene createScene() {
         StackPane rootStack = new StackPane();
+        rootStack.getStyleClass().add("main-background");
         
         VBox rootVBox = new VBox();
         rootVBox.getStyleClass().add("main-background");
@@ -200,7 +193,16 @@ public class DashboardView {
         
         rootStack.getChildren().addAll(rootVBox, loadingAnimationPane);
 
-        return new Scene(rootStack, Utilitie.APP_WIDTH, Utilitie.APP_HEIGHT);
+        Scene scene = new Scene(rootStack, Utilitie.APP_WIDTH, Utilitie.APP_HEIGHT);
+        
+        themeToggle.setText(ThemeManager.isDarkMode() ? "☀️ Light" : "🌙 Dark");
+        themeToggle.setSelected(ThemeManager.isDarkMode());
+        themeToggle.setOnAction(e -> {
+            ThemeManager.toggleTheme(scene);
+            themeToggle.setText(ThemeManager.isDarkMode() ? "☀️ Light" : "🌙 Dark");
+        });
+
+        return scene;
     }
 
     private javafx.scene.layout.HBox createTopMenuBar() {
@@ -230,12 +232,14 @@ public class DashboardView {
         javafx.scene.layout.Region spacer = new javafx.scene.layout.Region();
         javafx.scene.layout.HBox.setHgrow(spacer, Priority.ALWAYS);
         
-        themeToggle.setStyle("-fx-background-color: transparent; -fx-text-fill: #D4D4D4; -fx-cursor: hand; -fx-font-weight: bold;");
+        themeToggle.getStyleClass().add("toggle-button");
+        finvoraAIButton.getStyleClass().addAll("btn-primary");
+        finvoraAIButton.setStyle("-fx-font-size: 13px; -fx-padding: 6px 14px;");
         
-        javafx.scene.layout.HBox topBar = new javafx.scene.layout.HBox(menuBar, spacer, finvoraAIButton, aiAlertsButton, themeToggle);
+        javafx.scene.layout.HBox topBar = new javafx.scene.layout.HBox(10, menuBar, spacer, finvoraAIButton, aiAlertsButton, themeToggle);
         topBar.getStyleClass().add("top-bar-background");
         topBar.setAlignment(Pos.CENTER_LEFT);
-        topBar.setPadding(new javafx.geometry.Insets(0, 15, 0, 0));
+        topBar.setPadding(new javafx.geometry.Insets(8, 18, 8, 10));
         
         return topBar;
     }
@@ -292,11 +296,13 @@ public class DashboardView {
     private HBox createForecastBanner() {
         HBox banner = new HBox(12);
         banner.setAlignment(Pos.CENTER_LEFT);
-        banner.getStyleClass().addAll("stat-card");
-        banner.setStyle("-fx-padding: 12 20 12 20; -fx-margin: 0 0 15 0; -fx-background-color: rgba(99, 102, 241, 0.12); -fx-border-color: rgba(99, 102, 241, 0.35); -fx-border-radius: 8; -fx-background-radius: 8;");
+        banner.getStyleClass().addAll("card");
+        banner.setStyle("-fx-padding: 14 20; -fx-background-color: rgba(99, 102, 241, 0.08); -fx-border-color: rgba(99, 102, 241, 0.25);");
 
-        forecastLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #818CF8; -fx-font-size: 13px;");
-        forecastAmountLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #F3F4F6; -fx-font-size: 13px;");
+        forecastLabel.getStyleClass().add("h4");
+        forecastLabel.setStyle("-fx-text-fill: #4F46E5;");
+        forecastAmountLabel.getStyleClass().add("body-text");
+        forecastAmountLabel.setStyle("-fx-font-weight: bold;");
         HBox.setHgrow(forecastAmountLabel, Priority.ALWAYS);
 
         banner.getChildren().addAll(forecastLabel, forecastAmountLabel);
@@ -305,7 +311,7 @@ public class DashboardView {
 
     private GridPane createContentGridPane() {
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
+        gridPane.setHgap(14);
         gridPane.setMinWidth(0); 
 
         ColumnConstraints leftCol = new ColumnConstraints();
@@ -329,7 +335,7 @@ public class DashboardView {
         transactionsTableSummaryBox.getChildren().addAll(filterAndChartButtonBox, transactionTableContentBox);
 
         VBox recentTransactionsVBox = createRecentTransactionsVBox();
-        recentTransactionsVBox.getStyleClass().addAll("field-background", "rounded-border", "padding-10px");
+        recentTransactionsVBox.getStyleClass().addAll("card", "card-elevated");
         GridPane.setVgrow(recentTransactionsVBox, Priority.ALWAYS);
         recentTransactionsVBox.setMinWidth(0);
         
