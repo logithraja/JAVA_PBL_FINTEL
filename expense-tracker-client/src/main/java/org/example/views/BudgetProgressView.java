@@ -31,6 +31,7 @@ public class BudgetProgressView extends Stage {
     public BudgetProgressView(User user, List<Budget> budgets) {
         this.user = user;
         setTitle("Budget Progress – " + (user != null ? user.getEmail() : ""));
+        org.example.utils.ViewNavigator.applyAppIcon(this);
 
         TableColumn<Row, String> category = new TableColumn<>("Category");
         category.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().category));

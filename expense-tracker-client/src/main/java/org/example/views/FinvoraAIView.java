@@ -83,6 +83,7 @@ public class FinvoraAIView {
 
         javafx.stage.Stage aiStage = new javafx.stage.Stage();
         aiStage.setTitle("Finvora AI");
+        org.example.utils.ViewNavigator.applyAppIcon(aiStage);
         aiStage.setScene(scene);
         aiStage.show();
 

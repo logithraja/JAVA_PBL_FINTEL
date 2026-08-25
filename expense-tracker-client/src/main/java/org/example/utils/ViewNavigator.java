@@ -14,6 +14,22 @@ public class ViewNavigator {
 
     public static void setMainStage(Stage stage){
         mainStage = stage;
+        applyAppIcon(stage);
+    }
+
+    public static void applyAppIcon(Stage stage) {
+        if (stage == null) return;
+        try {
+            int[] sizes = {16, 32, 64, 128, 256, 512};
+            for (int s : sizes) {
+                java.io.InputStream stream = ViewNavigator.class.getResourceAsStream("/images/finvora_icon_" + s + ".png");
+                if (stream != null) {
+                    stage.getIcons().add(new javafx.scene.image.Image(stream));
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Could not load app icons: " + e.getMessage());
+        }
     }
 
     public static Stage getMainStage() {
