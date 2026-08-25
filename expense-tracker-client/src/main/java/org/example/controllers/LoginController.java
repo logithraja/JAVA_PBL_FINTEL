@@ -27,7 +27,6 @@ public class LoginController {
                 String password = loginView.getPasswordField().getText();
 
                 if(ApiClient.postLoginUser(email, password)){
-                    Utilitie.showAlertDialog(Alert.AlertType.INFORMATION, "Login Successful!");
                     new DashboardView(email).show();
                 }else{
                     Utilitie.showAlertDialog(Alert.AlertType.ERROR, "Failed to authenticate. Please check your credentials.");
