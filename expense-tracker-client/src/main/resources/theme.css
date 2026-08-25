@@ -278,28 +278,27 @@ Button, .button {
 /* ===== TABLE VIEW ===== */
 .table-view {
     -fx-background-color: #FFFFFF;
-    -fx-background-radius: 14px;
-    -fx-border-radius: 14px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
     -fx-border-color: #E2E8F0;
     -fx-border-width: 1px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.04), 12, 0, 0, 3);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 14, 0, 0, 4);
 }
 
 .table-view .column-header-background {
-    -fx-background-color: #F8FAFC;
-    -fx-background-radius: 14px 14px 0 0;
-    -fx-border-color: transparent transparent #E2E8F0 transparent;
-    -fx-border-width: 1px;
+    -fx-background-color: linear-gradient(to right, #4F46E5, #6366F1);
+    -fx-background-radius: 15px 15px 0 0;
+    -fx-border-color: transparent;
 }
 
 .table-view .column-header {
     -fx-background-color: transparent;
-    -fx-padding: 12px 14px;
+    -fx-padding: 12px 16px;
 }
 
 .table-view .column-header .label {
-    -fx-text-fill: #475569;
-    -fx-font-weight: 700;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: 800;
     -fx-font-size: 13px;
 }
 
@@ -307,20 +306,75 @@ Button, .button {
     -fx-background-color: #FFFFFF;
     -fx-border-color: transparent transparent #F1F5F9 transparent;
     -fx-border-width: 1px;
-    -fx-padding: 4px 0;
+    -fx-padding: 6px 4px;
 }
 
 .table-view .table-row-cell:odd {
-    -fx-background-color: #FAFAFA;
+    -fx-background-color: #F8FAFC;
 }
 
 .table-view .table-row-cell:hover {
-    -fx-background-color: #F0F4FF;
+    -fx-background-color: #EEF2FF;
 }
 
 .table-view .table-row-cell:selected {
     -fx-background-color: #E0E7FF;
     -fx-text-fill: #1E1B4B;
+}
+
+/* Card variations with subtle modern gradients / tints */
+.card-balance {
+    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #F5F7FF 100%);
+    -fx-border-color: rgba(99, 102, 241, 0.22);
+}
+
+.card-income {
+    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #F0FDF4 100%);
+    -fx-border-color: rgba(16, 185, 129, 0.25);
+}
+
+.card-expense {
+    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #FEF2F2 100%);
+    -fx-border-color: rgba(239, 68, 68, 0.25);
+}
+
+.card-budget {
+    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #F0FDF9 100%);
+    -fx-border-color: rgba(6, 182, 212, 0.25);
+}
+
+.card-savings {
+    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #FAF5FF 100%);
+    -fx-border-color: rgba(139, 92, 246, 0.25);
+}
+
+/* Forecast Card Variants */
+.forecast-card {
+    -fx-background-color: linear-gradient(to right, #FFFFFF, #EEF2FF);
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-border-color: rgba(99, 102, 241, 0.28);
+    -fx-border-width: 1.5px;
+    -fx-padding: 14px 22px;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.08), 16, 0, 0, 4);
+}
+
+.forecast-card-under {
+    -fx-background-color: linear-gradient(to right, #FFFFFF, #ECFDF5);
+    -fx-border-color: rgba(16, 185, 129, 0.35);
+    -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.08), 16, 0, 0, 4);
+}
+
+.forecast-card-over {
+    -fx-background-color: linear-gradient(to right, #FFFFFF, #FEF2F2);
+    -fx-border-color: rgba(239, 68, 68, 0.35);
+    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.08), 16, 0, 0, 4);
+}
+
+.stat-icon-badge {
+    -fx-font-size: 16px;
+    -fx-padding: 6px 10px;
+    -fx-background-radius: 12px;
 }
 
 /* ===== PROGRESS BAR ===== */

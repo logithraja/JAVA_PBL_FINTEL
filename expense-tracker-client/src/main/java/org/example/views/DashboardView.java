@@ -245,46 +245,60 @@ public class DashboardView {
     }
 
     private HBox createBalanceSummaryBox() {
-        HBox statBox = new HBox(40);
+        HBox statBox = new HBox(16);
         statBox.setAlignment(Pos.CENTER);
-        statBox.setStyle("-fx-padding: 20 0 40 0;");
+        statBox.setPadding(new Insets(16, 0, 24, 0));
 
-        VBox balanceCard = new VBox(10);
+        // Balance Card
+        VBox balanceCard = new VBox(8);
         balanceCard.getStyleClass().addAll("stat-card", "card-balance");
+        currentBalanceLabel.setText("💳  Current Balance");
         currentBalanceLabel.getStyleClass().setAll("stat-label");
         currentBalance.getStyleClass().setAll("stat-amount");
+        currentBalance.setStyle("-fx-text-fill: #4F46E5;");
         balanceCard.getChildren().addAll(currentBalanceLabel, currentBalance);
         HBox.setHgrow(balanceCard, Priority.ALWAYS);
 
-        VBox incomeCard = new VBox(10);
+        // Income Card
+        VBox incomeCard = new VBox(8);
         incomeCard.getStyleClass().addAll("stat-card", "card-income");
+        totalIncomeLabel.setText("↗  Total Income");
         totalIncomeLabel.getStyleClass().setAll("stat-label");
         totalIncome.getStyleClass().setAll("stat-amount");
+        totalIncome.setStyle("-fx-text-fill: #10B981;");
         incomeCard.getChildren().addAll(totalIncomeLabel, totalIncome);
         HBox.setHgrow(incomeCard, Priority.ALWAYS);
 
-        VBox expenseCard = new VBox(10);
+        // Expense Card
+        VBox expenseCard = new VBox(8);
         expenseCard.getStyleClass().addAll("stat-card", "card-expense");
+        totalExpenseLabel.setText("↘  Total Expense");
         totalExpenseLabel.getStyleClass().setAll("stat-label");
         totalExpense.getStyleClass().setAll("stat-amount");
+        totalExpense.setStyle("-fx-text-fill: #EF4444;");
         expenseCard.getChildren().addAll(totalExpenseLabel, totalExpense);
         HBox.setHgrow(expenseCard, Priority.ALWAYS);
 
-        VBox budgetCard = new VBox(10);
+        // Budget Card
+        VBox budgetCard = new VBox(8);
         budgetCard.getStyleClass().addAll("stat-card", "card-budget");
+        budgetStatusLabel.setText("📅  Budget Remaining");
         budgetStatusLabel.getStyleClass().setAll("stat-label");
         budgetRemaining.getStyleClass().setAll("stat-amount");
+        budgetRemaining.setStyle("-fx-text-fill: #06B6D4;");
         budgetCard.getChildren().addAll(budgetStatusLabel, budgetRemaining);
         HBox.setHgrow(budgetCard, Priority.ALWAYS);
 
+        // Savings Card
         VBox topGoalCard = new VBox(8);
         topGoalCard.getStyleClass().addAll("stat-card", "card-savings");
-        Label topGoalLabel = new Label("Savings Progress:");
+        Label topGoalLabel = new Label("🎯  Savings Goal");
         topGoalLabel.getStyleClass().add("stat-label");
-        topGoalNameLabel = new Label("Check Savings Menu"); 
-        topGoalNameLabel.getStyleClass().add("stat-amount");
+        topGoalNameLabel.setText("Check Savings Menu");
+        topGoalNameLabel.getStyleClass().setAll("body-text");
+        topGoalNameLabel.setStyle("-fx-font-weight: 700; -fx-font-size: 16px;");
         topGoalProgressBar = new ProgressBar(0.0);
-        topGoalProgressBar.setPrefWidth(200);
+        topGoalProgressBar.setPrefWidth(Double.MAX_VALUE);
         topGoalProgressBar.getStyleClass().add("progress-bar");
         topGoalCard.getChildren().addAll(topGoalLabel, topGoalNameLabel, topGoalProgressBar);
         HBox.setHgrow(topGoalCard, Priority.ALWAYS);
@@ -294,15 +308,16 @@ public class DashboardView {
     }
 
     private HBox createForecastBanner() {
-        HBox banner = new HBox(12);
+        HBox banner = new HBox(14);
         banner.setAlignment(Pos.CENTER_LEFT);
-        banner.getStyleClass().addAll("card");
-        banner.setStyle("-fx-padding: 14 20; -fx-background-color: rgba(99, 102, 241, 0.08); -fx-border-color: rgba(99, 102, 241, 0.25);");
+        banner.getStyleClass().addAll("forecast-card");
 
-        forecastLabel.getStyleClass().add("h4");
-        forecastLabel.setStyle("-fx-text-fill: #4F46E5;");
-        forecastAmountLabel.getStyleClass().add("body-text");
-        forecastAmountLabel.setStyle("-fx-font-weight: bold;");
+        forecastLabel.setText("🔮  AI Spending Forecast:");
+        forecastLabel.getStyleClass().setAll("h4");
+        forecastLabel.setStyle("-fx-text-fill: #4F46E5; -fx-font-weight: 800;");
+
+        forecastAmountLabel.getStyleClass().setAll("body-text");
+        forecastAmountLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
         HBox.setHgrow(forecastAmountLabel, Priority.ALWAYS);
 
         banner.getChildren().addAll(forecastLabel, forecastAmountLabel);
@@ -311,19 +326,19 @@ public class DashboardView {
 
     private GridPane createContentGridPane() {
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(14);
+        gridPane.setHgap(18);
         gridPane.setMinWidth(0); 
 
         ColumnConstraints leftCol = new ColumnConstraints();
-        leftCol.setPercentWidth(55);
+        leftCol.setPercentWidth(54);
         leftCol.setMinWidth(0);
         
         ColumnConstraints rightCol = new ColumnConstraints();
-        rightCol.setPercentWidth(45);
+        rightCol.setPercentWidth(46);
         rightCol.setMinWidth(0);
         
         gridPane.getColumnConstraints().addAll(leftCol, rightCol);
-        VBox transactionsTableSummaryBox = new VBox(20);
+        VBox transactionsTableSummaryBox = new VBox(16);
         transactionsTableSummaryBox.setMinWidth(0);
 
         HBox filterAndChartButtonBox = createFilterAndChartButtonBox();
@@ -349,20 +364,26 @@ public class DashboardView {
     }
 
     private HBox createFilterAndChartButtonBox() {
-        HBox hbox = new HBox(15);
+        HBox hbox = new HBox(12);
+        hbox.setAlignment(Pos.CENTER_LEFT);
 
         yearComboBox = new ComboBox<>();
-        yearComboBox.getStyleClass().add("text-size-md");
+        yearComboBox.getStyleClass().add("combo-box-custom");
         yearComboBox.setValue(Year.now().getValue());
+        yearComboBox.setPrefWidth(120);
 
         monthQuarterComboBox = new ComboBox<>();
-        monthQuarterComboBox.getStyleClass().add("text-size-md");
-        monthQuarterComboBox.setPromptText("Month/Quarter");
+        monthQuarterComboBox.getStyleClass().add("combo-box-custom");
+        monthQuarterComboBox.setPromptText("Filter Month/Quarter");
+        monthQuarterComboBox.setPrefWidth(180);
 
-        viewChartButton = new Button("View Chart");
-        viewChartButton.getStyleClass().addAll("field-background", "text-light-gray", "text-size-md");
+        viewChartButton = new Button("📊 View Charts");
+        viewChartButton.getStyleClass().add("btn-secondary");
 
-        hbox.getChildren().addAll(yearComboBox, monthQuarterComboBox, viewChartButton);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        hbox.getChildren().addAll(yearComboBox, monthQuarterComboBox, spacer, viewChartButton);
         return hbox;
     }
 
@@ -374,43 +395,110 @@ public class DashboardView {
         
         monthColumn = new TableColumn<>("Month");
         monthColumn.setCellValueFactory(new PropertyValueFactory<>("month"));
-        monthColumn.getStyleClass().addAll("main-background", "text-size-md", "text-light-gray");
+        monthColumn.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    String formatted = item.substring(0, 1).toUpperCase() + item.substring(1).toLowerCase();
+                    setText(formatted);
+                    setStyle("-fx-font-weight: 600; -fx-alignment: CENTER_LEFT;");
+                }
+            }
+        });
         
-        incomeColumn = new TableColumn<>("Income");
+        incomeColumn = new TableColumn<>("Total Income");
         incomeColumn.setCellValueFactory(new PropertyValueFactory<>("income"));
-        incomeColumn.getStyleClass().addAll("main-background", "text-size-md", "text-light-gray");
+        incomeColumn.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(BigDecimal item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("₹%,.2f", item.doubleValue()));
+                    setStyle("-fx-text-fill: #10B981; -fx-font-weight: 700; -fx-alignment: CENTER_RIGHT;");
+                }
+            }
+        });
         
-        expenseColumn = new TableColumn<>("Expense");
+        expenseColumn = new TableColumn<>("Total Expense");
         expenseColumn.setCellValueFactory(new PropertyValueFactory<>("expense"));
-        expenseColumn.getStyleClass().addAll("main-background", "text-size-md", "text-light-gray");
+        expenseColumn.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(BigDecimal item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("₹%,.2f", item.doubleValue()));
+                    setStyle("-fx-text-fill: #EF4444; -fx-font-weight: 700; -fx-alignment: CENTER_RIGHT;");
+                }
+            }
+        });
         
         transactionTable.getColumns().addAll(monthColumn, incomeColumn, expenseColumn);
         vbox.getChildren().add(transactionTable);
-        // We can remove resizeTableWidthColumns() calls now that CONSTRAINED_RESIZE_POLICY is used, but keeping it is fine too.
         resizeTableWidthColumns();
         return vbox;
     }
 
-    private ComboBox<String> recentFilterBox;
-
     private VBox createRecentTransactionsVBox() {
-        VBox recentTransactionsVBox = new VBox();
-        HBox labelAndButtonBox = new HBox(15);
+        VBox recentTransactionsVBox = new VBox(14);
+        HBox labelAndButtonBox = new HBox(10);
         labelAndButtonBox.setAlignment(Pos.CENTER_LEFT);
+
         Label recentTransactionsLabel = new Label("Recent Transactions");
-        recentTransactionsLabel.getStyleClass().addAll("text-size-lg", "text-light-gray");
+        recentTransactionsLabel.getStyleClass().add("h3");
+        recentTransactionsLabel.setStyle("-fx-font-weight: 800;");
         
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        scanReceiptButton.getStyleClass().addAll("field-background", "text-size-md", "text-light-gray", "rounded-border");
-        addTransactionButton.getStyleClass().addAll("field-background", "text-size-md", "text-light-gray", "rounded-border");
+
+        scanReceiptButton.setText("📷 Scan");
+        scanReceiptButton.getStyleClass().setAll("btn-secondary");
+        scanReceiptButton.setStyle("-fx-padding: 8px 14px; -fx-font-size: 13px;");
+
+        addTransactionButton.setText("+ Add");
+        addTransactionButton.getStyleClass().setAll("btn-primary");
+        addTransactionButton.setStyle("-fx-padding: 8px 16px; -fx-font-size: 13px;");
+
         labelAndButtonBox.getChildren().addAll(recentTransactionsLabel, spacer, scanReceiptButton, addTransactionButton);
+
         recentTransactionBox = new VBox(10);
+        recentTransactionBox.setStyle("-fx-background-color: transparent;");
+
         ScrollPane recentTransactionsScrollPane = new ScrollPane(recentTransactionBox);
         recentTransactionsScrollPane.setFitToWidth(true);
         recentTransactionsScrollPane.setFitToHeight(true);
+        recentTransactionsScrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
+        VBox.setVgrow(recentTransactionsScrollPane, Priority.ALWAYS);
+
         recentTransactionsVBox.getChildren().addAll(labelAndButtonBox, recentTransactionsScrollPane);
         return recentTransactionsVBox;
+    }
+
+    public static VBox createEmptyRecentTransactionsNode() {
+        VBox box = new VBox(12);
+        box.setAlignment(Pos.CENTER);
+        box.setPadding(new Insets(50, 20, 50, 20));
+
+        Label icon = new Label("🧾");
+        icon.setStyle("-fx-font-size: 42px;");
+
+        Label title = new Label("No transactions yet");
+        title.getStyleClass().add("h4");
+        title.setStyle("-fx-font-weight: 700;");
+
+        Label subtitle = new Label("Scan a receipt or click '+ Add' to record your first transaction.");
+        subtitle.getStyleClass().add("caption-text");
+        subtitle.setStyle("-fx-text-alignment: center;");
+        subtitle.setWrapText(true);
+
+        box.getChildren().addAll(icon, title, subtitle);
+        return box;
     }
 
 

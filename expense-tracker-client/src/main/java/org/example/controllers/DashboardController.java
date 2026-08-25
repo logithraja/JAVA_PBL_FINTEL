@@ -289,7 +289,7 @@ public class DashboardController {
         
         List<Transaction> recent = ApiClient.getRecentTransactionByUserId(user.getId(), 0, 0, 500);
         
-        if (recent != null) {
+        if (recent != null && !recent.isEmpty()) {
             recent.sort((t1, t2) -> {
                 int cmp = t2.getTransactionDate().compareTo(t1.getTransactionDate());
                 if (cmp == 0) cmp = Integer.compare(t2.getId(), t1.getId());
@@ -297,6 +297,8 @@ public class DashboardController {
             });
             for (Transaction t : recent)
                 view.getRecentTransactionBox().getChildren().add(new TransactionComponent(this, t));
+        } else {
+            view.getRecentTransactionBox().getChildren().add(DashboardView.createEmptyRecentTransactionsNode());
         }
     }
 
