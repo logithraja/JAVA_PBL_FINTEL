@@ -186,22 +186,22 @@ public class DashboardController {
 
         if (currentBudget == null) {
             view.getBudgetStatusLabel().setText("📅  Budget Remaining");
-            view.getBudgetStatusLabel().setStyle("-fx-text-fill: #0E7490; -fx-font-weight: 800; -fx-font-size: 13px;");
+            view.getBudgetStatusLabel().getStyleClass().setAll("stat-label", "card-title-budget");
             view.getBudgetRemaining().setText("—");
-            view.getBudgetRemaining().setStyle("-fx-text-fill: #64748B; -fx-font-size: 26px; -fx-font-weight: 800;");
+            view.getBudgetRemaining().getStyleClass().setAll("stat-amount", "card-amount-budget");
         } else {
             currentBudget.setSpentAmount(calculateSpentFor(currentBudget));
             BigDecimal remaining = currentBudget.getRemaining().setScale(2, RoundingMode.HALF_UP);
             org.example.utils.AnimationUtil.animateCurrency(view.getBudgetRemaining(), remaining);
             
             if (remaining.compareTo(BigDecimal.ZERO) < 0) {
-                view.getBudgetRemaining().setStyle("-fx-text-fill: #DC2626; -fx-font-size: 26px; -fx-font-weight: 800;");
+                view.getBudgetRemaining().getStyleClass().setAll("stat-amount", "card-amount-expense");
                 view.getBudgetStatusLabel().setText("📅  Budget Overspent:");
-                view.getBudgetStatusLabel().setStyle("-fx-text-fill: #991B1B; -fx-font-weight: 800; -fx-font-size: 13px;");
+                view.getBudgetStatusLabel().getStyleClass().setAll("stat-label", "card-title-expense");
             } else {
-                view.getBudgetRemaining().setStyle("-fx-text-fill: #0891B2; -fx-font-size: 26px; -fx-font-weight: 800;");
+                view.getBudgetRemaining().getStyleClass().setAll("stat-amount", "card-amount-budget");
                 view.getBudgetStatusLabel().setText("📅  Budget Remaining:");
-                view.getBudgetStatusLabel().setStyle("-fx-text-fill: #0E7490; -fx-font-weight: 800; -fx-font-size: 13px;");
+                view.getBudgetStatusLabel().getStyleClass().setAll("stat-label", "card-title-budget");
             }
         }
         
@@ -209,7 +209,7 @@ public class DashboardController {
         if (goals != null && !goals.isEmpty()) {
             org.example.models.SavingsGoal g = goals.get(0);
             view.getTopGoalNameLabel().setText(g.getName() + " (₹" + g.getCurrentAmount() + " / ₹" + g.getTargetAmount() + ")");
-            view.getTopGoalNameLabel().setStyle("-fx-text-fill: #0F172A; -fx-font-weight: 800; -fx-font-size: 14px;");
+            view.getTopGoalNameLabel().getStyleClass().setAll("body-text", "card-goal-name");
             double pct = 0;
             if (g.getTargetAmount() != null && g.getTargetAmount().doubleValue() > 0) {
                 pct = g.getCurrentAmount().divide(g.getTargetAmount(), 4, RoundingMode.HALF_UP).doubleValue();
@@ -217,7 +217,7 @@ public class DashboardController {
             view.getTopGoalProgressBar().setProgress(Math.min(1.0, pct));
         } else {
             view.getTopGoalNameLabel().setText("No Active Goals");
-            view.getTopGoalNameLabel().setStyle("-fx-text-fill: #475569; -fx-font-weight: 700; -fx-font-size: 14px;");
+            view.getTopGoalNameLabel().getStyleClass().setAll("body-text", "card-goal-name");
             view.getTopGoalProgressBar().setProgress(0);
         }
 
@@ -251,12 +251,13 @@ public class DashboardController {
 
                     javafx.application.Platform.runLater(() -> {
                         view.getForecastAmountLabel().setText(message);
+                        view.getForecastAmountLabel().getStyleClass().removeAll("forecast-value", "forecast-value-under", "forecast-value-over");
                         if ("OVER_BUDGET".equalsIgnoreCase(status)) {
-                            view.getForecastAmountLabel().setStyle("-fx-font-weight: 800; -fx-text-fill: #DC2626; -fx-font-size: 14px;");
+                            view.getForecastAmountLabel().getStyleClass().addAll("body-text", "forecast-value-over");
                         } else if ("UNDER_BUDGET".equalsIgnoreCase(status)) {
-                            view.getForecastAmountLabel().setStyle("-fx-font-weight: 800; -fx-text-fill: #059669; -fx-font-size: 14px;");
+                            view.getForecastAmountLabel().getStyleClass().addAll("body-text", "forecast-value-under");
                         } else {
-                            view.getForecastAmountLabel().setStyle("-fx-font-weight: 800; -fx-text-fill: #3730A3; -fx-font-size: 14px;");
+                            view.getForecastAmountLabel().getStyleClass().addAll("body-text", "forecast-value");
                         }
                     });
                 }
