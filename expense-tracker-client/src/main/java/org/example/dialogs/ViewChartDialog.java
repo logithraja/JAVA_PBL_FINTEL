@@ -45,7 +45,7 @@ public class ViewChartDialog extends CustomDialog {
         yAxis.setLabel("Amount");
 
         BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
-        barChart.setAnimated(false);
+        barChart.setAnimated(true);
         barChart.getStyleClass().add("text-size-md");
         barChart.setLegendVisible(true);
         barChart.setTitle("Income vs Expense — " + year);
@@ -71,6 +71,7 @@ public class ViewChartDialog extends CustomDialog {
             rightBox.getChildren().add(new Label("No expenses found for " + year));
         } else {
             PieChart pie = new PieChart(FXCollections.observableArrayList(slices));
+            pie.setAnimated(true);
             pie.setTitle("Expenses by Category — " + year);
             pie.setLegendVisible(true);
             pie.setLabelsVisible(true);

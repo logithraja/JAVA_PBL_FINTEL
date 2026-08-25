@@ -169,24 +169,24 @@ public class DashboardController {
         out = out.setScale(2, RoundingMode.HALF_UP);
         BigDecimal bal = in.subtract(out).setScale(2, RoundingMode.HALF_UP);
 
-        view.getTotalIncome().setText("₹" + in);
-        view.getTotalExpense().setText("₹" + out);
-        view.getCurrentBalance().setText("₹" + bal);
+        org.example.utils.AnimationUtil.animateCurrency(view.getTotalIncome(), in);
+        org.example.utils.AnimationUtil.animateCurrency(view.getTotalExpense(), out);
+        org.example.utils.AnimationUtil.animateCurrency(view.getCurrentBalance(), bal);
 
-        view.getTotalIncome().getStyleClass().removeAll("text-light-red", "text-light-green");
-        view.getTotalIncome().getStyleClass().add("text-light-green");
+        view.getTotalIncome().getStyleClass().removeAll("text-light-red", "text-light-green", "text-success", "text-error");
+        view.getTotalIncome().getStyleClass().add("text-success");
 
-        view.getTotalExpense().getStyleClass().removeAll("text-light-red", "text-light-green");
-        view.getTotalExpense().getStyleClass().add("text-light-red");
+        view.getTotalExpense().getStyleClass().removeAll("text-light-red", "text-light-green", "text-success", "text-error");
+        view.getTotalExpense().getStyleClass().add("text-error");
         
-        view.getCurrentBalance().getStyleClass().removeAll("text-light-green", "text-light-red");
+        view.getCurrentBalance().getStyleClass().removeAll("text-light-green", "text-light-red", "text-success", "text-error");
         if (bal.compareTo(BigDecimal.ZERO) < 0) {
-            view.getCurrentBalance().getStyleClass().add("text-light-red");
+            view.getCurrentBalance().getStyleClass().add("text-error");
         } else {
-            view.getCurrentBalance().getStyleClass().add("text-light-green");
+            view.getCurrentBalance().getStyleClass().add("text-success");
         }
         
-        view.getBudgetRemaining().getStyleClass().removeAll("text-light-green", "text-light-red", "text-light-gray");
+        view.getBudgetRemaining().getStyleClass().removeAll("text-light-green", "text-light-red", "text-light-gray", "text-success", "text-error");
 
         if (currentBudget == null) {
             view.getBudgetStatusLabel().setText("No Budget Set Yet");
@@ -195,13 +195,13 @@ public class DashboardController {
         } else {
             currentBudget.setSpentAmount(calculateSpentFor(currentBudget));
             BigDecimal remaining = currentBudget.getRemaining().setScale(2, RoundingMode.HALF_UP);
-            view.getBudgetRemaining().setText("₹" + remaining);
+            org.example.utils.AnimationUtil.animateCurrency(view.getBudgetRemaining(), remaining);
             
             if (remaining.compareTo(BigDecimal.ZERO) < 0) {
-                view.getBudgetRemaining().getStyleClass().add("text-light-red");
+                view.getBudgetRemaining().getStyleClass().add("text-error");
                 view.getBudgetStatusLabel().setText("Budget Overspent:");
             } else {
-                view.getBudgetRemaining().getStyleClass().add("text-light-green");
+                view.getBudgetRemaining().getStyleClass().add("text-success");
                 view.getBudgetStatusLabel().setText("Budget Remaining:");
             }
         }
