@@ -18,39 +18,40 @@ public class SignUpController {
     }
 
     private void initialize(){
-        signUpView.getLoginLabel().setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
+        signUpView.getLoginLabel().setOnMouseClicked(e -> new LoginView().show());
+
+        signUpView.getRegisterButton().setOnAction(e -> handleRegister());
+        signUpView.getNameField().setOnAction(e -> handleRegister());
+        signUpView.getUsernameField().setOnAction(e -> handleRegister());
+        signUpView.getPasswordField().setOnAction(e -> handleRegister());
+        signUpView.getRePasswordField().setOnAction(e -> handleRegister());
+    }
+
+    private void handleRegister() {
+        if(!validateInput()){
+            return;
+        }
+
+        String name = signUpView.getNameField().getText().trim();
+        String username = signUpView.getUsernameField().getText().trim();
+        String password = signUpView.getPasswordField().getText();
+
+        JsonObject jsonData = new JsonObject();
+        jsonData.addProperty("name", name);
+        jsonData.addProperty("email", username);
+        jsonData.addProperty("password", password);
+
+        boolean postCreateAccountStatus = ApiClient.postCreateUser(jsonData);
+
+        if(postCreateAccountStatus){
+            if (ApiClient.postLoginUser(username, password)) {
+                new DashboardView(username).show();
+            } else {
                 new LoginView().show();
             }
-        });
-
-        signUpView.getRegisterButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if(!validateInput()){
-                    return;
-                }
-
-                String name = signUpView.getNameField().getText().trim();
-                String username = signUpView.getUsernameField().getText().trim();
-                String password = signUpView.getPasswordField().getText();
-
-                JsonObject jsonData = new JsonObject();
-                jsonData.addProperty("name", name);
-                jsonData.addProperty("email", username);
-                jsonData.addProperty("password", password);
-
-                boolean postCreateAccountStatus = ApiClient.postCreateUser(jsonData);
-
-                if(postCreateAccountStatus){
-                    Utilitie.showAlertDialog(Alert.AlertType.INFORMATION, "Successfully created new account!");
-                    new LoginView().show();
-                }else{
-                    Utilitie.showAlertDialog(Alert.AlertType.ERROR, "Failed to create new account. Email may already be registered.");
-                }
-            }
-        });
+        }else{
+            Utilitie.showAlertDialog(Alert.AlertType.ERROR, "Failed to create new account. Email may already be registered or server is unreachable.");
+        }
     }
 
     private boolean validateInput(){
