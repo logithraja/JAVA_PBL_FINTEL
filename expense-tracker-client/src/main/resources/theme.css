@@ -131,15 +131,13 @@
 
 /* Dashboard content padding */
 .dashboard-padding {
-    -fx-padding: 18px 20px 20px 20px;
-    -fx-spacing: 14px;
+    -fx-padding: 18 20 20 20;
 }
 
 /* Empty state node */
 .empty-state-box {
     -fx-alignment: center;
-    -fx-padding: 40px 20px;
-    -fx-spacing: 10px;
+    -fx-padding: 40 20 40 20;
 }
 .empty-state-icon {
     -fx-font-size: 38px;
@@ -152,8 +150,7 @@
 .empty-state-subtitle {
     -fx-font-size: 12px;
     -fx-text-fill: #64748B;
-    -fx-text-alignment: center;
-    -fx-wrap-text: true;
+    -fx-text-alignment: CENTER;
 }
 
 /* ===== BUTTONS ===== */
@@ -375,10 +372,10 @@ Button, .button {
 .top-bar-background {
     -fx-background-color: #FFFFFF;
     -fx-border-color: transparent transparent #E2E8F0 transparent;
-    -fx-border-width: 0 0 1.5px 0;
+    -fx-border-width: 0 0 1.5 0;
     -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.06), 8, 0, 0, 2);
-    -fx-padding: 6px 18px 6px 10px;
-    -fx-min-height: 52px;
+    -fx-padding: 6 18 6 10;
+    -fx-min-height: 52;
 }
 
 /* Card variations — white base with clear tinted border, fully opaque */
@@ -581,10 +578,10 @@ Button, .button {
 .theme-dark .top-bar-background {
     -fx-background-color: #111827;
     -fx-border-color: transparent transparent #1E293B transparent;
-    -fx-border-width: 0 0 1.5px 0;
+    -fx-border-width: 0 0 1.5 0;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 8, 0, 0, 2);
-    -fx-padding: 6px 18px 6px 10px;
-    -fx-min-height: 52px;
+    -fx-padding: 6 18 6 10;
+    -fx-min-height: 52;
 }
 
 .theme-dark .card, .theme-dark .stat-card, .theme-dark .ui-card, .theme-dark .ui-card-squircle {

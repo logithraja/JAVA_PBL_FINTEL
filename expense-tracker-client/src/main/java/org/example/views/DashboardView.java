@@ -172,7 +172,7 @@ public class DashboardView {
         VBox.setVgrow(mainContent, Priority.ALWAYS);
         mainContent.setStyle("-fx-background-color: transparent;");
 
-        VBox mainContainerWrapper = new VBox();
+        VBox mainContainerWrapper = new VBox(14);
         mainContainerWrapper.getStyleClass().add("dashboard-padding");
         VBox.setVgrow(mainContainerWrapper, Priority.ALWAYS);
         HBox.setHgrow(mainContainerWrapper, Priority.ALWAYS);

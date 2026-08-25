@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import org.example.utils.ApiClient;
 import org.example.utils.Utilitie;
+import org.example.views.DashboardView;
 import org.example.views.LoginView;
 import org.example.views.SignUpView;
 
