@@ -24,14 +24,16 @@ public class ViewGoalsDialog extends Dialog<Void> {
 
         setTitle("Your Savings Goals");
         DialogPane pane = getDialogPane();
-        pane.setPrefSize(520, 500);
-        pane.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        pane.setPrefSize(560, 540);
+        pane.getStylesheets().add(getClass().getResource("/theme.css").toExternalForm());
         pane.getButtonTypes().add(new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE));
 
-        VBox content = new VBox(18);
-        content.setPadding(new Insets(20));
+        VBox content = new VBox(16);
+        content.setPadding(new Insets(16));
         if (goals == null || goals.isEmpty()) {
-            content.getChildren().add(new Label("No goals found."));
+            Label noGoals = new Label("No savings goals found yet. Create one to get started!");
+            noGoals.getStyleClass().add("body-text");
+            content.getChildren().add(noGoals);
         } else {
             for (SavingsGoal goal : goals) {
                 content.getChildren().add(createGoalNode(goal));
@@ -42,32 +44,41 @@ public class ViewGoalsDialog extends Dialog<Void> {
         scrollPane.setFitToWidth(true);
         pane.setContent(scrollPane);
 
+        setOnShowing(e -> {
+            if (pane.getScene() != null) {
+                ThemeManager.apply(pane.getScene());
+            }
+        });
     }
 
     private VBox createGoalNode(SavingsGoal goal) {
-        VBox box = new VBox(6);
-        box.getStyleClass().add("goal-item");
+        VBox box = new VBox(8);
+        box.getStyleClass().addAll("card", "card-elevated");
+        box.setPadding(new Insets(14, 16, 14, 16));
 
         Label title = new Label("🎯 " + goal.getName());
-        title.getStyleClass().add("goal-title");
+        title.getStyleClass().add("h3");
 
-        Label deadline = new Label("⏳ " + goal.getDeadline());
-        deadline.getStyleClass().add("goal-subtext");
+        Label deadline = new Label("⏳ Target Deadline: " + (goal.getDeadline() != null ? goal.getDeadline() : "Ongoing"));
+        deadline.getStyleClass().add("caption-text");
 
         Label money = new Label("💰 ₹" + goal.getCurrentAmount() + " / ₹" + goal.getTargetAmount());
-        money.getStyleClass().add("goal-subtext");
+        money.getStyleClass().addAll("body-text", "text-primary");
+        money.setStyle("-fx-font-weight: bold;");
 
         ProgressBar bar = new ProgressBar();
         double pct = 0;
         try {
             if (goal.getTargetAmount() != null && goal.getTargetAmount().doubleValue() > 0) {
-                pct = goal.getCurrentAmount().divide(goal.getTargetAmount(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
+                pct = goal.getCurrentAmount().divide(goal.getTargetAmount(), 4, java.math.RoundingMode.HALF_UP).doubleValue();
             }
         } catch (Exception ignored) {}
         bar.setProgress(Math.min(1.0, pct));
-        bar.setPrefWidth(380);
+        bar.setPrefWidth(Double.MAX_VALUE);
+        bar.getStyleClass().add("progress-bar");
 
-        Button add = new Button("➕ Add");
+        Button add = new Button("➕ Add Savings");
+        add.getStyleClass().add("btn-primary");
         add.setOnAction(e -> {
             TextInputDialog d = new TextInputDialog("0");
             d.setHeaderText("Add amount to: " + goal.getName());
@@ -89,6 +100,7 @@ public class ViewGoalsDialog extends Dialog<Void> {
         });
 
         Button edit = new Button("✏ Edit");
+        edit.getStyleClass().add("btn-secondary");
         edit.setOnAction(e -> {
             TextInputDialog d = new TextInputDialog(goal.getName());
             d.setHeaderText("Edit Goal Name:");
@@ -100,6 +112,7 @@ public class ViewGoalsDialog extends Dialog<Void> {
         });
 
         Button del = new Button("🗑 Delete");
+        del.getStyleClass().add("btn-secondary");
         del.setOnAction(e -> {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
                     "Delete " + goal.getName() + "?",

@@ -26,7 +26,8 @@ public class ViewOrEditTransactionCategoryDialog extends CustomDialog{
     }
 
     private ScrollPane createMainContainerContent(){
-        VBox dialogVBox = new VBox(20);
+        VBox dialogVBox = new VBox(12);
+        dialogVBox.setPadding(new javafx.geometry.Insets(16));
 
         ScrollPane scrollPane = new ScrollPane(dialogVBox);
         scrollPane.setMinHeight(getHeight() - 40);

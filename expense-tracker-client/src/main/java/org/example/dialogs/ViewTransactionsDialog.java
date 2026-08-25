@@ -33,7 +33,8 @@ public class ViewTransactionsDialog extends CustomDialog {
     }
 
     private ScrollPane createTransactionScrollPane() {
-        VBox vBox = new VBox(20);
+        VBox vBox = new VBox(12);
+        vBox.setPadding(new javafx.geometry.Insets(16));
 
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setFitToWidth(true);
@@ -48,7 +49,6 @@ public class ViewTransactionsDialog extends CustomDialog {
         if (transactions != null) {
             for (Transaction t : transactions) {
                 TransactionComponent comp = new TransactionComponent(dashboardController, t);
-                comp.getStyleClass().add("border-light-gray"); 
                 vBox.getChildren().add(comp);
             }
         }

@@ -32,14 +32,14 @@ public class CreateNewCategoryDialog extends CustomDialog {
 
         newCategoryTextField = new TextField();
         newCategoryTextField.setPromptText("Enter Category Name");
-        newCategoryTextField.getStyleClass().addAll("text-size-md", "field-background", "text-light-gray");
+        newCategoryTextField.getStyleClass().add("input-field");
 
         colorPicker = new ColorPicker();
-        colorPicker.getStyleClass().add("text-size-md");
+        colorPicker.getStyleClass().add("combo-box-custom");
         colorPicker.setMaxWidth(Double.MAX_VALUE);
 
-        createCategoryBtn = new Button("Create");
-        createCategoryBtn.getStyleClass().addAll("bg-light-blue", "text-size-md", "text-white");
+        createCategoryBtn = new Button("Create Category");
+        createCategoryBtn.getStyleClass().add("btn-primary");
         createCategoryBtn.setMaxWidth(Double.MAX_VALUE);
 
         createCategoryBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {

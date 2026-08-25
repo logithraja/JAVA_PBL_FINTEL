@@ -44,16 +44,19 @@ public class SetBudgetDialog extends Dialog<Budget> {
         setHeaderText(toEdit == null ? "Create a budget limit" : "Edit budget limit");
 
         ButtonType okBtn = new ButtonType(toEdit == null ? "Save" : "Update", ButtonBar.ButtonData.OK_DONE);
-        getDialogPane().getButtonTypes().addAll(okBtn, ButtonType.CANCEL);
+        getDialogPane().getStylesheets().add(getClass().getResource("/theme.css").toExternalForm());
+        getDialogPane().setPrefWidth(440);
 
         GridPane form = new GridPane();
-        form.setHgap(10);
-        form.setVgap(10);
-        form.setPadding(new Insets(15));
+        form.setHgap(14);
+        form.setVgap(12);
+        form.setPadding(new Insets(18));
 
         List<TransactionCategory> cats = ApiClient.getAllTransactionCategoriesByUser(user);
         categoryCombo.setItems(FXCollections.observableArrayList(cats));
         categoryCombo.setPromptText("Select Category");
+        categoryCombo.getStyleClass().add("combo-box-custom");
+        categoryCombo.setMaxWidth(Double.MAX_VALUE);
         categoryCombo.setConverter(new StringConverter<>() {
             @Override public String toString(TransactionCategory c) {
                 return c == null ? "" : c.getCategoryName();
@@ -62,17 +65,43 @@ public class SetBudgetDialog extends Dialog<Budget> {
         });
 
         limitField.setPromptText("Limit Amount (₹)");
+        limitField.getStyleClass().add("input-field");
 
         periodTypeCombo.getItems().addAll(Budget.PeriodType.MONTHLY, Budget.PeriodType.QUARTERLY, Budget.PeriodType.YEARLY);
         periodTypeCombo.setValue(Budget.PeriodType.MONTHLY);
+        periodTypeCombo.getStyleClass().add("combo-box-custom");
+        periodTypeCombo.setMaxWidth(Double.MAX_VALUE);
 
-        form.add(new Label("Category:"), 0, 0); form.add(categoryCombo, 1, 0);
-        form.add(new Label("Limit:"), 0, 1); form.add(limitField, 1, 1);
-        form.add(new Label("Period:"), 0, 2); form.add(periodTypeCombo, 1, 2);
-        form.add(new Label("Year:"), 0, 3); form.add(yearSpinner, 1, 3);
-        form.add(new Label("Month/Quarter:"), 0, 4); form.add(periodValueCombo, 1, 4);
+        periodValueCombo.getStyleClass().add("combo-box-custom");
+        periodValueCombo.setMaxWidth(Double.MAX_VALUE);
+
+        yearSpinner.getStyleClass().add("combo-box-custom");
+        yearSpinner.setMaxWidth(Double.MAX_VALUE);
+
+        Label catLbl = new Label("Category:");
+        catLbl.getStyleClass().add("body-text");
+        Label limLbl = new Label("Limit:");
+        limLbl.getStyleClass().add("body-text");
+        Label perLbl = new Label("Period:");
+        perLbl.getStyleClass().add("body-text");
+        Label yrLbl = new Label("Year:");
+        yrLbl.getStyleClass().add("body-text");
+        Label valLbl = new Label("Month/Quarter:");
+        valLbl.getStyleClass().add("body-text");
+
+        form.add(catLbl, 0, 0); form.add(categoryCombo, 1, 0);
+        form.add(limLbl, 0, 1); form.add(limitField, 1, 1);
+        form.add(perLbl, 0, 2); form.add(periodTypeCombo, 1, 2);
+        form.add(yrLbl, 0, 3); form.add(yearSpinner, 1, 3);
+        form.add(valLbl, 0, 4); form.add(periodValueCombo, 1, 4);
 
         getDialogPane().setContent(form);
+
+        setOnShowing(e -> {
+            if (getDialogPane().getScene() != null) {
+                ThemeManager.apply(getDialogPane().getScene());
+            }
+        });
 
         periodTypeCombo.valueProperty().addListener((obs, o, n) -> {
             updatePeriodValueItems(n);

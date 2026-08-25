@@ -24,26 +24,44 @@ public class ExportDataDialog extends Dialog<ExportDataDialog.ExportOptions> {
 
         ButtonType okBtn = new ButtonType("Export", ButtonBar.ButtonData.OK_DONE);
         getDialogPane().getButtonTypes().addAll(okBtn, ButtonType.CANCEL);
+        getDialogPane().getStylesheets().add(getClass().getResource("/theme.css").toExternalForm());
 
         cbTransactions.setSelected(true);
+        startDate.getStyleClass().add("input-field");
+        endDate.getStyleClass().add("input-field");
+        startDate.setPromptText("Start date");
+        endDate.setPromptText("End date");
 
         GridPane gp = new GridPane();
-        gp.setHgap(10);
-        gp.setVgap(10);
-        gp.setPadding(new Insets(15));
+        gp.setHgap(14);
+        gp.setVgap(12);
+        gp.setPadding(new Insets(18));
 
-        gp.add(new Label("Include:"), 0, 0);
+        Label incLbl = new Label("Include:");
+        incLbl.getStyleClass().add("body-text");
+        Label startLbl = new Label("Start date:");
+        startLbl.getStyleClass().add("body-text");
+        Label endLbl = new Label("End date:");
+        endLbl.getStyleClass().add("body-text");
+
+        gp.add(incLbl, 0, 0);
         gp.add(cbTransactions, 1, 0);
         gp.add(cbCategories, 1, 1);
         gp.add(cbBudgets, 1, 2);
 
-        gp.add(new Label("Start date:"), 0, 3);
+        gp.add(startLbl, 0, 3);
         gp.add(startDate, 1, 3);
 
-        gp.add(new Label("End date:"), 0, 4);
+        gp.add(endLbl, 0, 4);
         gp.add(endDate, 1, 4);
 
         getDialogPane().setContent(gp);
+
+        setOnShowing(e -> {
+            if (getDialogPane().getScene() != null) {
+                ThemeManager.apply(getDialogPane().getScene());
+            }
+        });
 
         final Button okButton = (Button) getDialogPane().lookupButton(okBtn);
         okButton.addEventFilter(javafx.event.ActionEvent.ACTION, evt -> {

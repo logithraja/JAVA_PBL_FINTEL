@@ -59,11 +59,14 @@ public class BudgetProgressView extends Stage {
 
         ToolBar tools = buildToolbar();
         BorderPane root = new BorderPane(table);
-        root.setTop(new HBox(tools));
-        root.setStyle("-fx-background-color:#23272a; -fx-padding:10;");
-        BorderPane.setMargin(tools, new Insets(0,0,10,0));
+        root.setTop(tools);
+        root.getStyleClass().add("main-background");
+        root.setPadding(new Insets(16));
+        BorderPane.setMargin(tools, new Insets(0, 0, 14, 0));
 
-        setScene(new Scene(root, 900, 480));
+        Scene scene = new Scene(root, 920, 520);
+        org.example.utils.ThemeManager.apply(scene);
+        setScene(scene);
 
         refreshTable(); 
         if (budgets != null && !budgets.isEmpty()) {
@@ -84,10 +87,17 @@ public class BudgetProgressView extends Stage {
     }
 
     private ToolBar buildToolbar() {
-        Button add = new Button("Add");
+        Button add = new Button("+ Add Budget");
+        add.getStyleClass().add("btn-primary");
+
         Button edit = new Button("Edit");
+        edit.getStyleClass().add("btn-secondary");
+
         Button del = new Button("Delete");
-        Button refresh = new Button("Refresh");
+        del.getStyleClass().add("btn-secondary");
+
+        Button refresh = new Button("🔄 Refresh");
+        refresh.getStyleClass().add("btn-secondary");
 
         add.setOnAction(e -> {
             SetBudgetDialog dlg = new SetBudgetDialog(user);
@@ -114,9 +124,9 @@ public class BudgetProgressView extends Stage {
         refresh.setOnAction(e -> refreshTable());
 
         ToolBar tb = new ToolBar(add, edit, del, refresh);
-        tb.setStyle("-fx-background-color:#2b2f34;");
+        tb.setStyle("-fx-background-color: transparent; -fx-padding: 6px 0;");
         return tb;
-        }
+    }
 
     private void editSelected() {
         Row row = table.getSelectionModel().getSelectedItem();

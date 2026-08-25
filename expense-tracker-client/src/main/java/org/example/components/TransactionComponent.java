@@ -26,9 +26,10 @@ public class TransactionComponent extends HBox {
         this.dashboardController = dashboardController;
         this.transaction = transaction;
 
-        setSpacing(10);
+        setSpacing(12);
         setAlignment(Pos.CENTER_LEFT);
-        getStyleClass().addAll("main-background", "rounded-border", "padding-10px");
+        getStyleClass().addAll("card");
+        setStyle("-fx-padding: 12px 16px; -fx-background-radius: 14px; -fx-border-radius: 14px;");
 
         VBox categoryNameDateSection = createCategoryNameDateSection();
 
@@ -36,13 +37,13 @@ public class TransactionComponent extends HBox {
         HBox.setHgrow(region, Priority.ALWAYS);
 
         transactionAmountLabel = new Label("₹" + transaction.getTransactionAmount());
-        transactionAmountLabel.getStyleClass().add("text-size-md");
+        transactionAmountLabel.getStyleClass().add("h3");
         transactionAmountLabel.setMinWidth(Region.USE_PREF_SIZE);
         
         if(transaction.getTransactionType().equalsIgnoreCase("expense")){
-            transactionAmountLabel.getStyleClass().add("text-light-red");
+            transactionAmountLabel.getStyleClass().add("text-error");
         }else{
-            transactionAmountLabel.getStyleClass().add("text-light-green");
+            transactionAmountLabel.getStyleClass().add("text-success");
         }
 
         HBox actionButtonSection = createActionButtons();
@@ -55,21 +56,25 @@ public class TransactionComponent extends HBox {
     }
 
     private VBox createCategoryNameDateSection(){
-        VBox categoryNameDateSection = new VBox();
+        VBox categoryNameDateSection = new VBox(2);
 
         if(transaction.getTransactionCategory() == null){
             transactionCategoryLabel = new Label("Undefined");
+            transactionCategoryLabel.getStyleClass().add("caption-text");
         }else{
             transactionCategoryLabel = new Label(transaction.getTransactionCategory().getCategoryName());
+            transactionCategoryLabel.getStyleClass().add("caption-text");
             String catColor = transaction.getTransactionCategory().getCategoryColor();
             if (catColor != null && !catColor.startsWith("#")) {
                 catColor = "#" + catColor;
             }
             transactionCategoryLabel.setTextFill(Paint.valueOf(catColor));
+            transactionCategoryLabel.setStyle("-fx-font-weight: bold;");
         }
 
         transactionNameLabel = new Label(transaction.getTransactionName());
-        transactionNameLabel.getStyleClass().add("text-size-md");
+        transactionNameLabel.getStyleClass().add("body-text");
+        transactionNameLabel.setStyle("-fx-font-weight: bold;");
         transactionNameLabel.setMinWidth(0);
 
         String dateStr = transaction.getTransactionDate().toString();
@@ -77,17 +82,19 @@ public class TransactionComponent extends HBox {
             dateStr += " at " + transaction.getTransactionTime();
         }
         transactionDateLabel = new Label(dateStr);
+        transactionDateLabel.getStyleClass().add("caption-text");
 
         categoryNameDateSection.getChildren().addAll(transactionCategoryLabel, transactionNameLabel, transactionDateLabel);
         return categoryNameDateSection;
     }
 
     private HBox createActionButtons(){
-        HBox actionButtonSection = new HBox(20);
+        HBox actionButtonSection = new HBox(8);
         actionButtonSection.setAlignment(Pos.CENTER);
 
         editButton = new Button("Edit");
-        editButton.getStyleClass().addAll("text-size-md", "rounded-border");
+        editButton.getStyleClass().add("btn-secondary");
+        editButton.setStyle("-fx-padding: 6px 12px; -fx-font-size: 12px;");
         editButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -97,7 +104,8 @@ public class TransactionComponent extends HBox {
         });
 
         delButton = new Button("Del");
-        delButton.getStyleClass().addAll("text-size-md", "rounded-border", "bg-light-red", "text-white");
+        delButton.getStyleClass().add("btn-danger");
+        delButton.setStyle("-fx-padding: 6px 12px; -fx-font-size: 12px;");
         delButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {

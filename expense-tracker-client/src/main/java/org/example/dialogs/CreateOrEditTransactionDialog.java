@@ -67,15 +67,15 @@ public class CreateOrEditTransactionDialog extends CustomDialog {
 
         transactionNameField = new TextField();
         transactionNameField.setPromptText("Enter Transaction Name");
-        transactionNameField.getStyleClass().addAll("field-background", "text-light-gray", "text-size-md", "rounded-border");
+        transactionNameField.getStyleClass().add("input-field");
 
         transactionAmountField = new TextField();
         transactionAmountField.setPromptText("Enter Transaction Amount");
-        transactionAmountField.getStyleClass().addAll("field-background", "text-light-gray", "text-size-md", "rounded-border");
+        transactionAmountField.getStyleClass().add("input-field");
 
         transactionDatePicker = new DatePicker();
         transactionDatePicker.setPromptText("Enter Transaction Date");
-        transactionDatePicker.getStyleClass().addAll("field-background", "text-light-gray", "text-size-md", "rounded-border");
+        transactionDatePicker.getStyleClass().add("input-field");
         transactionDatePicker.setMaxWidth(Double.MAX_VALUE);
         
         hourBox = new ComboBox<>();
@@ -83,27 +83,27 @@ public class CreateOrEditTransactionDialog extends CustomDialog {
             hourBox.getItems().add(String.format("%02d", i));
         }
         hourBox.setPromptText("Hour");
-        hourBox.getStyleClass().addAll("field-background", "text-light-gray", "text-size-md", "rounded-border");
+        hourBox.getStyleClass().add("combo-box-custom");
 
         minuteBox = new ComboBox<>();
         for (int i = 0; i < 60; i += 5) {
             minuteBox.getItems().add(String.format("%02d", i));
         }
         minuteBox.setPromptText("Minute");
-        minuteBox.getStyleClass().addAll("field-background", "text-light-gray", "text-size-md", "rounded-border");
+        minuteBox.getStyleClass().add("combo-box-custom");
 
         amPmBox = new ComboBox<>(FXCollections.observableArrayList("AM", "PM"));
         amPmBox.setPromptText("AM/PM");
-        amPmBox.getStyleClass().addAll("field-background", "text-light-gray", "text-size-md", "rounded-border");
+        amPmBox.getStyleClass().add("combo-box-custom");
 
         HBox timePickerBox = new HBox(15, new Label("Time: "), hourBox, minuteBox, amPmBox);
         timePickerBox.setAlignment(Pos.CENTER_LEFT);
         Label timeLabel = (Label) timePickerBox.getChildren().get(0);
-        timeLabel.getStyleClass().addAll("text-light-gray", "text-size-md");
+        timeLabel.getStyleClass().add("body-text");
 
         transactionCategoryBox = new ComboBox<>();
         transactionCategoryBox.setPromptText("Choose Category");
-        transactionCategoryBox.getStyleClass().addAll("field-background", "text-light-gray", "text-size-md", "rounded-border");
+        transactionCategoryBox.getStyleClass().add("combo-box-custom");
         transactionCategoryBox.setMaxWidth(Double.MAX_VALUE);
 
         for (TransactionCategory category : transactionCategories) {
@@ -147,18 +147,18 @@ public class CreateOrEditTransactionDialog extends CustomDialog {
     }
 
     private HBox createTransactionTypeRadioButtonGroup() {
-        HBox radioButtonsBox = new HBox(50);
+        HBox radioButtonsBox = new HBox(40);
         radioButtonsBox.setAlignment(Pos.CENTER);
 
         transactionTypeToggleGroup = new ToggleGroup();
 
         RadioButton income = new RadioButton("Income");
         income.setToggleGroup(transactionTypeToggleGroup);
-        income.getStyleClass().addAll("text-size-md", "text-light-gray");
+        income.getStyleClass().add("body-text");
 
         RadioButton expense = new RadioButton("Expense");
         expense.setToggleGroup(transactionTypeToggleGroup);
-        expense.getStyleClass().addAll("text-size-md", "text-light-gray");
+        expense.getStyleClass().add("body-text");
 
         if (isEditing && transactionComponent != null) {
             String type = transactionComponent.getTransaction().getTransactionType();
@@ -171,16 +171,16 @@ public class CreateOrEditTransactionDialog extends CustomDialog {
     }
 
     private HBox createConfirmAndCancelButtonsBox() {
-        HBox box = new HBox(50);
+        HBox box = new HBox(20);
         box.setAlignment(Pos.CENTER);
 
-        Button saveButton = new Button("Save");
-        saveButton.setPrefWidth(200);
-        saveButton.getStyleClass().addAll("bg-light-blue", "text-white", "text-size-md", "rounded-border");
+        Button saveButton = new Button("Save Transaction");
+        saveButton.setPrefWidth(180);
+        saveButton.getStyleClass().add("btn-primary");
 
         Button cancelButton = new Button("Cancel");
-        cancelButton.setPrefWidth(200);
-        cancelButton.getStyleClass().addAll("text-size-md", "rounded-border");
+        cancelButton.setPrefWidth(140);
+        cancelButton.getStyleClass().add("btn-secondary");
 
         saveButton.setOnMouseClicked(e -> handleSave());
         cancelButton.setOnMouseClicked(e -> CreateOrEditTransactionDialog.this.close());

@@ -31,23 +31,25 @@ public class CategoryComponent extends HBox {
 
         setSpacing(10);
         setAlignment(Pos.CENTER_LEFT);
-        getStyleClass().addAll("rounded-border", "field-background", "padding-10px");
+        getStyleClass().addAll("card");
+        setStyle("-fx-padding: 10px 14px; -fx-background-radius: 12px;");
 
         categoryTextField = new TextField();
         categoryTextField.setText(transactionCategory.getCategoryName());
         categoryTextField.setMaxWidth(Double.MAX_VALUE);
         categoryTextField.setEditable(false);
         HBox.setHgrow(categoryTextField, Priority.ALWAYS);
-        categoryTextField.getStyleClass().addAll("field-background", "text-size-md", "text-light-gray");
+        categoryTextField.getStyleClass().add("input-field");
 
         colorPicker = new ColorPicker();
         colorPicker.setDisable(true);
         colorPicker.setValue(Color.valueOf(transactionCategory.getCategoryColor()));
-        colorPicker.getStyleClass().addAll("text-size-sm");
+        colorPicker.getStyleClass().add("combo-box-custom");
 
         editButton = new Button("Edit");
-        editButton.setMinWidth(50);
-        editButton.getStyleClass().addAll("text-size-sm");
+        editButton.setMinWidth(60);
+        editButton.getStyleClass().add("btn-secondary");
+        editButton.setStyle("-fx-padding: 6px 12px; -fx-font-size: 12px;");
         editButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -56,8 +58,9 @@ public class CategoryComponent extends HBox {
         });
 
         saveButton = new Button("Save");
-        saveButton.setMinWidth(50);
-        saveButton.getStyleClass().addAll("text-size-sm");
+        saveButton.setMinWidth(60);
+        saveButton.getStyleClass().add("btn-primary");
+        saveButton.setStyle("-fx-padding: 6px 12px; -fx-font-size: 12px;");
         saveButton.setVisible(false);
         saveButton.setManaged(false);
         saveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -75,8 +78,9 @@ public class CategoryComponent extends HBox {
         });
 
         deleteButton = new Button("Del");
-        deleteButton.setMinWidth(50);
-        deleteButton.getStyleClass().addAll("text-size-sm", "bg-light-red", "text-white");
+        deleteButton.setMinWidth(60);
+        deleteButton.getStyleClass().add("btn-danger");
+        deleteButton.setStyle("-fx-padding: 6px 12px; -fx-font-size: 12px;");
         deleteButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {

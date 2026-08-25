@@ -42,11 +42,20 @@ public class CurrencyConverterDialog extends Dialog<Void> {
         fromBox.setValue("USD");
         toBox.setValue("INR");
 
+        getDialogPane().getStylesheets().add(getClass().getResource("/theme.css").toExternalForm());
+        fromBox.getStyleClass().add("combo-box-custom");
+        toBox.getStyleClass().add("combo-box-custom");
+        fromBox.setMaxWidth(Double.MAX_VALUE);
+        toBox.setMaxWidth(Double.MAX_VALUE);
+
         amountField.setPromptText("Amount");
         amountField.setText("1");
+        amountField.getStyleClass().add("input-field");
 
-        resultLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: 700;");
-        convertBtn.setDefaultButton(true);
+        resultLabel.getStyleClass().addAll("h3", "text-primary");
+        convertBtn.getStyleClass().add("btn-primary");
+        swapBtn.getStyleClass().add("btn-secondary");
+        copyBtn.getStyleClass().add("btn-secondary");
 
         swapBtn.setOnAction(e -> {
             String temp = fromBox.getValue();
@@ -62,20 +71,35 @@ public class CurrencyConverterDialog extends Dialog<Void> {
         });
 
         HBox actions = new HBox(8, convertBtn, swapBtn, copyBtn);
-        actions.setPadding(new Insets(4, 0, 0, 0));
+        actions.setPadding(new Insets(6, 0, 0, 0));
 
         GridPane gp = new GridPane();
-        gp.setHgap(10);
-        gp.setVgap(10);
-        gp.setPadding(new Insets(14));
+        gp.setHgap(12);
+        gp.setVgap(12);
+        gp.setPadding(new Insets(16));
 
-        gp.add(new Label("From:"),     0, 0); gp.add(fromBox,     1, 0);
-        gp.add(new Label("To:"),       0, 1); gp.add(toBox,       1, 1);
-        gp.add(new Label("Amount:"),   0, 2); gp.add(amountField, 1, 2);
-        gp.add(actions,                1, 3);
-        gp.add(new Label("Result:"),   0, 4); gp.add(resultLabel, 1, 4);
+        Label fromLbl = new Label("From:");
+        fromLbl.getStyleClass().add("body-text");
+        Label toLbl = new Label("To:");
+        toLbl.getStyleClass().add("body-text");
+        Label amtLbl = new Label("Amount:");
+        amtLbl.getStyleClass().add("body-text");
+        Label resLbl = new Label("Result:");
+        resLbl.getStyleClass().add("body-text");
+
+        gp.add(fromLbl,     0, 0); gp.add(fromBox,     1, 0);
+        gp.add(toLbl,       0, 1); gp.add(toBox,       1, 1);
+        gp.add(amtLbl,      0, 2); gp.add(amountField, 1, 2);
+        gp.add(actions,     1, 3);
+        gp.add(resLbl,      0, 4); gp.add(resultLabel, 1, 4);
 
         getDialogPane().setContent(gp);
+
+        setOnShowing(e -> {
+            if (getDialogPane().getScene() != null) {
+                ThemeManager.apply(getDialogPane().getScene());
+            }
+        });
 
     }
 

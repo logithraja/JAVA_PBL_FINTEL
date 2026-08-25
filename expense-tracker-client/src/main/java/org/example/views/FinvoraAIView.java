@@ -23,62 +23,63 @@ public class FinvoraAIView {
     }
 
     public void show() {
-        VBox root = new VBox(20);
-        root.setPadding(new Insets(40));
+        VBox root = new VBox(18);
+        root.setPadding(new Insets(28));
         root.setAlignment(Pos.CENTER);
-        root.getStyleClass().add("root");
+        root.getStyleClass().addAll("main-background", "root");
 
         // Header
         HBox headerBox = new HBox();
         headerBox.setAlignment(Pos.CENTER_LEFT);
-        backBtn = new Button("✖ Close AI");
-        backBtn.getStyleClass().add("secondary-button");
+        backBtn = new Button("✖ Close");
+        backBtn.getStyleClass().add("btn-secondary");
         
-        Label titleLabel = new Label("Finvora AI Assistant");
-        titleLabel.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #4F46E5;");
+        Label titleLabel = new Label("✨ Finvora AI Assistant");
+        titleLabel.getStyleClass().add("h2");
+        titleLabel.setStyle("-fx-text-fill: #4F46E5; -fx-font-weight: 800;");
         
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         
-        headerBox.getChildren().addAll(backBtn, spacer, titleLabel, new Region());
+        headerBox.getChildren().addAll(backBtn, spacer, titleLabel);
 
         // AI Chat Area
         aiAdviceArea = new TextArea();
-        aiAdviceArea.setPromptText("Finvora AI Strategy will appear here...");
+        aiAdviceArea.setPromptText("Ask Finvora AI anything about your expenses, budgets, savings goals, or investments...");
         aiAdviceArea.setWrapText(true);
         aiAdviceArea.setEditable(false);
-        aiAdviceArea.getStyleClass().add("input-field");
-        aiAdviceArea.setStyle("-fx-font-size: 16px; -fx-padding: 15px;");
+        aiAdviceArea.getStyleClass().addAll("card-elevated", "input-field");
+        aiAdviceArea.setStyle("-fx-font-size: 15px; -fx-padding: 16px; -fx-line-spacing: 4px;");
         VBox.setVgrow(aiAdviceArea, Priority.ALWAYS);
 
         // Status
-        aiStatusLabel = new Label("Ready to assist with your financial goals.");
-        aiStatusLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #6B7280;");
+        aiStatusLabel = new Label("● Ready to assist with your financial intelligence.");
+        aiStatusLabel.getStyleClass().add("caption-text");
+        aiStatusLabel.setStyle("-fx-text-fill: #10B981; -fx-font-weight: 600;");
 
         // Input Area
-        HBox inputBox = new HBox(15);
+        HBox inputBox = new HBox(12);
         inputBox.setAlignment(Pos.CENTER);
         
         chatInput = new TextField();
-        chatInput.setPromptText("Ask about your budget, hypothetical investments, or say hello...");
+        chatInput.setPromptText("Ask about your budget, analyze spending patterns, or simulate investments...");
         chatInput.getStyleClass().add("input-field");
-        chatInput.setStyle("-fx-font-size: 16px; -fx-pref-height: 50px;");
+        chatInput.setStyle("-fx-font-size: 14px; -fx-pref-height: 46px;");
         HBox.setHgrow(chatInput, Priority.ALWAYS);
         
         sendBtn = new Button("Send");
-        sendBtn.getStyleClass().add("primary-button");
-        sendBtn.setStyle("-fx-font-size: 16px; -fx-pref-height: 50px; -fx-pref-width: 100px;");
+        sendBtn.getStyleClass().add("btn-primary");
+        sendBtn.setStyle("-fx-pref-height: 46px; -fx-pref-width: 90px;");
         
         voiceBtn = new ToggleButton("🎤 Voice");
         voiceBtn.getStyleClass().add("toggle-button");
-        voiceBtn.setStyle("-fx-font-size: 16px; -fx-pref-height: 50px; -fx-pref-width: 120px;");
+        voiceBtn.setStyle("-fx-pref-height: 46px; -fx-pref-width: 100px;");
         
         inputBox.getChildren().addAll(chatInput, sendBtn, voiceBtn);
 
         root.getChildren().addAll(headerBox, aiAdviceArea, aiStatusLabel, inputBox);
 
-        Scene scene = new Scene(root, 800, 600);
-        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        Scene scene = new Scene(root, 840, 620);
         org.example.utils.ThemeManager.apply(scene);
 
         javafx.stage.Stage aiStage = new javafx.stage.Stage();
