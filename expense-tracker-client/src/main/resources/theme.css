@@ -118,14 +118,42 @@
 /* Stat card specific metrics */
 .stat-label {
     -fx-text-fill: #334155;
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
     -fx-font-weight: 700;
+    -fx-opacity: 0.85;
 }
 
 .stat-amount {
     -fx-text-fill: #0F172A;
-    -fx-font-size: 26px;
+    -fx-font-size: 24px;
     -fx-font-weight: 800;
+}
+
+/* Dashboard content padding */
+.dashboard-padding {
+    -fx-padding: 18px 20px 20px 20px;
+    -fx-spacing: 14px;
+}
+
+/* Empty state node */
+.empty-state-box {
+    -fx-alignment: center;
+    -fx-padding: 40px 20px;
+    -fx-spacing: 10px;
+}
+.empty-state-icon {
+    -fx-font-size: 38px;
+}
+.empty-state-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #334155;
+}
+.empty-state-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748B;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
 }
 
 /* ===== BUTTONS ===== */
@@ -322,57 +350,66 @@ Button, .button {
     -fx-text-fill: #1E1B4B;
 }
 
-/* Card Title & Amount Typography tokens (Light Mode) */
-.card-title-balance { -fx-text-fill: #3730A3; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-amount-balance { -fx-text-fill: #4338CA; -fx-font-size: 26px; -fx-font-weight: 800; }
+/* Card Title & Amount Typography tokens (Light Mode)
+   High-contrast: dark text on light cards, matching accent icon/label colors */
+.card-title-balance { -fx-text-fill: #1E1B4B; -fx-font-weight: 700; -fx-font-size: 12px; }
+.card-amount-balance { -fx-text-fill: #1E1B4B; -fx-font-size: 24px; -fx-font-weight: 800; }
 
-.card-title-income { -fx-text-fill: #065F46; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-amount-income { -fx-text-fill: #059669; -fx-font-size: 26px; -fx-font-weight: 800; }
+.card-title-income { -fx-text-fill: #064E3B; -fx-font-weight: 700; -fx-font-size: 12px; }
+.card-amount-income { -fx-text-fill: #065F46; -fx-font-size: 24px; -fx-font-weight: 800; }
 
-.card-title-expense { -fx-text-fill: #991B1B; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-amount-expense { -fx-text-fill: #DC2626; -fx-font-size: 26px; -fx-font-weight: 800; }
+.card-title-expense { -fx-text-fill: #7F1D1D; -fx-font-weight: 700; -fx-font-size: 12px; }
+.card-amount-expense { -fx-text-fill: #991B1B; -fx-font-size: 24px; -fx-font-weight: 800; }
 
-.card-title-budget { -fx-text-fill: #0E7490; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-amount-budget { -fx-text-fill: #0891B2; -fx-font-size: 26px; -fx-font-weight: 800; }
+.card-title-budget { -fx-text-fill: #0C4A6E; -fx-font-weight: 700; -fx-font-size: 12px; }
+.card-amount-budget { -fx-text-fill: #0E7490; -fx-font-size: 24px; -fx-font-weight: 800; }
 
-.card-title-savings { -fx-text-fill: #6B21A8; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-goal-name { -fx-text-fill: #0F172A; -fx-font-size: 14px; -fx-font-weight: 800; }
+.card-title-savings { -fx-text-fill: #4C1D95; -fx-font-weight: 700; -fx-font-size: 12px; }
+.card-goal-name { -fx-text-fill: #1E1B4B; -fx-font-size: 13px; -fx-font-weight: 700; }
 
-.forecast-title { -fx-text-fill: #3730A3; -fx-font-weight: 800; }
-.forecast-value { -fx-text-fill: #4338CA; -fx-font-weight: 800; }
-.forecast-value-under { -fx-text-fill: #059669; -fx-font-weight: 800; }
-.forecast-value-over { -fx-text-fill: #DC2626; -fx-font-weight: 800; }
+.forecast-title { -fx-text-fill: #1E1B4B; -fx-font-weight: 800; }
+.forecast-value { -fx-text-fill: #1E1B4B; -fx-font-weight: 700; }
+.forecast-value-under { -fx-text-fill: #065F46; -fx-font-weight: 800; }
+.forecast-value-over { -fx-text-fill: #991B1B; -fx-font-weight: 800; }
 
 .top-bar-background {
     -fx-background-color: #FFFFFF;
     -fx-border-color: transparent transparent #E2E8F0 transparent;
-    -fx-border-width: 1px;
+    -fx-border-width: 0 0 1.5px 0;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.06), 8, 0, 0, 2);
+    -fx-padding: 6px 18px 6px 10px;
+    -fx-min-height: 52px;
 }
 
-/* Card variations with subtle modern gradients / tints */
+/* Card variations — white base with clear tinted border, fully opaque */
 .card-balance {
-    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #F5F7FF 100%);
-    -fx-border-color: rgba(99, 102, 241, 0.22);
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #C7D2FE;
+    -fx-border-width: 1.5px;
 }
 
 .card-income {
-    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #F0FDF4 100%);
-    -fx-border-color: rgba(16, 185, 129, 0.25);
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #A7F3D0;
+    -fx-border-width: 1.5px;
 }
 
 .card-expense {
-    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #FEF2F2 100%);
-    -fx-border-color: rgba(239, 68, 68, 0.25);
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FECACA;
+    -fx-border-width: 1.5px;
 }
 
 .card-budget {
-    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #F0FDF9 100%);
-    -fx-border-color: rgba(6, 182, 212, 0.25);
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #A5F3FC;
+    -fx-border-width: 1.5px;
 }
 
 .card-savings {
-    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #FAF5FF 100%);
-    -fx-border-color: rgba(139, 92, 246, 0.25);
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #DDD6FE;
+    -fx-border-width: 1.5px;
 }
 
 /* Forecast Card Variants */
@@ -544,7 +581,10 @@ Button, .button {
 .theme-dark .top-bar-background {
     -fx-background-color: #111827;
     -fx-border-color: transparent transparent #1E293B transparent;
-    -fx-border-width: 1px;
+    -fx-border-width: 0 0 1.5px 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 8, 0, 0, 2);
+    -fx-padding: 6px 18px 6px 10px;
+    -fx-min-height: 52px;
 }
 
 .theme-dark .card, .theme-dark .stat-card, .theme-dark .ui-card, .theme-dark .ui-card-squircle {
@@ -579,27 +619,36 @@ Button, .button {
 }
 
 /* Dark mode typography */
-.theme-dark .card-title-balance { -fx-text-fill: #A5B4FC; }
-.theme-dark .card-amount-balance { -fx-text-fill: #818CF8; }
+.theme-dark .card-title-balance { -fx-text-fill: #C7D2FE; -fx-font-weight: 700; }
+.theme-dark .card-amount-balance { -fx-text-fill: #E0E7FF; -fx-font-weight: 800; }
 
-.theme-dark .card-title-income { -fx-text-fill: #6EE7B7; }
-.theme-dark .card-amount-income { -fx-text-fill: #34D399; }
+.theme-dark .card-title-income { -fx-text-fill: #6EE7B7; -fx-font-weight: 700; }
+.theme-dark .card-amount-income { -fx-text-fill: #D1FAE5; -fx-font-weight: 800; }
 
-.theme-dark .card-title-expense { -fx-text-fill: #FCA5A5; }
-.theme-dark .card-amount-expense { -fx-text-fill: #F87171; }
+.theme-dark .card-title-expense { -fx-text-fill: #FCA5A5; -fx-font-weight: 700; }
+.theme-dark .card-amount-expense { -fx-text-fill: #FEE2E2; -fx-font-weight: 800; }
 
-.theme-dark .card-title-budget { -fx-text-fill: #67E8F9; }
-.theme-dark .card-amount-budget { -fx-text-fill: #22D3EE; }
+.theme-dark .card-title-budget { -fx-text-fill: #67E8F9; -fx-font-weight: 700; }
+.theme-dark .card-amount-budget { -fx-text-fill: #CFFAFE; -fx-font-weight: 800; }
 
-.theme-dark .card-title-savings { -fx-text-fill: #D8B4FE; }
-.theme-dark .card-goal-name { -fx-text-fill: #F8FAFC; }
+.theme-dark .card-title-savings { -fx-text-fill: #D8B4FE; -fx-font-weight: 700; }
+.theme-dark .card-goal-name { -fx-text-fill: #F8FAFC; -fx-font-weight: 700; }
 
 .theme-dark .stat-label {
     -fx-text-fill: #94A3B8;
+    -fx-font-weight: 600;
 }
 
 .theme-dark .stat-amount {
     -fx-text-fill: #F8FAFC;
+    -fx-font-weight: 800;
+}
+
+.theme-dark .empty-state-title {
+    -fx-text-fill: #CBD5E1;
+}
+.theme-dark .empty-state-subtitle {
+    -fx-text-fill: #64748B;
 }
 
 /* Dark mode Forecast Banner */
@@ -619,10 +668,10 @@ Button, .button {
     -fx-border-color: rgba(239, 68, 68, 0.5);
 }
 
-.theme-dark .forecast-title { -fx-text-fill: #A5B4FC; }
-.theme-dark .forecast-value { -fx-text-fill: #C7D2FE; }
-.theme-dark .forecast-value-under { -fx-text-fill: #34D399; }
-.theme-dark .forecast-value-over { -fx-text-fill: #F87171; }
+.theme-dark .forecast-title { -fx-text-fill: #C7D2FE; -fx-font-weight: 800; }
+.theme-dark .forecast-value { -fx-text-fill: #E0E7FF; -fx-font-weight: 700; }
+.theme-dark .forecast-value-under { -fx-text-fill: #6EE7B7; -fx-font-weight: 800; }
+.theme-dark .forecast-value-over { -fx-text-fill: #FCA5A5; -fx-font-weight: 800; }
 
 /* Dark mode inputs, combo boxes, buttons */
 .theme-dark .text-field, .theme-dark .password-field, .theme-dark .text-area, .theme-dark .input-field {

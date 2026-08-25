@@ -208,7 +208,7 @@ public class DashboardView {
 
     private javafx.scene.layout.HBox createTopMenuBar() {
         MenuBar menuBar = new MenuBar();
-        menuBar.setStyle("-fx-background-color: transparent; -fx-padding: 5px;");
+        menuBar.setStyle("-fx-background-color: transparent; -fx-padding: 4px 0;");
 
         Menu categoryMenu = new Menu("Categories");
         categoryMenu.getItems().addAll(createCategoryMenuItem, viewCategoriesMenuItem);
@@ -234,24 +234,30 @@ public class DashboardView {
         javafx.scene.layout.HBox.setHgrow(spacer, Priority.ALWAYS);
         
         themeToggle.getStyleClass().add("toggle-button");
-        finvoraAIButton.getStyleClass().addAll("btn-primary");
-        finvoraAIButton.setStyle("-fx-font-size: 13px; -fx-padding: 6px 14px;");
+        
+        // Finvora AI button — indigo gradient to match brand
+        finvoraAIButton.getStyleClass().setAll("btn-primary");
+        finvoraAIButton.setStyle(null); // clear any inline override
+        finvoraAIButton.setText("✨ Finvora AI");
+        
+        aiAlertsButton.getStyleClass().setAll("btn-secondary");
+        aiAlertsButton.setStyle("-fx-font-size: 13px;");
         
         javafx.scene.layout.HBox topBar = new javafx.scene.layout.HBox(10, menuBar, spacer, finvoraAIButton, aiAlertsButton, themeToggle);
         topBar.getStyleClass().add("top-bar-background");
         topBar.setAlignment(Pos.CENTER_LEFT);
-        topBar.setPadding(new javafx.geometry.Insets(8, 18, 8, 10));
+        topBar.setFillHeight(true);
         
         return topBar;
     }
 
     private HBox createBalanceSummaryBox() {
-        HBox statBox = new HBox(14);
+        HBox statBox = new HBox(12);
         statBox.setAlignment(Pos.CENTER);
-        statBox.setPadding(new Insets(10, 0, 18, 0));
+        statBox.setPadding(new Insets(4, 0, 16, 0));
 
         // Balance Card
-        VBox balanceCard = new VBox(6);
+        VBox balanceCard = new VBox(4);
         balanceCard.getStyleClass().addAll("stat-card", "card-balance");
         currentBalanceLabel.setText("💳  Current Balance");
         currentBalanceLabel.getStyleClass().setAll("stat-label", "card-title-balance");
@@ -260,7 +266,7 @@ public class DashboardView {
         HBox.setHgrow(balanceCard, Priority.ALWAYS);
 
         // Income Card
-        VBox incomeCard = new VBox(6);
+        VBox incomeCard = new VBox(4);
         incomeCard.getStyleClass().addAll("stat-card", "card-income");
         totalIncomeLabel.setText("↗  Total Income");
         totalIncomeLabel.getStyleClass().setAll("stat-label", "card-title-income");
@@ -269,7 +275,7 @@ public class DashboardView {
         HBox.setHgrow(incomeCard, Priority.ALWAYS);
 
         // Expense Card
-        VBox expenseCard = new VBox(6);
+        VBox expenseCard = new VBox(4);
         expenseCard.getStyleClass().addAll("stat-card", "card-expense");
         totalExpenseLabel.setText("↘  Total Expense");
         totalExpenseLabel.getStyleClass().setAll("stat-label", "card-title-expense");
@@ -278,7 +284,7 @@ public class DashboardView {
         HBox.setHgrow(expenseCard, Priority.ALWAYS);
 
         // Budget Card
-        VBox budgetCard = new VBox(6);
+        VBox budgetCard = new VBox(4);
         budgetCard.getStyleClass().addAll("stat-card", "card-budget");
         budgetStatusLabel.setText("📅  Budget Remaining");
         budgetStatusLabel.getStyleClass().setAll("stat-label", "card-title-budget");
@@ -287,14 +293,15 @@ public class DashboardView {
         HBox.setHgrow(budgetCard, Priority.ALWAYS);
 
         // Savings Card
-        VBox topGoalCard = new VBox(6);
+        VBox topGoalCard = new VBox(4);
         topGoalCard.getStyleClass().addAll("stat-card", "card-savings");
         Label topGoalLabel = new Label("🎯  Savings Goal");
         topGoalLabel.getStyleClass().setAll("stat-label", "card-title-savings");
         topGoalNameLabel.setText("Check Menu to Set Goal");
         topGoalNameLabel.getStyleClass().setAll("body-text", "card-goal-name");
+        topGoalNameLabel.setWrapText(true);
         topGoalProgressBar = new ProgressBar(0.0);
-        topGoalProgressBar.setPrefWidth(160);
+        topGoalProgressBar.setPrefWidth(Double.MAX_VALUE);
         topGoalProgressBar.setMaxWidth(Double.MAX_VALUE);
         topGoalProgressBar.getStyleClass().add("progress-bar");
         topGoalCard.getChildren().addAll(topGoalLabel, topGoalNameLabel, topGoalProgressBar);
@@ -305,13 +312,15 @@ public class DashboardView {
     }
 
     private HBox createForecastBanner() {
-        HBox banner = new HBox(14);
+        HBox banner = new HBox(12);
         banner.setAlignment(Pos.CENTER_LEFT);
         banner.getStyleClass().addAll("forecast-card");
+        banner.setPadding(new Insets(14, 22, 14, 22));
 
         forecastLabel.setText("🔮  AI Spending Forecast:");
         forecastLabel.getStyleClass().setAll("h4", "forecast-title");
-
+        // Default: show a clear empty state (not "Calculating") until data arrives
+        forecastAmountLabel.setText("Add transactions to see your spending forecast");
         forecastAmountLabel.getStyleClass().setAll("body-text", "forecast-value");
         HBox.setHgrow(forecastAmountLabel, Priority.ALWAYS);
 
@@ -387,6 +396,21 @@ public class DashboardView {
         transactionTable = new TableView<>();
         VBox.setVgrow(transactionTable, Priority.ALWAYS);
         transactionTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        
+        // Custom empty state placeholder instead of "No content in table"
+        VBox emptyPlaceholder = new VBox(10);
+        emptyPlaceholder.setAlignment(Pos.CENTER);
+        emptyPlaceholder.setPadding(new Insets(50, 20, 50, 20));
+        Label emptyIcon = new Label("📊");
+        emptyIcon.getStyleClass().add("empty-state-icon");
+        Label emptyTitle = new Label("No transactions yet");
+        emptyTitle.getStyleClass().add("empty-state-title");
+        Label emptySubtitle = new Label("Add your first transaction to see monthly totals here.");
+        emptySubtitle.getStyleClass().add("empty-state-subtitle");
+        emptySubtitle.setWrapText(true);
+        emptySubtitle.setMaxWidth(260);
+        emptyPlaceholder.getChildren().addAll(emptyIcon, emptyTitle, emptySubtitle);
+        transactionTable.setPlaceholder(emptyPlaceholder);
         
         monthColumn = new TableColumn<>("Month");
         monthColumn.setCellValueFactory(new PropertyValueFactory<>("month"));
@@ -476,21 +500,21 @@ public class DashboardView {
     }
 
     public static VBox createEmptyRecentTransactionsNode() {
-        VBox box = new VBox(12);
+        VBox box = new VBox(10);
+        box.getStyleClass().add("empty-state-box");
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(50, 20, 50, 20));
 
         Label icon = new Label("🧾");
-        icon.setStyle("-fx-font-size: 42px;");
+        icon.getStyleClass().add("empty-state-icon");
 
         Label title = new Label("No transactions yet");
-        title.getStyleClass().add("h4");
-        title.setStyle("-fx-font-weight: 700;");
+        title.getStyleClass().add("empty-state-title");
 
         Label subtitle = new Label("Scan a receipt or click '+ Add' to record your first transaction.");
-        subtitle.getStyleClass().add("caption-text");
-        subtitle.setStyle("-fx-text-alignment: center;");
+        subtitle.getStyleClass().add("empty-state-subtitle");
         subtitle.setWrapText(true);
+        subtitle.setMaxWidth(220);
 
         box.getChildren().addAll(icon, title, subtitle);
         return box;

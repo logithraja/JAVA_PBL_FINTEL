@@ -274,12 +274,18 @@ public class DashboardController {
                     budgetAmt = currentBudget.getLimitAmount().doubleValue();
                 }
 
-                com.google.gson.JsonObject forecast = ApiClient.getSpendingForecast(user.getId(), currentYear, month, budgetAmt);
-                if (forecast != null && forecast.has("message")) {
-                    String message = forecast.get("message").getAsString();
-                    String status = forecast.has("status") ? forecast.get("status").getAsString() : "NO_BUDGET";
+                com.google.gson.JsonObject forecast = null;
+                try {
+                    forecast = ApiClient.getSpendingForecast(user.getId(), currentYear, month, budgetAmt);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
 
-                    javafx.application.Platform.runLater(() -> {
+                final com.google.gson.JsonObject finalForecast = forecast;
+                javafx.application.Platform.runLater(() -> {
+                    if (finalForecast != null && finalForecast.has("message")) {
+                        String message = finalForecast.get("message").getAsString();
+                        String status = finalForecast.has("status") ? finalForecast.get("status").getAsString() : "NO_BUDGET";
                         view.getForecastAmountLabel().setText(message);
                         view.getForecastAmountLabel().getStyleClass().removeAll("forecast-value", "forecast-value-under", "forecast-value-over");
                         if ("OVER_BUDGET".equalsIgnoreCase(status)) {
@@ -289,10 +295,18 @@ public class DashboardController {
                         } else {
                             view.getForecastAmountLabel().getStyleClass().addAll("body-text", "forecast-value");
                         }
-                    });
-                }
+                    } else {
+                        // No forecast data — show clear empty state, never leave "Calculating..."
+                        view.getForecastAmountLabel().setText("Add transactions to see your spending forecast");
+                        view.getForecastAmountLabel().getStyleClass().setAll("body-text", "forecast-value");
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
+                javafx.application.Platform.runLater(() -> {
+                    view.getForecastAmountLabel().setText("Add transactions to see your spending forecast");
+                    view.getForecastAmountLabel().getStyleClass().setAll("body-text", "forecast-value");
+                });
             }
         }).start();
     }
