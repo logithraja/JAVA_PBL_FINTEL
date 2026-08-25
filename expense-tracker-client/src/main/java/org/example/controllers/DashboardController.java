@@ -62,7 +62,11 @@ public class DashboardController {
 
     public DashboardController(DashboardView view) {
         this.view = view;
-        this.currentYear = view.getYearComboBox().getValue();
+        Integer yVal = null;
+        if (view.getYearComboBox() != null) {
+            yVal = view.getYearComboBox().getValue();
+        }
+        this.currentYear = (yVal != null) ? yVal : java.time.Year.now().getValue();
         this.currentMonth = "ALL";
         initListeners();
         fetchUserData();
@@ -128,20 +132,29 @@ public class DashboardController {
 
     private void loadYears() {
         int currentY = java.time.Year.now().getValue();
-        for (int y = currentY - 5; y <= currentY + 5; y++) {
-            if (!view.getYearComboBox().getItems().contains(y)) {
-                view.getYearComboBox().getItems().add(y);
+        if (view.getYearComboBox() != null) {
+            for (int y = currentY - 5; y <= currentY + 5; y++) {
+                if (!view.getYearComboBox().getItems().contains(y)) {
+                    view.getYearComboBox().getItems().add(y);
+                }
+            }
+
+            if (user != null) {
+                List<Integer> years = ApiClient.getAllDistinctYears(user.getId());
+                if (years != null) {
+                    for (Integer y : years) {
+                        if (!view.getYearComboBox().getItems().contains(y)) {
+                            view.getYearComboBox().getItems().add(y);
+                        }
+                    }
+                }
+            }
+            
+            view.getYearComboBox().getItems().sort(java.util.Collections.reverseOrder());
+            if (view.getYearComboBox().getValue() == null) {
+                view.getYearComboBox().setValue(currentY);
             }
         }
-
-        List<Integer> years = ApiClient.getAllDistinctYears(user.getId());
-        if (years != null) {
-            for (Integer y : years)
-                if (!view.getYearComboBox().getItems().contains(y))
-                    view.getYearComboBox().getItems().add(y);
-        }
-        
-        view.getYearComboBox().getItems().sort(java.util.Collections.reverseOrder());
 
         ObservableList<String> monthOptions = FXCollections.observableArrayList(
                 "ALL", "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
@@ -149,11 +162,14 @@ public class DashboardController {
         );
         if (view.getMonthQuarterComboBox() != null) {
             view.getMonthQuarterComboBox().setItems(monthOptions);
-            view.getMonthQuarterComboBox().setValue("ALL");
+            if (view.getMonthQuarterComboBox().getValue() == null) {
+                view.getMonthQuarterComboBox().setValue("ALL");
+            }
         }
     }
 
     private void loadBalances() {
+        if (user == null) return;
         BigDecimal in  = BigDecimal.ZERO;
         BigDecimal out = BigDecimal.ZERO;
 

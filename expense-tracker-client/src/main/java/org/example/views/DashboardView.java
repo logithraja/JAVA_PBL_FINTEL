@@ -148,14 +148,15 @@ public class DashboardView {
         Scene scene = createScene();
         
         ThemeManager.apply(scene);       
-        new DashboardController(this);
         scene.widthProperty().addListener((observable, oldVal, newVal) -> {
             loadingAnimationPane.resizeWidth(newVal.doubleValue());
             resizeTableWidthColumns();
         });
         scene.heightProperty().addListener((observable, oldVal, newVal) ->
                 loadingAnimationPane.resizeHeight(newVal.doubleValue()));
+        
         ViewNavigator.switchViews(scene);
+        new DashboardController(this);
     }
 
     private Scene createScene() {
