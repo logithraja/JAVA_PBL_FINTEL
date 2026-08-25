@@ -10,8 +10,13 @@ public class ViewNavigator {
         mainStage = stage;
     }
 
+    public static Stage getMainStage() {
+        return mainStage;
+    }
+
     public static void switchViews(Scene scene){
-        if(mainStage != null){
+        if(mainStage != null && scene != null){
+            ThemeManager.apply(scene);
             mainStage.setScene(scene);
             mainStage.show();
         }
