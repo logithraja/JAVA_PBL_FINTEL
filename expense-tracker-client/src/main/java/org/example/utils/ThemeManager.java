@@ -33,17 +33,17 @@ public final class ThemeManager {
         
         loadFonts();
 
-        String themeUrl = Objects.requireNonNull(ThemeManager.class.getResource(THEME_CSS)).toExternalForm();
-        if (!scene.getStylesheets().contains(themeUrl)) {
-            scene.getStylesheets().add(0, themeUrl);
-        }
-
         try {
             String styleUrl = Objects.requireNonNull(ThemeManager.class.getResource(STYLE_CSS)).toExternalForm();
             if (!scene.getStylesheets().contains(styleUrl)) {
                 scene.getStylesheets().add(styleUrl);
             }
         } catch (Exception ignored) {}
+
+        String themeUrl = Objects.requireNonNull(ThemeManager.class.getResource(THEME_CSS)).toExternalForm();
+        if (!scene.getStylesheets().contains(themeUrl)) {
+            scene.getStylesheets().add(themeUrl);
+        }
 
         applyThemeClass(scene);
     }

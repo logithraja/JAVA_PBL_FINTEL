@@ -289,16 +289,16 @@ public class DashboardView {
         budgetCard.getChildren().addAll(budgetStatusLabel, budgetRemaining);
         HBox.setHgrow(budgetCard, Priority.ALWAYS);
 
-        // Savings Card
         VBox topGoalCard = new VBox(8);
         topGoalCard.getStyleClass().addAll("stat-card", "card-savings");
         Label topGoalLabel = new Label("🎯  Savings Goal");
         topGoalLabel.getStyleClass().add("stat-label");
         topGoalNameLabel.setText("Check Savings Menu");
         topGoalNameLabel.getStyleClass().setAll("body-text");
-        topGoalNameLabel.setStyle("-fx-font-weight: 700; -fx-font-size: 16px;");
+        topGoalNameLabel.setStyle("-fx-font-weight: 700; -fx-font-size: 15px;");
         topGoalProgressBar = new ProgressBar(0.0);
-        topGoalProgressBar.setPrefWidth(Double.MAX_VALUE);
+        topGoalProgressBar.setPrefWidth(160);
+        topGoalProgressBar.setMaxWidth(Double.MAX_VALUE);
         topGoalProgressBar.getStyleClass().add("progress-bar");
         topGoalCard.getChildren().addAll(topGoalLabel, topGoalNameLabel, topGoalProgressBar);
         HBox.setHgrow(topGoalCard, Priority.ALWAYS);
@@ -505,10 +505,13 @@ public class DashboardView {
 
     private void resizeTableWidthColumns() {
         Platform.runLater(() -> {
-            double width = transactionTable.getWidth() * 0.335;
-            monthColumn.setPrefWidth(width);
-            incomeColumn.setPrefWidth(width);
-            expenseColumn.setPrefWidth(width);
+            double width = transactionTable.getWidth();
+            if (width > 60) {
+                double colWidth = (width - 4) / 3.0;
+                monthColumn.setPrefWidth(colWidth);
+                incomeColumn.setPrefWidth(colWidth);
+                expenseColumn.setPrefWidth(colWidth);
+            }
         });
     }
 

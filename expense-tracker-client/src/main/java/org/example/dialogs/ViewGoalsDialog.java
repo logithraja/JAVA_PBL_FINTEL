@@ -74,7 +74,8 @@ public class ViewGoalsDialog extends Dialog<Void> {
             }
         } catch (Exception ignored) {}
         bar.setProgress(Math.min(1.0, pct));
-        bar.setPrefWidth(Double.MAX_VALUE);
+        bar.setPrefWidth(360);
+        bar.setMaxWidth(Double.MAX_VALUE);
         bar.getStyleClass().add("progress-bar");
 
         Button add = new Button("➕ Add Savings");
