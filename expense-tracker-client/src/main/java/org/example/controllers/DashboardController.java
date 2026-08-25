@@ -75,59 +75,68 @@ public class DashboardController {
     public void fetchUserData() {
         view.getLoadingAnimationPane().setVisible(true);
 
-        try {
-            user = ApiClient.getUserByEmail(view.getEmail());
+        new Thread(() -> {
+            try {
+                user = ApiClient.getUserByEmail(view.getEmail());
 
-            if (user == null) {
-                System.err.println("User could not be retrieved from backend for email: " + view.getEmail());
-                org.example.dialogs.FinvoraAlert.showError("Unable to connect to server or load user data. Please ensure the backend server is running.");
-                return;
-            }
-
-            String nm = user.getName() == null ? "" : user.getName();
-            String em = user.getEmail() == null ? "" : user.getEmail();
-            
-            view.getUserNameLabel().setText(nm);
-            view.getUserEmailLabel().setText("<" + em + ">");
-
-            loadYears();
-            pickActiveBudgetFromStore();
-            loadBalances();
-            view.getTransactionTable().setItems(calcMonthly());
-            loadRecents();
-            refreshGoalWidget(); 
-            
-            // Run AI Proactive Monitor asynchronously
-            new Thread(() -> {
-                try {
-                    if (user == null) return;
-                    List<Transaction> allTx = ApiClient.getAllTransactionsByUserId(user.getId(), currentYear, null);
-                    List<org.example.models.Budget> budgets = org.example.utils.BudgetStore.getBudgets(user.getId());
-                    if (budgets != null) {
-                        for (org.example.models.Budget b : budgets) {
-                            b.setSpentAmount(calculateSpentFor(b));
-                        }
-                    }
-                    List<String> alerts = org.example.services.AIProactiveMonitor.analyzeTransactions(allTx, budgets);
+                if (user == null) {
+                    System.err.println("User could not be retrieved from backend for email: " + view.getEmail());
                     javafx.application.Platform.runLater(() -> {
-                        view.aiAlertsButton.setText("🔔 AI Alerts (" + alerts.size() + ")");
-                        if (!alerts.isEmpty()) {
-                            view.aiAlertsButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #e13742; -fx-font-weight: bold; -fx-cursor: hand;");
-                            view.aiAlertsButton.setOnAction(e -> {
-                                org.example.dialogs.FinvoraAlert.showWarning("Finvora AI found " + alerts.size() + " anomalies/insights in your recent spending:\n\n" + String.join("\n\n", alerts));
-                            });
-                        }
+                        view.getLoadingAnimationPane().setVisible(false);
+                        org.example.dialogs.FinvoraAlert.showError("Unable to connect to server or load user data. Please ensure the backend server is running.");
                     });
+                    return;
+                }
+
+                String nm = user.getName() == null ? "" : user.getName();
+                String em = user.getEmail() == null ? "" : user.getEmail();
+                
+                // Fetch data in background thread
+                ObservableList<MonthlyFinance> monthlyData = calcMonthly();
+
+                javafx.application.Platform.runLater(() -> {
+                    view.getUserNameLabel().setText(nm);
+                    view.getUserEmailLabel().setText("<" + em + ">");
+
+                    loadYears();
+                    pickActiveBudgetFromStore();
+                    loadBalances();
+                    view.getTransactionTable().setItems(monthlyData);
+                    loadRecents();
+                    refreshGoalWidget(); 
+                    view.getLoadingAnimationPane().setVisible(false);
+                });
+
+                // Run AI Proactive Monitor asynchronously
+                try {
+                    if (user != null) {
+                        List<Transaction> allTx = ApiClient.getAllTransactionsByUserId(user.getId(), currentYear, null);
+                        List<org.example.models.Budget> budgets = org.example.utils.BudgetStore.getBudgets(user.getId());
+                        if (budgets != null) {
+                            for (org.example.models.Budget b : budgets) {
+                                b.setSpentAmount(calculateSpentFor(b));
+                            }
+                        }
+                        List<String> alerts = org.example.services.AIProactiveMonitor.analyzeTransactions(allTx, budgets);
+                        javafx.application.Platform.runLater(() -> {
+                            view.aiAlertsButton.setText("🔔 AI Alerts (" + alerts.size() + ")");
+                            if (!alerts.isEmpty()) {
+                                view.aiAlertsButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #e13742; -fx-font-weight: bold; -fx-cursor: hand;");
+                                view.aiAlertsButton.setOnAction(e -> {
+                                    org.example.dialogs.FinvoraAlert.showWarning("Finvora AI found " + alerts.size() + " anomalies/insights in your recent spending:\n\n" + String.join("\n\n", alerts));
+                                });
+                            }
+                        });
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }).start();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            view.getLoadingAnimationPane().setVisible(false);
-        }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                javafx.application.Platform.runLater(() -> view.getLoadingAnimationPane().setVisible(false));
+            }
+        }).start();
     }
 
     private void loadYears() {
