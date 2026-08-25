@@ -18,28 +18,24 @@ public class LoginController {
     }
 
     private void initialize(){
-        loginView.getLoginButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if(!validateUser()) return;
+        loginView.getLoginButton().setOnAction(e -> handleLogin());
+        loginView.getPasswordField().setOnAction(e -> handleLogin());
+        loginView.getUsernameField().setOnAction(e -> handleLogin());
 
-                String email = loginView.getUsernameField().getText().trim();
-                String password = loginView.getPasswordField().getText();
+        loginView.getSignupLabel().setOnMouseClicked(e -> new SignUpView().show());
+    }
 
-                if(ApiClient.postLoginUser(email, password)){
-                    new DashboardView(email).show();
-                }else{
-                    Utilitie.showAlertDialog(Alert.AlertType.ERROR, "Failed to authenticate. Please check your credentials.");
-                }
-            }
-        });
+    private void handleLogin() {
+        if(!validateUser()) return;
 
-        loginView.getSignupLabel().setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                new SignUpView().show();
-            }
-        });
+        String email = loginView.getUsernameField().getText().trim();
+        String password = loginView.getPasswordField().getText();
+
+        if(ApiClient.postLoginUser(email, password)){
+            new DashboardView(email).show();
+        }else{
+            Utilitie.showAlertDialog(Alert.AlertType.ERROR, "Failed to authenticate. Please check your credentials.");
+        }
     }
 
     private boolean validateUser(){
