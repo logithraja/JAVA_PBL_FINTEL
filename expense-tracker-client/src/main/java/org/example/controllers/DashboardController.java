@@ -418,25 +418,31 @@ public class DashboardController {
         });
 
         view.getLogoutMenuItem().setOnAction(e -> {
+            org.example.utils.ApiUtil.clearAuthToken();
             new LoginView().show();
         });
 
         view.getYearComboBox().setOnAction((ActionEvent e) -> {
-            currentYear = view.getYearComboBox().getValue();
-            fetchUserData();
+            Integer val = view.getYearComboBox().getValue();
+            if (val != null) {
+                currentYear = val;
+                fetchUserData();
+            }
         });
 
         if (view.getMonthQuarterComboBox() != null) {
             view.getMonthQuarterComboBox().setOnAction((ActionEvent e) -> {
                 @SuppressWarnings("unchecked") ComboBox<String> src = (ComboBox<String>) e.getSource();
-                currentMonth = src.getValue();
-                view.getTransactionTable().setItems(calcMonthly());
-                updateSpendingForecast();
+                if (src != null && src.getValue() != null) {
+                    currentMonth = src.getValue();
+                    view.getTransactionTable().setItems(calcMonthly());
+                    updateSpendingForecast();
+                }
             });
         }
 
-        view.getAddTransactionButton().setOnMouseClicked(
-                (MouseEvent e) -> new CreateOrEditTransactionDialog(this, false).showAndWait());
+        view.getAddTransactionButton().setOnAction(
+                e -> new CreateOrEditTransactionDialog(this, false).showAndWait());
                 
         view.scanReceiptButton.setOnAction(e -> {
             FileChooser fc = new FileChooser();
