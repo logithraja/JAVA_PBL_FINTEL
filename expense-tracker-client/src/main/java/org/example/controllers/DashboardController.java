@@ -74,13 +74,17 @@ public class DashboardController {
         try {
             user = ApiClient.getUserByEmail(view.getEmail());
 
-            if (user != null) {
-                String nm = user.getName() == null ? "" : user.getName();
-                String em = user.getEmail() == null ? "" : user.getEmail();
-                
-                view.getUserNameLabel().setText(nm);
-                view.getUserEmailLabel().setText("<" + em + ">");
+            if (user == null) {
+                System.err.println("User could not be retrieved from backend for email: " + view.getEmail());
+                org.example.dialogs.FinvoraAlert.showError("Unable to connect to server or load user data. Please ensure the backend server is running.");
+                return;
             }
+
+            String nm = user.getName() == null ? "" : user.getName();
+            String em = user.getEmail() == null ? "" : user.getEmail();
+            
+            view.getUserNameLabel().setText(nm);
+            view.getUserEmailLabel().setText("<" + em + ">");
 
             loadYears();
             pickActiveBudgetFromStore();
@@ -92,6 +96,7 @@ public class DashboardController {
             // Run AI Proactive Monitor asynchronously
             new Thread(() -> {
                 try {
+                    if (user == null) return;
                     List<Transaction> allTx = ApiClient.getAllTransactionsByUserId(user.getId(), currentYear, null);
                     List<org.example.models.Budget> budgets = org.example.utils.BudgetStore.getBudgets(user.getId());
                     if (budgets != null) {
