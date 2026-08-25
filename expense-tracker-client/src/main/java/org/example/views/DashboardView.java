@@ -245,57 +245,57 @@ public class DashboardView {
     }
 
     private HBox createBalanceSummaryBox() {
-        HBox statBox = new HBox(16);
+        HBox statBox = new HBox(14);
         statBox.setAlignment(Pos.CENTER);
-        statBox.setPadding(new Insets(16, 0, 24, 0));
+        statBox.setPadding(new Insets(10, 0, 18, 0));
 
         // Balance Card
-        VBox balanceCard = new VBox(8);
+        VBox balanceCard = new VBox(6);
         balanceCard.getStyleClass().addAll("stat-card", "card-balance");
         currentBalanceLabel.setText("💳  Current Balance");
-        currentBalanceLabel.getStyleClass().setAll("stat-label");
+        currentBalanceLabel.setStyle("-fx-text-fill: #1E293B; -fx-font-weight: 800; -fx-font-size: 13px;");
         currentBalance.getStyleClass().setAll("stat-amount");
-        currentBalance.setStyle("-fx-text-fill: #4F46E5;");
+        currentBalance.setStyle("-fx-text-fill: #4338CA; -fx-font-size: 26px; -fx-font-weight: 800;");
         balanceCard.getChildren().addAll(currentBalanceLabel, currentBalance);
         HBox.setHgrow(balanceCard, Priority.ALWAYS);
 
         // Income Card
-        VBox incomeCard = new VBox(8);
+        VBox incomeCard = new VBox(6);
         incomeCard.getStyleClass().addAll("stat-card", "card-income");
         totalIncomeLabel.setText("↗  Total Income");
-        totalIncomeLabel.getStyleClass().setAll("stat-label");
+        totalIncomeLabel.setStyle("-fx-text-fill: #065F46; -fx-font-weight: 800; -fx-font-size: 13px;");
         totalIncome.getStyleClass().setAll("stat-amount");
-        totalIncome.setStyle("-fx-text-fill: #10B981;");
+        totalIncome.setStyle("-fx-text-fill: #059669; -fx-font-size: 26px; -fx-font-weight: 800;");
         incomeCard.getChildren().addAll(totalIncomeLabel, totalIncome);
         HBox.setHgrow(incomeCard, Priority.ALWAYS);
 
         // Expense Card
-        VBox expenseCard = new VBox(8);
+        VBox expenseCard = new VBox(6);
         expenseCard.getStyleClass().addAll("stat-card", "card-expense");
         totalExpenseLabel.setText("↘  Total Expense");
-        totalExpenseLabel.getStyleClass().setAll("stat-label");
+        totalExpenseLabel.setStyle("-fx-text-fill: #991B1B; -fx-font-weight: 800; -fx-font-size: 13px;");
         totalExpense.getStyleClass().setAll("stat-amount");
-        totalExpense.setStyle("-fx-text-fill: #EF4444;");
+        totalExpense.setStyle("-fx-text-fill: #DC2626; -fx-font-size: 26px; -fx-font-weight: 800;");
         expenseCard.getChildren().addAll(totalExpenseLabel, totalExpense);
         HBox.setHgrow(expenseCard, Priority.ALWAYS);
 
         // Budget Card
-        VBox budgetCard = new VBox(8);
+        VBox budgetCard = new VBox(6);
         budgetCard.getStyleClass().addAll("stat-card", "card-budget");
-        budgetStatusLabel.setText("📅  Budget Remaining");
-        budgetStatusLabel.getStyleClass().setAll("stat-label");
+        budgetStatusLabel.setText("📅  Budget Status");
+        budgetStatusLabel.setStyle("-fx-text-fill: #0E7490; -fx-font-weight: 800; -fx-font-size: 13px;");
         budgetRemaining.getStyleClass().setAll("stat-amount");
-        budgetRemaining.setStyle("-fx-text-fill: #06B6D4;");
+        budgetRemaining.setStyle("-fx-text-fill: #0891B2; -fx-font-size: 26px; -fx-font-weight: 800;");
         budgetCard.getChildren().addAll(budgetStatusLabel, budgetRemaining);
         HBox.setHgrow(budgetCard, Priority.ALWAYS);
 
-        VBox topGoalCard = new VBox(8);
+        // Savings Card
+        VBox topGoalCard = new VBox(6);
         topGoalCard.getStyleClass().addAll("stat-card", "card-savings");
         Label topGoalLabel = new Label("🎯  Savings Goal");
-        topGoalLabel.getStyleClass().add("stat-label");
-        topGoalNameLabel.setText("Check Savings Menu");
-        topGoalNameLabel.getStyleClass().setAll("body-text");
-        topGoalNameLabel.setStyle("-fx-font-weight: 700; -fx-font-size: 15px;");
+        topGoalLabel.setStyle("-fx-text-fill: #581C87; -fx-font-weight: 800; -fx-font-size: 13px;");
+        topGoalNameLabel.setText("Check Menu to Set Goal");
+        topGoalNameLabel.setStyle("-fx-text-fill: #0F172A; -fx-font-weight: 800; -fx-font-size: 14px;");
         topGoalProgressBar = new ProgressBar(0.0);
         topGoalProgressBar.setPrefWidth(160);
         topGoalProgressBar.setMaxWidth(Double.MAX_VALUE);
@@ -314,10 +314,10 @@ public class DashboardView {
 
         forecastLabel.setText("🔮  AI Spending Forecast:");
         forecastLabel.getStyleClass().setAll("h4");
-        forecastLabel.setStyle("-fx-text-fill: #4F46E5; -fx-font-weight: 800;");
+        forecastLabel.setStyle("-fx-text-fill: #3730A3; -fx-font-weight: 800;");
 
         forecastAmountLabel.getStyleClass().setAll("body-text");
-        forecastAmountLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        forecastAmountLabel.setStyle("-fx-text-fill: #4338CA; -fx-font-weight: 800; -fx-font-size: 14px;");
         HBox.setHgrow(forecastAmountLabel, Priority.ALWAYS);
 
         banner.getChildren().addAll(forecastLabel, forecastAmountLabel);
@@ -326,19 +326,19 @@ public class DashboardView {
 
     private GridPane createContentGridPane() {
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(18);
+        gridPane.setHgap(20);
         gridPane.setMinWidth(0); 
 
         ColumnConstraints leftCol = new ColumnConstraints();
-        leftCol.setPercentWidth(54);
+        leftCol.setPercentWidth(56);
         leftCol.setMinWidth(0);
         
         ColumnConstraints rightCol = new ColumnConstraints();
-        rightCol.setPercentWidth(46);
+        rightCol.setPercentWidth(44);
         rightCol.setMinWidth(0);
         
         gridPane.getColumnConstraints().addAll(leftCol, rightCol);
-        VBox transactionsTableSummaryBox = new VBox(16);
+        VBox transactionsTableSummaryBox = new VBox(14);
         transactionsTableSummaryBox.setMinWidth(0);
 
         HBox filterAndChartButtonBox = createFilterAndChartButtonBox();
@@ -404,7 +404,7 @@ public class DashboardView {
                 } else {
                     String formatted = item.substring(0, 1).toUpperCase() + item.substring(1).toLowerCase();
                     setText(formatted);
-                    setStyle("-fx-font-weight: 600; -fx-alignment: CENTER_LEFT;");
+                    setStyle("-fx-font-weight: 700; -fx-text-fill: #1E293B; -fx-alignment: CENTER_LEFT; -fx-padding: 0 0 0 16px;");
                 }
             }
         });
@@ -419,7 +419,7 @@ public class DashboardView {
                     setText(null);
                 } else {
                     setText(String.format("₹%,.2f", item.doubleValue()));
-                    setStyle("-fx-text-fill: #10B981; -fx-font-weight: 700; -fx-alignment: CENTER_RIGHT;");
+                    setStyle("-fx-text-fill: #059669; -fx-font-weight: 700; -fx-alignment: CENTER_RIGHT; -fx-padding: 0 18px 0 0;");
                 }
             }
         });
@@ -434,7 +434,7 @@ public class DashboardView {
                     setText(null);
                 } else {
                     setText(String.format("₹%,.2f", item.doubleValue()));
-                    setStyle("-fx-text-fill: #EF4444; -fx-font-weight: 700; -fx-alignment: CENTER_RIGHT;");
+                    setStyle("-fx-text-fill: #DC2626; -fx-font-weight: 700; -fx-alignment: CENTER_RIGHT; -fx-padding: 0 22px 0 0;");
                 }
             }
         });

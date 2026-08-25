@@ -117,9 +117,9 @@
 
 /* Stat card specific metrics */
 .stat-label {
-    -fx-text-fill: #64748B;
+    -fx-text-fill: #334155;
     -fx-font-size: 13px;
-    -fx-font-weight: 600;
+    -fx-font-weight: 700;
 }
 
 .stat-amount {
