@@ -146,7 +146,7 @@ public class SetBudgetDialog extends Dialog<Budget> {
                 limit = new BigDecimal(limitField.getText().trim());
                 if (limit.signum() <= 0) throw new NumberFormatException();
             } catch (Exception ex) {
-                new Alert(Alert.AlertType.WARNING, "Enter a valid positive limit amount.").showAndWait();
+                FinvoraAlert.showWarning("Enter a valid positive limit amount.");
                 return null;
             }
 
@@ -247,27 +247,27 @@ public class SetBudgetDialog extends Dialog<Budget> {
 
     private boolean validateInputs() {
         if (categoryCombo.getValue() == null) {
-            new Alert(Alert.AlertType.WARNING, "Please select a category").showAndWait();
+            FinvoraAlert.showWarning("Please select a category.");
             return false;
         }
         if (limitField.getText().trim().isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "Limit amount is required").showAndWait();
+            FinvoraAlert.showWarning("Limit amount is required.");
             return false;
         }
         try {
             new BigDecimal(limitField.getText().trim());
         } catch (Exception ex) {
-            new Alert(Alert.AlertType.WARNING, "Limit must be a valid number").showAndWait();
+            FinvoraAlert.showWarning("Limit must be a valid number.");
             return false;
         }
 
         Budget.PeriodType type = periodTypeCombo.getValue();
         if (type == Budget.PeriodType.MONTHLY && periodValueCombo.getValue() == null) {
-            new Alert(Alert.AlertType.WARNING, "Select a month for Monthly budget").showAndWait();
+            FinvoraAlert.showWarning("Select a month for Monthly budget.");
             return false;
         }
         if (type == Budget.PeriodType.QUARTERLY && periodValueCombo.getValue() == null) {
-            new Alert(Alert.AlertType.WARNING, "Select a quarter for Quarterly budget").showAndWait();
+            FinvoraAlert.showWarning("Select a quarter for Quarterly budget.");
             return false;
         }
 

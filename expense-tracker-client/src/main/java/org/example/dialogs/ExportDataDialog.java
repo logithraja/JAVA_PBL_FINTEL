@@ -66,7 +66,7 @@ public class ExportDataDialog extends Dialog<ExportDataDialog.ExportOptions> {
         final Button okButton = (Button) getDialogPane().lookupButton(okBtn);
         okButton.addEventFilter(javafx.event.ActionEvent.ACTION, evt -> {
             if (!cbTransactions.isSelected() && !cbCategories.isSelected() && !cbBudgets.isSelected()) {
-                new Alert(Alert.AlertType.WARNING, "Select at least one item to export.").showAndWait();
+                FinvoraAlert.showWarning("Select at least one item to export.");
                 evt.consume();
                 return;
             }
@@ -74,7 +74,7 @@ public class ExportDataDialog extends Dialog<ExportDataDialog.ExportOptions> {
             LocalDate s = startDate.getValue();
             LocalDate e = endDate.getValue();
             if (s != null && e != null && e.isBefore(s)) {
-                new Alert(Alert.AlertType.WARNING, "End date must be on or after start date.").showAndWait();
+                FinvoraAlert.showWarning("End date must be on or after start date.");
                 evt.consume();
             }
         });

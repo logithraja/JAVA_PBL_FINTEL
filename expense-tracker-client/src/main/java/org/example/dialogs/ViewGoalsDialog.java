@@ -94,7 +94,7 @@ public class ViewGoalsDialog extends Dialog<Void> {
                     GoalStore.update(userId, goal);
                     refresh();
                 } catch (Exception ex) {
-                    new Alert(Alert.AlertType.ERROR, "Invalid amount!").showAndWait();
+                    FinvoraAlert.showError("Invalid amount entered!");
                 }
             });
         });
@@ -114,15 +114,11 @@ public class ViewGoalsDialog extends Dialog<Void> {
         Button del = new Button("🗑 Delete");
         del.getStyleClass().add("btn-secondary");
         del.setOnAction(e -> {
-            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
-                    "Delete " + goal.getName() + "?",
-                    ButtonType.YES, ButtonType.NO);
-            confirm.showAndWait().ifPresent(btn -> {
-                if (btn == ButtonType.YES) {
-                    GoalStore.delete(userId, goal.getId());
-                    refresh();
-                }
-            });
+            boolean confirmed = FinvoraAlert.confirm("Delete Savings Goal", "Are you sure you want to delete '" + goal.getName() + "'?");
+            if (confirmed) {
+                GoalStore.delete(userId, goal.getId());
+                refresh();
+            }
         });
 
         ToolBar tools = new ToolBar(add, edit, del);

@@ -105,11 +105,7 @@ public class DashboardController {
                         if (!alerts.isEmpty()) {
                             view.aiAlertsButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #e13742; -fx-font-weight: bold; -fx-cursor: hand;");
                             view.aiAlertsButton.setOnAction(e -> {
-                                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
-                                alert.setTitle("Proactive AI Alerts");
-                                alert.setHeaderText("Finvora AI found " + alerts.size() + " anomalies/insights in your recent spending:");
-                                alert.setContentText(String.join("\n\n", alerts));
-                                alert.showAndWait();
+                                org.example.dialogs.FinvoraAlert.showWarning("Finvora AI found " + alerts.size() + " anomalies/insights in your recent spending:\n\n" + String.join("\n\n", alerts));
                             });
                         }
                     });
@@ -319,8 +315,8 @@ public class DashboardController {
                 b.setSpentAmount(calculateSpentFor(b));
                 currentBudget = b;
                 BudgetStore.add(user.getId(), b);
-                new Alert(Alert.AlertType.INFORMATION,
-                        "Budget set for " + b.getPeriodLabel() + " on " + b.getCategory()).showAndWait();
+                org.example.dialogs.FinvoraAlert.showSuccess(
+                        "Budget set for " + b.getPeriodLabel() + " on " + b.getCategory());
                 List<Budget> all = BudgetStore.getBudgets(user.getId());
                 all.forEach(x -> x.setSpentAmount(calculateSpentFor(x)));
                 new BudgetProgressView(user, all).show();
@@ -331,8 +327,8 @@ public class DashboardController {
         view.getViewBudgetProgressMenuItem().setOnAction(e -> {
             List<Budget> all = BudgetStore.getBudgets(user.getId());
             if (all.isEmpty()) {
-                new Alert(Alert.AlertType.INFORMATION,
-                        "No budget set yet. Use 'Set Monthly Budgets' first.").showAndWait();
+                org.example.dialogs.FinvoraAlert.showInfo(
+                        "No budget set yet. Use 'Set Monthly Budgets' first.");
             } else {
                 all.forEach(b -> b.setSpentAmount(calculateSpentFor(b)));
                 new BudgetProgressView(user, all).show();
@@ -353,11 +349,11 @@ public class DashboardController {
 
             try {
                 CsvExportUtil.exportAll(user, opt, dir.toPath());
-                new Alert(Alert.AlertType.INFORMATION,
-                        "Exported to: " + dir.getAbsolutePath()).showAndWait();
+                org.example.dialogs.FinvoraAlert.showSuccess(
+                        "Exported successfully to:\n" + dir.getAbsolutePath());
             } catch (Exception ex) {
                 ex.printStackTrace();
-                new Alert(Alert.AlertType.ERROR, "Export failed: " + ex.getMessage()).showAndWait();
+                org.example.dialogs.FinvoraAlert.showError("Export failed: " + ex.getMessage());
             }
         });
 
@@ -376,10 +372,10 @@ public class DashboardController {
 
             try {
                 generatePdfReport(opt.start, opt.end, out);
-                new Alert(Alert.AlertType.INFORMATION, "PDF saved: " + out.getAbsolutePath()).showAndWait();
+                org.example.dialogs.FinvoraAlert.showSuccess("PDF report saved:\n" + out.getAbsolutePath());
             } catch (Exception ex) {
                 ex.printStackTrace();
-                new Alert(Alert.AlertType.ERROR, "PDF generation failed: " + ex.getMessage()).showAndWait();
+                org.example.dialogs.FinvoraAlert.showError("PDF generation failed: " + ex.getMessage());
             }
         });
 
@@ -493,57 +489,35 @@ public class DashboardController {
                                 javafx.application.Platform.runLater(() -> {
                                     if (duplicates != null && !duplicates.isEmpty()) {
                                         org.example.models.Transaction dup = duplicates.get(0);
-                                        ButtonType addAnywayBtn = new ButtonType("Add anyway", ButtonBar.ButtonData.YES);
-                                        ButtonType skipBtn = new ButtonType("Skip", ButtonBar.ButtonData.CANCEL_CLOSE);
-                                        ButtonType viewExistingBtn = new ButtonType("View existing", ButtonBar.ButtonData.OTHER);
+                                        boolean addConfirmed = org.example.dialogs.FinvoraAlert.confirm(
+                                                "Possible Duplicate Detected",
+                                                "Possible duplicate: " + dup.getTransactionName() + " ₹" + dup.getTransactionAmount() + " on " + dup.getTransactionDate() + " is already logged.\n\nDo you want to add this transaction anyway?"
+                                        );
 
-                                        Alert dupAlert = new Alert(Alert.AlertType.CONFIRMATION);
-                                        dupAlert.setTitle("Possible Duplicate Detected");
-                                        dupAlert.setHeaderText("Possible Duplicate Transaction");
-                                        dupAlert.setContentText("Possible duplicate: " + dup.getTransactionName() + " ₹" + dup.getTransactionAmount() + " on " + dup.getTransactionDate() + " already logged.\n\nAdd anyway, skip, or view existing?");
-                                        dupAlert.getButtonTypes().setAll(addAnywayBtn, skipBtn, viewExistingBtn);
-
-                                        Optional<ButtonType> choice = dupAlert.showAndWait();
-                                        if (choice.isPresent() && choice.get() == addAnywayBtn) {
+                                        if (addConfirmed) {
                                             org.example.utils.ApiClient.postTransaction(finalTJson);
-                                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                            alert.setTitle("Receipt Scanned");
-                                            alert.setHeaderText("Receipt Successfully Scanned & Added");
-                                            alert.setContentText(String.format("Vendor: %s\nAmount: ₹%s\nDate: %s\nCategory: %s", finalVendor, finalAmount, finalDate, finalTargetCat != null ? finalTargetCat.getCategoryName() : "Uncategorized"));
-                                            alert.showAndWait();
+                                            org.example.dialogs.FinvoraAlert.showSuccess(
+                                                    String.format("Receipt Added!\n\nVendor: %s\nAmount: ₹%s\nDate: %s\nCategory: %s", finalVendor, finalAmount, finalDate, finalTargetCat != null ? finalTargetCat.getCategoryName() : "Uncategorized"));
                                             fetchUserData();
-                                        } else if (choice.isPresent() && choice.get() == viewExistingBtn) {
-                                            new ViewTransactionsDialog(DashboardController.this, finalParsedDate.getMonth().name()).showAndWait();
                                         }
                                     } else {
                                         org.example.utils.ApiClient.postTransaction(finalTJson);
-                                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                        alert.setTitle("Receipt Scanned");
-                                        alert.setHeaderText("Receipt Successfully Scanned");
-                                        alert.setContentText(String.format("Vendor: %s\nAmount: ₹%s\nDate: %s\nCategory: %s", finalVendor, finalAmount, finalDate, finalTargetCat != null ? finalTargetCat.getCategoryName() : "Uncategorized"));
-                                        alert.showAndWait();
+                                        org.example.dialogs.FinvoraAlert.showSuccess(
+                                                String.format("Receipt Successfully Scanned!\n\nVendor: %s\nAmount: ₹%s\nDate: %s\nCategory: %s", finalVendor, finalAmount, finalDate, finalTargetCat != null ? finalTargetCat.getCategoryName() : "Uncategorized"));
                                         fetchUserData();
                                     }
                                 });
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                                 javafx.application.Platform.runLater(() -> {
-                                    javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
-                                    alert.setTitle("Scan Error");
-                                    alert.setHeaderText("Could not parse receipt");
-                                    alert.setContentText("Missing or invalid fields in receipt.");
-                                    alert.showAndWait();
+                                    org.example.dialogs.FinvoraAlert.showError("Scan Error: Missing or invalid fields in receipt.");
                                 });
                             }
                         });
                     } catch (Exception ex) {
                         ex.printStackTrace();
                         javafx.application.Platform.runLater(() -> {
-                            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
-                            alert.setTitle("Scan Error");
-                            alert.setHeaderText("AI Vision Failed");
-                            alert.setContentText("Failed to read receipt.");
-                            alert.showAndWait();
+                            org.example.dialogs.FinvoraAlert.showError("AI Vision Scan Failed: Could not parse receipt.");
                         });
                     }
                 }).start();
@@ -701,38 +675,13 @@ public class DashboardController {
     }
 
     private void showAboutUs() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        
-        alert.setTitle("Project Information");
-        alert.setHeaderText("Finvora - Finance Tracker"); 
-
         String content = 
-            "PROJECT IDENTITY:\n" +
-            "Finvora - Finance Tracker\n\n" +
-
-            "PROJECT SUMMARY:\n" +
-            "A modern desktop application built on JavaFX for local expense tracking, budgeting, and goal setting. Features a responsive, dual-theme user interface.\n\n" +
-            
-            "SOURCE CODE LINK:\n" +
+            "Finvora - Smart Personal Finance Tracker\n\n" +
+            "A modern desktop application built on JavaFX for expense tracking, intelligent budgeting, vision receipt scanning, and goal tracking.\n\n" +
             "Repository: https://github.com/yuvanvishnupandi/finance_tracker_java\n" +
-            "Profile: https://github.com/yuvanvishnupandi/\n\n" +
-            
-            "IMPLEMENTATION:\n" +
-            "Sole Developer & Lead Implementer: Yuvan Vishnu Pandi (Lead, Backend, Frontend)\n" +
-            "All application logic, features (Theme Toggle, Budgeting, Currency), and UI implementation were completed solely by the developer.\n\n" +
-            
-            "FORMAL GROUP ACKNOWLEDGMENT (For Submission):\n" +
-            "1. Naveen Karthick (Backend Tester & Consultation)\n" +
-            "2. Sundar Dinesh (Frontend Tester)\n" +
-            "3. Yashawini (Frontend Tester)\n";
+            "Developer: Yuvan Vishnu Pandi";
 
-        TextArea textArea = new TextArea(content);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        alert.getDialogPane().setContent(textArea);
-        
-        alert.showAndWait();
+        org.example.dialogs.FinvoraAlert.show(org.example.dialogs.FinvoraAlert.AlertType.INFO, "About Finvora", content);
     }
 
     private void generatePdfReport(LocalDate start, LocalDate end, File outFile) throws IOException {
@@ -914,7 +863,7 @@ public class DashboardController {
         Optional<SavingsGoal> res = new CreateGoalDialog().showAndWait();
         res.ifPresent(goal -> {
             GoalStore.add(user.getId(), goal);
-            new Alert(Alert.AlertType.INFORMATION, "Goal saved successfully!").showAndWait();
+            org.example.dialogs.FinvoraAlert.showSuccess("Savings goal saved successfully!");
             refreshGoalWidget();
         });
     }

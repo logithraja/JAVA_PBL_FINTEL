@@ -73,7 +73,7 @@ public class CreateGoalDialog extends Dialog<SavingsGoal> {
 
                         return new SavingsGoal(name, target, BigDecimal.ZERO, date);
                     } catch (Exception e) {
-                        new Alert(Alert.AlertType.ERROR, "Invalid inputs!").showAndWait();
+                        FinvoraAlert.showError("Please enter valid goal details and target amount.");
                         return null;
                     }
                 }

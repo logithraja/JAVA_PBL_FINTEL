@@ -112,7 +112,7 @@ public class CurrencyConverterDialog extends Dialog<Void> {
             resultLabel.setText("= " + result.stripTrailingZeros().toPlainString() + " " + toBox.getValue());
 
         } catch (Exception ex) {
-            new Alert(Alert.AlertType.WARNING, "Enter a valid positive number.").showAndWait();
+            FinvoraAlert.showWarning("Enter a valid positive number.");
         }
     }
 }

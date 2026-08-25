@@ -114,7 +114,7 @@ public class BudgetProgressView extends Stage {
         del.setOnAction(e -> {
             Row row = table.getSelectionModel().getSelectedItem();
             if (row == null) {
-                new Alert(Alert.AlertType.INFORMATION, "Select a budget to delete").showAndWait();
+                org.example.dialogs.FinvoraAlert.showWarning("Please select a budget to delete.");
                 return;
             }
             BudgetStore.removeById(user.getId(), row.id);
@@ -131,7 +131,7 @@ public class BudgetProgressView extends Stage {
     private void editSelected() {
         Row row = table.getSelectionModel().getSelectedItem();
         if (row == null) {
-            new Alert(Alert.AlertType.INFORMATION, "Select a budget to edit").showAndWait();
+            org.example.dialogs.FinvoraAlert.showWarning("Please select a budget to edit.");
             return;
         }
         Budget original = BudgetStore.getById(user.getId(), row.id);

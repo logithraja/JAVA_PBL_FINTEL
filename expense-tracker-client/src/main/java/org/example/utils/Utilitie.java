@@ -11,9 +11,13 @@ public class Utilitie {
     public static final int APP_HEIGHT = 768;
 
     public static void showAlertDialog(Alert.AlertType alertType, String message){
-        Alert alert = new Alert(alertType);
-        alert.setContentText(message);
-        alert.showAndWait();
+        org.example.dialogs.FinvoraAlert.AlertType targetType = switch (alertType) {
+            case INFORMATION, CONFIRMATION -> org.example.dialogs.FinvoraAlert.AlertType.SUCCESS;
+            case ERROR -> org.example.dialogs.FinvoraAlert.AlertType.ERROR;
+            case WARNING -> org.example.dialogs.FinvoraAlert.AlertType.WARNING;
+            default -> org.example.dialogs.FinvoraAlert.AlertType.INFO;
+        };
+        org.example.dialogs.FinvoraAlert.showAndWait(targetType, message);
     }
 
     public static String getHexColorValue(ColorPicker colorPicker){
