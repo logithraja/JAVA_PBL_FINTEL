@@ -394,7 +394,48 @@ public class DashboardView {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         hbox.getChildren().addAll(yearComboBox, monthQuarterComboBox, spacer, viewChartButton);
+        
+        setupComboBoxAnimationAndAutoClose(yearComboBox);
+        setupComboBoxAnimationAndAutoClose(monthQuarterComboBox);
+        
         return hbox;
+    }
+
+    private void setupComboBoxAnimationAndAutoClose(ComboBox<?> comboBox) {
+        comboBox.showingProperty().addListener((obs, oldVal, isShowing) -> {
+            Platform.runLater(() -> {
+                javafx.scene.Node popupNode = comboBox.lookup(".combo-box-popup");
+                if (popupNode != null) {
+                    if (isShowing) {
+                        // Open Animation: fade-in + slight expand/slide-down
+                        popupNode.setOpacity(0);
+                        popupNode.setTranslateY(-10);
+                        javafx.animation.FadeTransition ft = new javafx.animation.FadeTransition(javafx.util.Duration.millis(150), popupNode);
+                        ft.setToValue(1);
+                        javafx.animation.TranslateTransition tt = new javafx.animation.TranslateTransition(javafx.util.Duration.millis(150), popupNode);
+                        tt.setToY(0);
+                        javafx.animation.ParallelTransition pt = new javafx.animation.ParallelTransition(ft, tt);
+                        pt.setInterpolator(javafx.animation.Interpolator.EASE_OUT);
+                        pt.play();
+
+                        // Close on mouse exit
+                        popupNode.setOnMouseExited(e -> {
+                            if (comboBox.isShowing()) {
+                                // Close Animation: fade-out + slight collapse/slide-up
+                                javafx.animation.FadeTransition ftClose = new javafx.animation.FadeTransition(javafx.util.Duration.millis(150), popupNode);
+                                ftClose.setToValue(0);
+                                javafx.animation.TranslateTransition ttClose = new javafx.animation.TranslateTransition(javafx.util.Duration.millis(150), popupNode);
+                                ttClose.setToY(-10);
+                                javafx.animation.ParallelTransition ptClose = new javafx.animation.ParallelTransition(ftClose, ttClose);
+                                ptClose.setInterpolator(javafx.animation.Interpolator.EASE_IN);
+                                ptClose.setOnFinished(ev -> comboBox.hide());
+                                ptClose.play();
+                            }
+                        });
+                    }
+                }
+            });
+        });
     }
 
     private VBox createTransactionsTableContentBox() {
