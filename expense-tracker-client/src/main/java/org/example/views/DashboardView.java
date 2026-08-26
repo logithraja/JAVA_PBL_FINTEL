@@ -108,6 +108,7 @@ public class DashboardView {
         aiAlertsButton = new Button("🔔 AI Alerts (0)");
         aiAlertsButton.getStyleClass().add("btn-secondary");
         aiAlertsButton.setStyle("-fx-font-size: 13px; -fx-padding: 6px 12px;");
+        exportDataMenuItem = new MenuItem("Export Data");
         generatePdfReportMenuItem = new MenuItem("Generate PDF Report");
         logoutMenuItem = new MenuItem("Logout");
         setMonthlyBudgetsMenuItem = new MenuItem("Set Monthly Budgets");

@@ -88,7 +88,6 @@
     -fx-border-width: 1px;
     -fx-padding: 20px 24px;
     -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.06), 16, 0, 0, 4);
-    -fx-spacing: 8px;
 }
 
 .card:hover, .stat-card:hover {
@@ -322,21 +321,21 @@ Button, .button {
     -fx-text-fill: #1E1B4B;
 }
 
-/* Card Title & Amount Typography tokens (Light Mode) */
-.card-title-balance { -fx-text-fill: #3730A3; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-amount-balance { -fx-text-fill: #4338CA; -fx-font-size: 26px; -fx-font-weight: 800; }
+/* Card Title & Amount Typography — dark text on tinted card backgrounds */
+.card-title-balance { -fx-text-fill: #1E1B4B; -fx-font-weight: 800; -fx-font-size: 13px; }
+.card-amount-balance { -fx-text-fill: #1E1B4B; -fx-font-size: 26px; -fx-font-weight: 800; }
 
-.card-title-income { -fx-text-fill: #065F46; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-amount-income { -fx-text-fill: #059669; -fx-font-size: 26px; -fx-font-weight: 800; }
+.card-title-income { -fx-text-fill: #064E3B; -fx-font-weight: 800; -fx-font-size: 13px; }
+.card-amount-income { -fx-text-fill: #065F46; -fx-font-size: 26px; -fx-font-weight: 800; }
 
-.card-title-expense { -fx-text-fill: #991B1B; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-amount-expense { -fx-text-fill: #DC2626; -fx-font-size: 26px; -fx-font-weight: 800; }
+.card-title-expense { -fx-text-fill: #7F1D1D; -fx-font-weight: 800; -fx-font-size: 13px; }
+.card-amount-expense { -fx-text-fill: #991B1B; -fx-font-size: 26px; -fx-font-weight: 800; }
 
-.card-title-budget { -fx-text-fill: #0E7490; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-amount-budget { -fx-text-fill: #0891B2; -fx-font-size: 26px; -fx-font-weight: 800; }
+.card-title-budget { -fx-text-fill: #0C4A6E; -fx-font-weight: 800; -fx-font-size: 13px; }
+.card-amount-budget { -fx-text-fill: #0369A1; -fx-font-size: 26px; -fx-font-weight: 800; }
 
-.card-title-savings { -fx-text-fill: #6B21A8; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-goal-name { -fx-text-fill: #0F172A; -fx-font-size: 14px; -fx-font-weight: 800; }
+.card-title-savings { -fx-text-fill: #4C1D95; -fx-font-weight: 800; -fx-font-size: 13px; }
+.card-goal-name { -fx-text-fill: #1E1B4B; -fx-font-size: 13px; -fx-font-weight: 700; }
 
 .forecast-title { -fx-text-fill: #3730A3; -fx-font-weight: 800; }
 .forecast-value { -fx-text-fill: #4338CA; -fx-font-weight: 800; }
@@ -349,30 +348,35 @@ Button, .button {
     -fx-border-width: 1px;
 }
 
-/* Card variations with subtle modern gradients / tints */
+/* Card variations — clearly tinted solid backgrounds so text is always readable */
 .card-balance {
-    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #F5F7FF 100%);
-    -fx-border-color: rgba(99, 102, 241, 0.22);
+    -fx-background-color: #EEF2FF;
+    -fx-border-color: #C7D2FE;
+    -fx-border-width: 1.5px;
 }
 
 .card-income {
-    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #F0FDF4 100%);
-    -fx-border-color: rgba(16, 185, 129, 0.25);
+    -fx-background-color: #ECFDF5;
+    -fx-border-color: #6EE7B7;
+    -fx-border-width: 1.5px;
 }
 
 .card-expense {
-    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #FEF2F2 100%);
-    -fx-border-color: rgba(239, 68, 68, 0.25);
+    -fx-background-color: #FEF2F2;
+    -fx-border-color: #FECACA;
+    -fx-border-width: 1.5px;
 }
 
 .card-budget {
-    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #F0FDF9 100%);
-    -fx-border-color: rgba(6, 182, 212, 0.25);
+    -fx-background-color: #E0F2FE;
+    -fx-border-color: #BAE6FD;
+    -fx-border-width: 1.5px;
 }
 
 .card-savings {
-    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #FAF5FF 100%);
-    -fx-border-color: rgba(139, 92, 246, 0.25);
+    -fx-background-color: #F5F3FF;
+    -fx-border-color: #DDD6FE;
+    -fx-border-width: 1.5px;
 }
 
 /* Forecast Card Variants */
