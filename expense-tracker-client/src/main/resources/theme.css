@@ -74,9 +74,9 @@
     -fx-text-fill: -fx-text-muted;
 }
 
-.text-success { -fx-text-fill: #10B981; -fx-font-weight: bold; }
-.text-error { -fx-text-fill: #EF4444; -fx-font-weight: bold; }
-.text-warning { -fx-text-fill: #F59E0B; -fx-font-weight: bold; }
+.text-success { -fx-text-fill: #059669; -fx-font-weight: bold; }
+.text-error { -fx-text-fill: #DC2626; -fx-font-weight: bold; }
+.text-warning { -fx-text-fill: #D97706; -fx-font-weight: bold; }
 .text-primary { -fx-text-fill: #4F46E5; -fx-font-weight: bold; }
 
 /* ===== CARDS & ELEVATIONS ===== */
@@ -91,8 +91,10 @@
 }
 
 .card:hover, .stat-card:hover {
-    -fx-effect: dropshadow(gaussian, rgba(79, 70, 229, 0.12), 22, 0, 0, 8);
-    -fx-border-color: rgba(99, 102, 241, 0.35);
+    -fx-effect: dropshadow(gaussian, rgba(79, 70, 229, 0.18), 24, 0, 0, 8);
+    -fx-border-color: rgba(99, 102, 241, 0.45);
+    -fx-scale-x: 1.015;
+    -fx-scale-y: 1.015;
 }
 
 .card-elevated {
@@ -116,7 +118,7 @@
 
 /* Stat card specific metrics */
 .stat-label {
-    -fx-text-fill: #334155;
+    -fx-text-fill: #1E293B;
     -fx-font-size: 13px;
     -fx-font-weight: 700;
 }
@@ -322,25 +324,25 @@ Button, .button {
 }
 
 /* Card Title & Amount Typography — dark text on tinted card backgrounds */
-.card-title-balance { -fx-text-fill: #1E1B4B; -fx-font-weight: 800; -fx-font-size: 13px; }
+.card-title-balance { -fx-text-fill: #312E81; -fx-font-weight: 800; -fx-font-size: 13px; }
 .card-amount-balance { -fx-text-fill: #1E1B4B; -fx-font-size: 26px; -fx-font-weight: 800; }
 
 .card-title-income { -fx-text-fill: #064E3B; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-amount-income { -fx-text-fill: #065F46; -fx-font-size: 26px; -fx-font-weight: 800; }
+.card-amount-income { -fx-text-fill: #047857; -fx-font-size: 26px; -fx-font-weight: 800; }
 
 .card-title-expense { -fx-text-fill: #7F1D1D; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-amount-expense { -fx-text-fill: #991B1B; -fx-font-size: 26px; -fx-font-weight: 800; }
+.card-amount-expense { -fx-text-fill: #B91C1C; -fx-font-size: 26px; -fx-font-weight: 800; }
 
-.card-title-budget { -fx-text-fill: #0C4A6E; -fx-font-weight: 800; -fx-font-size: 13px; }
-.card-amount-budget { -fx-text-fill: #0369A1; -fx-font-size: 26px; -fx-font-weight: 800; }
+.card-title-budget { -fx-text-fill: #075985; -fx-font-weight: 800; -fx-font-size: 13px; }
+.card-amount-budget { -fx-text-fill: #0284C7; -fx-font-size: 26px; -fx-font-weight: 800; }
 
-.card-title-savings { -fx-text-fill: #4C1D95; -fx-font-weight: 800; -fx-font-size: 13px; }
+.card-title-savings { -fx-text-fill: #581C87; -fx-font-weight: 800; -fx-font-size: 13px; }
 .card-goal-name { -fx-text-fill: #1E1B4B; -fx-font-size: 13px; -fx-font-weight: 700; }
 
 .forecast-title { -fx-text-fill: #3730A3; -fx-font-weight: 800; }
 .forecast-value { -fx-text-fill: #4338CA; -fx-font-weight: 800; }
-.forecast-value-under { -fx-text-fill: #059669; -fx-font-weight: 800; }
-.forecast-value-over { -fx-text-fill: #DC2626; -fx-font-weight: 800; }
+.forecast-value-under { -fx-text-fill: #047857; -fx-font-weight: 800; }
+.forecast-value-over { -fx-text-fill: #B91C1C; -fx-font-weight: 800; }
 
 .top-bar-background {
     -fx-background-color: #FFFFFF;
@@ -348,34 +350,34 @@ Button, .button {
     -fx-border-width: 1px;
 }
 
-/* Card variations — clearly tinted solid backgrounds so text is always readable */
+/* Card variations — clearly tinted solid backgrounds with polished border accents */
 .card-balance {
-    -fx-background-color: #EEF2FF;
-    -fx-border-color: #C7D2FE;
+    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #EEF2FF 100%);
+    -fx-border-color: #818CF8;
     -fx-border-width: 1.5px;
 }
 
 .card-income {
-    -fx-background-color: #ECFDF5;
-    -fx-border-color: #6EE7B7;
+    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #ECFDF5 100%);
+    -fx-border-color: #34D399;
     -fx-border-width: 1.5px;
 }
 
 .card-expense {
-    -fx-background-color: #FEF2F2;
-    -fx-border-color: #FECACA;
+    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #FEF2F2 100%);
+    -fx-border-color: #F87171;
     -fx-border-width: 1.5px;
 }
 
 .card-budget {
-    -fx-background-color: #E0F2FE;
-    -fx-border-color: #BAE6FD;
+    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #E0F2FE 100%);
+    -fx-border-color: #38BDF8;
     -fx-border-width: 1.5px;
 }
 
 .card-savings {
-    -fx-background-color: #F5F3FF;
-    -fx-border-color: #DDD6FE;
+    -fx-background-color: linear-gradient(to bottom right, #FFFFFF 0%, #F5F3FF 100%);
+    -fx-border-color: #A78BFA;
     -fx-border-width: 1.5px;
 }
 
@@ -472,22 +474,29 @@ Button, .button {
     -fx-background-radius: 12px;
     -fx-border-radius: 12px;
     -fx-border-color: #E2E8F0;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 20, 0, 0, 6);
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.15), 24, 0, 0, 8);
     -fx-padding: 6px;
 }
 
 .menu-item {
     -fx-padding: 8px 16px;
     -fx-background-radius: 8px;
+    -fx-cursor: hand;
 }
 
-.menu-item:hover {
+.menu-item .label {
+    -fx-text-fill: #1E293B;
+    -fx-font-weight: 600;
+}
+
+.menu-item:hover, .menu-item:focused {
     -fx-background-color: #EEF2FF;
 }
 
-.menu-item:hover .label {
+.menu-item:hover .label, .menu-item:focused .label {
     -fx-text-fill: #4F46E5;
-    -fx-font-weight: 600;
+    -fx-font-weight: 700;
 }
 
 /* ===== SCROLL PANE & SCROLL BAR ===== */

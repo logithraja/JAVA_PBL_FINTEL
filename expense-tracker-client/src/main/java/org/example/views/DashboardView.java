@@ -230,6 +230,20 @@ public class DashboardView {
         systemMenu.getItems().addAll(aboutUsMenuItem, logoutMenuItem);
 
         menuBar.getMenus().addAll(categoryMenu, savingsMenu, budgetMenu, exportMenu, currencyMenu, systemMenu);
+
+        // Auto-dismiss dropdowns when mouse exits
+        for (Menu menu : menuBar.getMenus()) {
+            menu.setOnShown(e -> {
+                javafx.scene.Node popup = menuBar.lookup(".context-menu");
+                if (popup != null) {
+                    popup.setOnMouseExited(me -> {
+                        if (menu.isShowing()) {
+                            menu.hide();
+                        }
+                    });
+                }
+            });
+        }
         
         javafx.scene.layout.Region spacer = new javafx.scene.layout.Region();
         javafx.scene.layout.HBox.setHgrow(spacer, Priority.ALWAYS);
