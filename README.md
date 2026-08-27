@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/Finvora_readme.png" alt="Finvora" width="470" style="border-radius:12px"/>
+  <img src="assets/Fintel_readme.png" alt="Fintel" width="470" style="border-radius:12px"/>
 </div>
 
 <br />
@@ -36,6 +36,10 @@
 
 <a href="https://openjfx.io/">
   <img src="https://img.shields.io/badge/JavaFX-1976D2?style=for-the-badge&logo=openjdk&logoColor=white" alt="JavaFX"/>
+</a>
+
+<a href="https://www.mysql.com/">
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/>
 </a>
 
 <a href="https://deepmind.google/technologies/gemini/">
@@ -77,7 +81,7 @@
 ---
 ## What you get
 <div align="center">
-<img src="assets/dashboard.png" alt="Finvora — overview" width="100%" />
+<img src="assets/dashboard.png" alt="Fintel — overview" width="100%" />
 
 </div>
 <details>
@@ -107,6 +111,63 @@
 - **AI Receipt Scanner** — upload receipts to automatically extract names, amounts, and dates with zero manual entry.
 - **Multi-LLM Engine** — resilient routing powered by OpenAI, Mistral, and Gemini with automatic timeout & fallback.
 - **Predictive AI Alerts** — real-time anomaly detection and proactive budget threshold warnings.
+
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+#### 🔮 Future You — Scenario Engine
+
+- **What-If Simulation** — simulate a large purchase and project its impact on your budget and savings goals over 12 months.
+- **Baseline Forecasting** — linear regression per category using historical transaction data (min 3 months).
+- **Monte Carlo Simulation** — 1000-iteration probabilistic projections with confidence intervals.
+- **Vulnerability Classification** — detects overspending patterns using coefficient of variation, trend analysis, and overspend frequency.
+- **Goal Impact Analysis** — shows how a scenario affects each savings goal's deadline and required monthly contributions.
+
+</td>
+<td width="50%" valign="top">
+
+#### ❤️ Financial Health Score
+
+- **Overall Score (0-100)** with letter grade (A+ through F) and animated gauge visualization.
+- **Savings Rate** — measures income vs. expenses over time.
+- **Spending Consistency** — coefficient of variation analysis of monthly expenses.
+- **Goal Progress** — average progress across all savings goals.
+- **Budget Adherence** — percentage of months spent within the average.
+- **Personalized Recommendations** — actionable tips based on weak score components.
+
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+#### 🎨 UI / UX
+
+- **Sidebar Navigation** — persistent sidebar with profile card, section labels, and active-item highlighting.
+- **Time-Aware Greeting** — dashboard greets you by time of day (Good Morning / Afternoon / Evening).
+- **Sparkline Charts** — mini inline charts on stat cards showing income, expense, and balance trends.
+- **Chat Bubble Redesign** — AI chat uses styled message bubbles with avatars, typing indicator, and fade-in animations.
+- **Theme Toggle** — light/dark mode switch applied globally.
+- **Dialog Icons** — all popup dialogs display the Fintel app icon in the title bar.
+
+</td>
+<td width="50%" valign="top">
+
+#### 🏗️ Architecture highlights
+
+- **Java-only stack** — pure JavaFX client + Spring Boot server, no Python/R.
+- **Modular backend** — separate services for forecasting, vulnerability classification, scenario simulation, and health scoring.
+- **MySQL production database** — H2 used for tests only.
+- **Apache Commons Math** — statistical analysis (regression, descriptive statistics, probability distributions).
+- **97 automated tests** — comprehensive coverage across controllers and services.
+- **Swagger / OpenAPI** — auto-generated API documentation at `/swagger-ui.html`.
 
 </td>
 </tr>
@@ -154,9 +215,9 @@
 <tr>
 
 <td align="center" width="180" height="180">
-<a href="https://www.h2database.com/">
-<img src="https://www.h2database.com/html/images/h2-logo-2.png" width="90"/><br><br>
-<b>H2 Database</b>
+<a href="https://www.mysql.com/">
+<img src="https://skillicons.dev/icons?i=mysql" width="90"/><br><br>
+<b>MySQL 8</b>
 </a>
 </td>
 
@@ -188,7 +249,7 @@
 
 <h2 id="architecture">🏛️ Overall System Architecture</h2>
 
-The application follows a decoupled client-server architecture, allowing rapid local processing backed by cloud AI inference.
+The application follows a decoupled client-server architecture, allowing rapid local processing backed by cloud AI inference and statistical analysis.
 
 ```mermaid
 graph TD
@@ -209,6 +270,10 @@ graph TD
         TC[TransactionController / TransactionService]
         CC[TransactionCategoryController / Service]
         GC[SavingsGoalController / Service]
+        FS[ForecastService]
+        VS[VulnerabilityClassifier]
+        SS[ScenarioSimulationService]
+        HS[HealthScoreService]
     end
 
     subgraph External AI APIs
@@ -218,7 +283,7 @@ graph TD
     end
 
     subgraph Storage Layer
-        DB[(H2 Database / MySQL / PostgreSQL)]
+        DB[(MySQL 8 Database)]
     end
 
     A --> AC
@@ -226,7 +291,9 @@ graph TD
     Sec --> JWT
     JWT --> UC & TC & CC & GC
     UC & TC & CC & GC --> DB
-    
+
+    FS & VS & SS & HS --> DB
+
     A --> Env
     A -->|AI Fallback Chain| OpenAI
     OpenAI -.->|Fallback 1| Mistral
@@ -241,6 +308,7 @@ graph TD
 
 - **Java Development Kit (JDK)**: JDK 17, JDK 21, or JDK 26.
 - **Apache Maven**: Version 3.9+ installed and on system PATH.
+- **MySQL Server 8**: Running on `localhost:3306` with a configured root user.
 
 ### 1. Clone Repository
 
@@ -249,7 +317,24 @@ git clone https://github.com/yuvanvishnupandi/Finance_Tracker_APP.git
 cd Finance_Tracker_APP
 ```
 
-### 2. Configure Environment Variables
+### 2. Configure Database
+
+Create the MySQL database:
+
+```sql
+CREATE DATABASE expense_tracker_db;
+```
+
+The server connects using these defaults (configurable in `expense-tracker-springboot-server/src/main/resources/application-dev.properties`):
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/expense_tracker_db
+spring.datasource.username=root
+spring.datasource.password=your_password
+spring.jpa.hibernate.ddl-auto=update
+```
+
+### 3. Configure Environment Variables
 
 Create a `.env` file in the root directory (or set system environment variables):
 
@@ -264,10 +349,10 @@ MISTRAL_API_KEY=your_mistral_api_key_here
 GEMINI_API_KEY=your_gemini_api_key_here
 
 # Client Backend Endpoint
-FINVORA_API_URL=http://localhost:8080
+FINTEL_API_URL=http://localhost:8080
 ```
 
-### 3. Start Spring Boot Server
+### 4. Start Spring Boot Server
 
 ```bash
 cd expense-tracker-springboot-server
@@ -278,7 +363,7 @@ mvn spring-boot:run
 - Interactive OpenAPI / Swagger UI: `http://localhost:8080/swagger-ui.html`
 - OpenAPI JSON documentation: `http://localhost:8080/v3/api-docs`
 
-### 4. Start JavaFX Frontend Client
+### 5. Start JavaFX Frontend Client
 
 In a separate terminal:
 
@@ -294,27 +379,31 @@ mvn compile javafx:run
 Run the automated test suites for both modules:
 
 ```bash
-# Run server unit and integration tests (54 tests)
+# Run server unit and integration tests (97 tests)
 mvn test -f expense-tracker-springboot-server/pom.xml
 
 # Run client tests
 mvn test -f expense-tracker-client/pom.xml
 ```
 
+Tests run against an in-memory H2 database (configured in `application-test.properties`), so no MySQL instance is needed to run the test suite.
+
 <br />
 
 <h2 id="environment-variables">Configuration Reference</h2>
 
 <details>
-<summary><b>Server Profiles & Properties</b></summary>
+<summary><b>Server Profiles & Properties</summary>
 
-| Property | Default | Description |
+| Property | Profile | Description |
 |----------|---------|-------------|
-| `spring.profiles.active` | `dev` | Active environment profile (`dev`, `prod`) |
+| `spring.profiles.active` | `dev` | Active environment profile (`dev` = MySQL, `test` = H2 in-memory) |
 | `server.port` | `8080` | Backend HTTP API port |
-| `app.jwt.secret` | (32+ char HMAC key) | Secret for signing HMAC-SHA256 JWT tokens |
-| `app.jwt.expiration-ms` | `86400000` | Token expiration in milliseconds (24h) |
-| `spring.datasource.url` | `jdbc:h2:file:./data/expense_tracker_db` | H2 database URL |
+| `spring.datasource.url` (dev) | `dev` | `jdbc:mysql://localhost:3306/expense_tracker_db` |
+| `spring.datasource.url` (test) | `test` | `jdbc:h2:mem:testdb` (in-memory, auto-closed) |
+| `spring.jpa.hibernate.ddl-auto` | `dev` | `update` (auto-creates/updates tables) |
+| `app.jwt.secret` | `dev` | 32+ char HMAC key for JWT signing |
+| `app.jwt.expiration-ms` | `dev` | Token expiration in milliseconds (24h) |
 
 </details>
 
@@ -331,4 +420,4 @@ mvn test -f expense-tracker-client/pom.xml
 
 ## License
 
-Finvora is [MIT licensed](LICENSE).
+Fintel is [MIT licensed](LICENSE).

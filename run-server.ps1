@@ -5,7 +5,7 @@ if (-not (Get-Command "mvn" -ErrorAction SilentlyContinue)) {
     }
 }
 Write-Host "=========================================" -ForegroundColor Cyan
-Write-Host " Starting Finvora Spring Boot Server... " -ForegroundColor Green
+Write-Host " Starting Fintel Spring Boot Server... " -ForegroundColor Green
 Write-Host "=========================================" -ForegroundColor Cyan
-Set-Location -Path "$PSScriptRoot\expense-tracker-springboot-server"
+Set-Location -Path "$PSScriptRoot\fintel-springboot-server"
 & $mavenCmd spring-boot:run

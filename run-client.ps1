@@ -5,7 +5,7 @@ if (-not (Get-Command "mvn" -ErrorAction SilentlyContinue)) {
     }
 }
 Write-Host "=========================================" -ForegroundColor Cyan
-Write-Host " Starting Finvora JavaFX Desktop App...  " -ForegroundColor Green
+Write-Host " Starting Fintel JavaFX Desktop App...  " -ForegroundColor Green
 Write-Host "=========================================" -ForegroundColor Cyan
-Set-Location -Path "$PSScriptRoot\expense-tracker-client"
+Set-Location -Path "$PSScriptRoot\fintel-client"
 & $mavenCmd compile javafx:run

@@ -1,5 +1,5 @@
 Write-Host "=========================================" -ForegroundColor Cyan
-Write-Host " Launching Finvora Complete System...    " -ForegroundColor Green
+Write-Host " Launching Fintel Complete System...    " -ForegroundColor Green
 Write-Host "=========================================" -ForegroundColor Cyan
 
 $serverScript = "$PSScriptRoot\run-server.ps1"
