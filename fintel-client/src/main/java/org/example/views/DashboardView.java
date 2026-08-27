@@ -292,14 +292,11 @@ public class DashboardView {
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        Label systemLabel = new Label("SYSTEM");
-        systemLabel.getStyleClass().add("sidebar-section-label");
-
         Button logoutBtn = createSidebarButton("🚪  Logout");
         logoutBtn.setStyle("-fx-text-fill: #EF4444;");
         logoutBtn.setOnAction(e -> logoutMenuItem.fire());
 
-        sidebar.getChildren().addAll(logo, userArea, navLabel, dashboardBtn, categoriesBtn, goalsBtn, budgetsBtn, whatIfBtn, healthScoreBtn, exportBtn, currencyBtn, spacer, systemLabel, logoutBtn);
+        sidebar.getChildren().addAll(logo, userArea, navLabel, dashboardBtn, categoriesBtn, goalsBtn, budgetsBtn, whatIfBtn, healthScoreBtn, exportBtn, currencyBtn, spacer, logoutBtn);
         return sidebar;
     }
 
