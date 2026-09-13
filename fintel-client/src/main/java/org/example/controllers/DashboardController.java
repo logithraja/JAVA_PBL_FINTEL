@@ -19,6 +19,7 @@ import org.example.dialogs.CreateNewCategoryDialog;
 import org.example.dialogs.CreateOrEditTransactionDialog;
 import org.example.dialogs.CurrencyConverterDialog;
 import org.example.dialogs.ExportDataDialog;
+import org.example.dialogs.ImportDataDialog;
 import org.example.dialogs.SetBudgetDialog;
 import org.example.dialogs.ViewChartDialog;
 import org.example.dialogs.ViewGoalsDialog;
@@ -396,6 +397,14 @@ public class DashboardController {
         });
     }
 
+    private void refreshAfterImport() {
+        javafx.application.Platform.runLater(() -> {
+            loadBalances();
+            loadRecents();
+            updateSpendingForecast();
+        });
+    }
+
     private void initListeners() {
         view.getCreateCategoryMenuItem().setOnAction(e -> new CreateNewCategoryDialog(user).showAndWait());
         view.getViewCategoriesMenuItem().setOnAction(e -> new ViewOrEditTransactionCategoryDialog(user, this).showAndWait());
@@ -466,6 +475,10 @@ public class DashboardController {
                 ex.printStackTrace();
                 org.example.dialogs.FintelAlert.showError("Export failed: " + ex.getMessage());
             }
+        });
+
+        view.getImportDataMenuItem().setOnAction(e -> {
+            new ImportDataDialog(user, this::refreshAfterImport).showAndWait();
         });
 
         view.getGeneratePdfReportMenuItem().setOnAction(e -> {

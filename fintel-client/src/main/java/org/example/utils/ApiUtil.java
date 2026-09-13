@@ -42,11 +42,11 @@ public class ApiUtil {
         clearTokens();
     }
 
-    public static HttpURLConnection fetchApi(String apiPath, RequestMethod requestMethod, JsonObject jsonData) {
+    public static HttpURLConnection fetchApi(String apiPath, RequestMethod requestMethod, com.google.gson.JsonElement jsonData) {
         return fetchApiInternal(apiPath, requestMethod, jsonData, false);
     }
 
-    private static HttpURLConnection fetchApiInternal(String apiPath, RequestMethod requestMethod, JsonObject jsonData, boolean isRetry) {
+    private static HttpURLConnection fetchApiInternal(String apiPath, RequestMethod requestMethod, com.google.gson.JsonElement jsonData, boolean isRetry) {
         try {
             String baseUrl = EnvConfig.getApiBaseUrl();
             URL url = new URL(baseUrl + apiPath);

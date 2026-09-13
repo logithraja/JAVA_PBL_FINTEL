@@ -50,6 +50,9 @@ public class Budget {
 
     private Integer quarter;
 
+    @Column(nullable = false)
+    private boolean rollover = false;
+
     public Budget() {}
 
     public Budget(Integer id, User user, String category, BigDecimal limitAmount,
@@ -91,4 +94,7 @@ public class Budget {
 
     public Integer getQuarter() { return quarter; }
     public void setQuarter(Integer quarter) { this.quarter = quarter; }
+
+    public boolean isRollover() { return rollover; }
+    public void setRollover(boolean rollover) { this.rollover = rollover; }
 }

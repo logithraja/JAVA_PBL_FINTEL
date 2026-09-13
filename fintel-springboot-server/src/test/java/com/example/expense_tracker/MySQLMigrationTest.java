@@ -29,7 +29,8 @@ public class MySQLMigrationTest {
         assertNotNull(flyway, "Flyway should be configured");
         var info = flyway.info().current();
         assertNotNull(info, "Migration should be applied");
-        System.out.println("Current migration version on MySQL: " + info.getVersion());
-        assertTrue(info.getState().isApplied(), "V1 migration must be applied");
+        System.out.println("Current migration version on MySQL: " + info.getVersion().getVersion());
+        assertTrue(info.getState().isApplied(), "Migrations must be applied");
+        assertTrue(info.getVersion().compareTo(org.flywaydb.core.api.MigrationVersion.fromVersion("1")) >= 0);
     }
 }

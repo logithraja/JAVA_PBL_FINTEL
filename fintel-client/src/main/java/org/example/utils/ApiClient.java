@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ApiClient {
@@ -566,6 +567,26 @@ public class ApiClient {
                     "/api/v1/transaction",
                     ApiUtil.RequestMethod.POST,
                     transactionData
+            );
+            if (conn == null) return false;
+
+            return conn.getResponseCode() == 201 || conn.getResponseCode() == 200;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) conn.disconnect();
+        }
+
+        return false;
+    }
+
+    public static boolean postTransactionsBulk(JsonArray transactionsArray) {
+        HttpURLConnection conn = null;
+        try {
+            conn = ApiUtil.fetchApi(
+                    "/api/v1/transaction/bulk",
+                    ApiUtil.RequestMethod.POST,
+                    transactionsArray
             );
             if (conn == null) return false;
 

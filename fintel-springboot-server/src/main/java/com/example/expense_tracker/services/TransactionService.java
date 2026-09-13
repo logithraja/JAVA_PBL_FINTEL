@@ -107,6 +107,17 @@ public class TransactionService {
     }
 
     @Transactional
+    public List<Transaction> createTransactionsBulk(List<Transaction> transactions) {
+        log.info("Bulk creating {} transactions", transactions != null ? transactions.size() : 0);
+        List<Transaction> result = new ArrayList<>();
+        if (transactions == null) return result;
+        for (Transaction t : transactions) {
+            result.add(createTransaction(t));
+        }
+        return result;
+    }
+
+    @Transactional
     public Transaction createTransaction(Transaction transaction) {
         log.info("Creating transaction: {}", transaction.getTransactionName());
 

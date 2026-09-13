@@ -139,6 +139,24 @@ public class TransactionController {
         return ResponseEntity.ok(forecast);
     }
 
+    @Operation(summary = "Bulk create transactions")
+    @PostMapping("/bulk")
+    public ResponseEntity<List<Transaction>> createTransactionsBulk(
+            @Valid @RequestBody List<Transaction> transactions,
+            @AuthenticationPrincipal UserPrincipal principal
+    ) {
+        if (transactions == null || transactions.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        for (Transaction t : transactions) {
+            if (t.getUser() != null && t.getUser().getId() != null) {
+                verifyUserOwnership(t.getUser().getId(), principal);
+            }
+        }
+        List<Transaction> created = transactionService.createTransactionsBulk(transactions);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
     @Operation(summary = "Create a new transaction")
     @PostMapping
     public ResponseEntity<Transaction> createTransaction(

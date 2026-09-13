@@ -56,6 +56,7 @@ public class BudgetService {
             existing.setPeriodType(b.getPeriodType());
             existing.setMonth(b.getMonth());
             existing.setQuarter(b.getQuarter());
+            existing.setRollover(b.isRollover());
             if (b.getUser() != null) {
                 existing.setUser(b.getUser());
             }
@@ -68,6 +69,31 @@ public class BudgetService {
             b.setUser(user);
         }
         return budgets.save(b);
+    }
+
+    public java.math.BigDecimal calculateEffectiveLimit(Budget b) {
+        if (!b.isRollover() || b.getPeriodType() != Budget.PeriodType.MONTHLY || b.getMonth() == null || b.getUser() == null) {
+            return b.getLimitAmount();
+        }
+        int prevYear = b.getMonth() == 1 ? b.getYear() - 1 : b.getYear();
+        int prevMonth = b.getMonth() == 1 ? 12 : b.getMonth() - 1;
+
+        Optional<Budget> prevBudget = budgets.findByUserId(b.getUser().getId()).stream()
+                .filter(other -> other.getPeriodType() == Budget.PeriodType.MONTHLY
+                        && other.getCategory().equalsIgnoreCase(b.getCategory())
+                        && other.getYear() == prevYear
+                        && other.getMonth() != null && other.getMonth() == prevMonth)
+                .findFirst();
+
+        if (prevBudget.isPresent()) {
+            Budget pb = prevBudget.get();
+            java.math.BigDecimal prevSpent = pb.getSpentAmount() != null ? pb.getSpentAmount() : java.math.BigDecimal.ZERO;
+            java.math.BigDecimal leftover = pb.getLimitAmount().subtract(prevSpent);
+            if (leftover.compareTo(java.math.BigDecimal.ZERO) > 0) {
+                return b.getLimitAmount().add(leftover);
+            }
+        }
+        return b.getLimitAmount();
     }
 
     public void delete(Integer id) {

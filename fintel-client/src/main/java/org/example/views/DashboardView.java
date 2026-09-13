@@ -47,6 +47,7 @@ public class DashboardView {
 
     private MenuItem createCategoryMenuItem, viewCategoriesMenuItem, logoutMenuItem;
     private MenuItem exportDataMenuItem;
+    private MenuItem importDataMenuItem;
     private MenuItem generatePdfReportMenuItem;
     private MenuItem setMonthlyBudgetsMenuItem;
     private MenuItem viewBudgetProgressMenuItem;
@@ -108,6 +109,7 @@ public class DashboardView {
         aiAlertsButton.getStyleClass().add("btn-secondary");
         aiAlertsButton.setStyle("-fx-font-size: 13px; -fx-padding: 6px 12px;");
         exportDataMenuItem = new MenuItem("Export Data");
+        importDataMenuItem = new MenuItem("Import CSV Data");
         generatePdfReportMenuItem = new MenuItem("Generate PDF Report");
         logoutMenuItem = new MenuItem("Logout");
         setMonthlyBudgetsMenuItem = new MenuItem("Set Monthly Budgets");
@@ -651,6 +653,7 @@ public class DashboardView {
     public MenuItem getCreateCategoryMenuItem() { return createCategoryMenuItem; }
     public MenuItem getViewCategoriesMenuItem() { return viewCategoriesMenuItem; }
     public MenuItem getExportDataMenuItem() { return exportDataMenuItem; }
+    public MenuItem getImportDataMenuItem() { return importDataMenuItem; }
     public MenuItem getGeneratePdfReportMenuItem() { return generatePdfReportMenuItem; }
     public MenuItem getLogoutMenuItem() { return logoutMenuItem; }
     public MenuItem getSetMonthlyBudgetsMenuItem() { return setMonthlyBudgetsMenuItem; }

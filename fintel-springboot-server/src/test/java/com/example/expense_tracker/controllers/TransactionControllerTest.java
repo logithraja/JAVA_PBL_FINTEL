@@ -196,4 +196,16 @@ public class TransactionControllerTest {
                 .andExpect(jsonPath("$.totalElements").value(1))
                 .andExpect(jsonPath("$.totalPages").value(1));
     }
+
+    @Test
+    void testCreateTransactionsBulk_Success() throws Exception {
+        when(transactionService.createTransactionsBulk(any())).thenReturn(List.of(sampleTransaction));
+
+        mockMvc.perform(post("/api/v1/transaction/bulk")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(List.of(sampleTransaction)))
+                        .with(authentication(authPrincipalUser1)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$[0].transactionName").value("Coffee"));
+    }
 }
