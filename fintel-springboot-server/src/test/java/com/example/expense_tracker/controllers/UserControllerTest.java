@@ -37,8 +37,16 @@ public class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private com.example.expense_tracker.security.RateLimitingService rateLimitingService;
+
     @MockBean
     private UserService userService;
+
+    @org.junit.jupiter.api.BeforeEach
+    void setUp() {
+        rateLimitingService.reset();
+    }
 
     @Test
     void testSignup_Success() throws Exception {

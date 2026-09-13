@@ -29,6 +29,9 @@ public class SecurityConfig {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
+    private RateLimitingFilter rateLimitingFilter;
+
+    @Autowired
     private CorsConfigurationSource corsConfigurationSource;
 
     @Bean
@@ -55,6 +58,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/user/exists").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user/forgot-password").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user/reset-password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/user/refresh").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/user/logout").permitAll()
                         // Swagger & OpenAPI endpoints
                         .requestMatchers(
                                 "/v3/api-docs/**",
@@ -71,6 +76,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 );
 
+        http.addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

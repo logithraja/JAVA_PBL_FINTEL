@@ -63,6 +63,7 @@ public class AuthDtos {
 
     public static class AuthResponse {
         private String token;
+        private String refreshToken;
         private String tokenType = "Bearer";
         private Integer id;
         private String name;
@@ -71,7 +72,12 @@ public class AuthDtos {
         public AuthResponse() {}
 
         public AuthResponse(String token, Integer id, String name, String email) {
+            this(token, null, id, name, email);
+        }
+
+        public AuthResponse(String token, String refreshToken, Integer id, String name, String email) {
             this.token = token;
+            this.refreshToken = refreshToken;
             this.id = id;
             this.name = name;
             this.email = email;
@@ -79,6 +85,9 @@ public class AuthDtos {
 
         public String getToken() { return token; }
         public void setToken(String token) { this.token = token; }
+
+        public String getRefreshToken() { return refreshToken; }
+        public void setRefreshToken(String refreshToken) { this.refreshToken = refreshToken; }
 
         public String getTokenType() { return tokenType; }
         public void setTokenType(String tokenType) { this.tokenType = tokenType; }
@@ -91,6 +100,38 @@ public class AuthDtos {
 
         public String getEmail() { return email; }
         public void setEmail(String email) { this.email = email; }
+    }
+
+    public static class RefreshTokenRequest {
+        @NotBlank(message = "Refresh token is required")
+        private String refreshToken;
+
+        public RefreshTokenRequest() {}
+        public RefreshTokenRequest(String refreshToken) { this.refreshToken = refreshToken; }
+
+        public String getRefreshToken() { return refreshToken; }
+        public void setRefreshToken(String refreshToken) { this.refreshToken = refreshToken; }
+    }
+
+    public static class TokenRefreshResponse {
+        private String token;
+        private String refreshToken;
+        private String tokenType = "Bearer";
+
+        public TokenRefreshResponse() {}
+        public TokenRefreshResponse(String token, String refreshToken) {
+            this.token = token;
+            this.refreshToken = refreshToken;
+        }
+
+        public String getToken() { return token; }
+        public void setToken(String token) { this.token = token; }
+
+        public String getRefreshToken() { return refreshToken; }
+        public void setRefreshToken(String refreshToken) { this.refreshToken = refreshToken; }
+
+        public String getTokenType() { return tokenType; }
+        public void setTokenType(String tokenType) { this.tokenType = tokenType; }
     }
 
     public static class UserResponse {

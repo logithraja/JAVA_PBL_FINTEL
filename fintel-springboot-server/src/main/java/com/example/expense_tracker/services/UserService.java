@@ -38,6 +38,28 @@ public class UserService {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private com.example.expense_tracker.repositories.RefreshTokenRepository refreshTokenRepository;
+
+    @org.springframework.beans.factory.annotation.Value("${jwt.refresh-expiration-ms:604800000}")
+    private long refreshExpirationMs;
+
+    private String hashToken(String token) {
+        try {
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(token.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-256 algorithm not available", e);
+        }
+    }
+
     public Optional<User> getUserById(int userId) {
         log.info("Getting the user by id: {}", userId);
         return userRepository.findById(userId);
@@ -67,6 +89,64 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional
+    public String createRefreshToken(Integer userId) {
+        String rawToken = UUID.randomUUID().toString() + "-" + UUID.randomUUID().toString();
+        String hash = hashToken(rawToken);
+        java.time.Instant expiresAt = java.time.Instant.now().plusMillis(refreshExpirationMs);
+        com.example.expense_tracker.entities.RefreshToken rt = new com.example.expense_tracker.entities.RefreshToken(hash, userId, expiresAt);
+        refreshTokenRepository.save(rt);
+        return rawToken;
+    }
+
+    @Transactional
+    public AuthDtos.TokenRefreshResponse refreshAccessToken(String rawRefreshToken) {
+        if (rawRefreshToken == null || rawRefreshToken.isBlank()) {
+            throw new com.example.expense_tracker.exceptions.UnauthorizedException("Refresh token is required");
+        }
+
+        String hash = hashToken(rawRefreshToken.trim());
+        com.example.expense_tracker.entities.RefreshToken storedToken = refreshTokenRepository.findByTokenHash(hash)
+                .orElseThrow(() -> new com.example.expense_tracker.exceptions.UnauthorizedException("Invalid refresh token"));
+
+        if (storedToken.isRevoked()) {
+            log.warn("Refresh token reuse detected for user ID: {}! Revoking all refresh tokens.", storedToken.getUserId());
+            refreshTokenRepository.revokeAllByUserId(storedToken.getUserId());
+            throw new com.example.expense_tracker.exceptions.UnauthorizedException("Refresh token reuse detected. Please log in again.");
+        }
+
+        if (storedToken.isExpired()) {
+            storedToken.setRevoked(true);
+            refreshTokenRepository.save(storedToken);
+            throw new com.example.expense_tracker.exceptions.UnauthorizedException("Refresh token expired. Please log in again.");
+        }
+
+        // Invalidate the consumed refresh token (token rotation)
+        storedToken.setRevoked(true);
+        refreshTokenRepository.save(storedToken);
+
+        User user = userRepository.findById(storedToken.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        UserPrincipal principal = UserPrincipal.create(user);
+        String newAccessToken = jwtTokenProvider.generateToken(principal);
+        String newRefreshToken = createRefreshToken(user.getId());
+
+        return new AuthDtos.TokenRefreshResponse(newAccessToken, newRefreshToken);
+    }
+
+    @Transactional
+    public void revokeRefreshToken(String rawRefreshToken) {
+        if (rawRefreshToken == null || rawRefreshToken.isBlank()) return;
+        String hash = hashToken(rawRefreshToken.trim());
+        refreshTokenRepository.findByTokenHash(hash).ifPresent(rt -> {
+            rt.setRevoked(true);
+            refreshTokenRepository.save(rt);
+            log.info("Refresh token revoked for user ID: {}", rt.getUserId());
+        });
+    }
+
+    @Transactional
     public AuthDtos.AuthResponse login(String email, String rawPassword) {
         log.info("Authenticating user with email: {}", email);
 
@@ -79,8 +159,9 @@ public class UserService {
 
         UserPrincipal principal = UserPrincipal.create(user);
         String token = jwtTokenProvider.generateToken(principal);
+        String refreshToken = createRefreshToken(user.getId());
 
-        return new AuthDtos.AuthResponse(token, user.getId(), user.getName(), user.getEmail());
+        return new AuthDtos.AuthResponse(token, refreshToken, user.getId(), user.getName(), user.getEmail());
     }
 
     @Transactional

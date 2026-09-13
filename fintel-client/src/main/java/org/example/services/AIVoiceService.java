@@ -175,44 +175,21 @@ public class AIVoiceService {
     }
 
     private File generateSpeech(String text) throws Exception {
-        java.io.ByteArrayOutputStream outputStream = new java.io.ByteArrayOutputStream();
-        
-        // Split text into chunks of roughly 150 characters to stay safely under Google's 200 char limit
-        String[] words = text.split(" ");
-        StringBuilder currentChunk = new StringBuilder();
-        
-        for (String word : words) {
-            if (currentChunk.length() + word.length() + 1 > 150) {
-                downloadGoogleTTSChunk(currentChunk.toString().trim(), outputStream);
-                currentChunk = new StringBuilder();
+        com.google.gson.JsonObject payload = new com.google.gson.JsonObject();
+        payload.addProperty("text", text);
+
+        java.net.HttpURLConnection conn = org.example.utils.ApiUtil.fetchApi("/api/v1/ai/voice", org.example.utils.ApiUtil.RequestMethod.POST, payload);
+        if (conn != null && conn.getResponseCode() == 200) {
+            try (java.io.InputStream is = conn.getInputStream()) {
+                byte[] bytes = is.readAllBytes();
+                if (bytes != null && bytes.length > 0) {
+                    File mp3 = File.createTempFile("advice", ".mp3");
+                    Files.write(mp3.toPath(), bytes);
+                    return mp3;
+                }
             }
-            currentChunk.append(word).append(" ");
         }
-        if (currentChunk.length() > 0) {
-            downloadGoogleTTSChunk(currentChunk.toString().trim(), outputStream);
-        }
-
-        File mp3 = File.createTempFile("advice", ".mp3");
-        java.nio.file.Files.write(mp3.toPath(), outputStream.toByteArray());
-        return mp3;
-    }
-
-    private void downloadGoogleTTSChunk(String chunk, java.io.ByteArrayOutputStream outputStream) throws Exception {
-        if (chunk.isEmpty()) return;
-        String encodedText = java.net.URLEncoder.encode(chunk, StandardCharsets.UTF_8);
-        String urlString = "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=" + encodedText;
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(urlString))
-                .GET()
-                .build();
-
-        HttpResponse<byte[]> response = httpClient.send(request, HttpResponse.BodyHandlers.ofByteArray());
-        if (response.statusCode() == 200) {
-            outputStream.write(response.body());
-        } else {
-            System.err.println("Google TTS Error: HTTP " + response.statusCode());
-        }
+        throw new Exception("Voice synthesis failed: Backend AI voice proxy unavailable (HTTP " + (conn != null ? conn.getResponseCode() : "no response") + ")");
     }
 
     private void playAudio(File audioFile) {

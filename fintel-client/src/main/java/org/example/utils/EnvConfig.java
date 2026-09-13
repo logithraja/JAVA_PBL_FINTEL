@@ -69,18 +69,6 @@ public class EnvConfig {
         return defaultValue;
     }
 
-    public static String getOpenAiKey() {
-        return get("OPENAI_API_KEY", get("OPENAI_KEY", ""));
-    }
-
-    public static String getMistralKey() {
-        return get("MISTRAL_API_KEY", get("MISTRAL_KEY", ""));
-    }
-
-    public static String getGeminiKey() {
-        return get("GEMINI_API_KEY", get("GEMINI_KEY", ""));
-    }
-
     public static String getApiBaseUrl() {
         return get("FINTEL_API_URL", "http://localhost:8080");
     }

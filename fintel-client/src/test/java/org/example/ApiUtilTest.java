@@ -18,9 +18,12 @@ public class ApiUtilTest {
         assertNull(ApiUtil.getAuthToken());
 
         ApiUtil.setAuthToken("sample-jwt-token-12345");
+        ApiUtil.setRefreshToken("sample-refresh-token-67890");
         assertEquals("sample-jwt-token-12345", ApiUtil.getAuthToken());
+        assertEquals("sample-refresh-token-67890", ApiUtil.getRefreshToken());
 
         ApiUtil.clearAuthToken();
         assertNull(ApiUtil.getAuthToken());
+        assertNull(ApiUtil.getRefreshToken());
     }
 }

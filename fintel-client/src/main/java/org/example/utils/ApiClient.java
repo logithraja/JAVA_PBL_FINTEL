@@ -111,8 +111,12 @@ public class ApiClient {
                     if (json.has("token") && !json.get("token").isJsonNull()) {
                         String token = json.get("token").getAsString();
                         ApiUtil.setAuthToken(token);
-                        return true;
                     }
+                    if (json.has("refreshToken") && !json.get("refreshToken").isJsonNull()) {
+                        String refreshToken = json.get("refreshToken").getAsString();
+                        ApiUtil.setRefreshToken(refreshToken);
+                    }
+                    return true;
                 }
                 return true;
             }
@@ -124,6 +128,21 @@ public class ApiClient {
         } finally {
             if (conn != null) conn.disconnect();
         }
+    }
+
+    public static void logoutUser() {
+        try {
+            String refreshToken = ApiUtil.getRefreshToken();
+            if (refreshToken != null && !refreshToken.trim().isEmpty()) {
+                JsonObject payload = new JsonObject();
+                payload.addProperty("refreshToken", refreshToken);
+                HttpURLConnection conn = ApiUtil.fetchApi("/api/v1/user/logout", ApiUtil.RequestMethod.POST, payload);
+                if (conn != null) {
+                    conn.disconnect();
+                }
+            }
+        } catch (Exception ignored) {}
+        ApiUtil.clearTokens();
     }
 
     public static boolean postCreateUser(JsonObject userData) {

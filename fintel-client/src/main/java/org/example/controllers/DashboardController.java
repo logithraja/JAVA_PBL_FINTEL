@@ -491,7 +491,7 @@ public class DashboardController {
         });
 
         view.getLogoutMenuItem().setOnAction(e -> {
-            org.example.utils.ApiUtil.clearAuthToken();
+            org.example.utils.ApiClient.logoutUser();
             new LoginView().show();
         });
 

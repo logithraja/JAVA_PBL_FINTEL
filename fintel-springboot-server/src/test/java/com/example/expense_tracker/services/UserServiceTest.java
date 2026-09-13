@@ -40,6 +40,9 @@ public class UserServiceTest {
     @Mock
     private JwtTokenProvider jwtTokenProvider;
 
+    @Mock
+    private com.example.expense_tracker.repositories.RefreshTokenRepository refreshTokenRepository;
+
     @InjectMocks
     private UserService userService;
 
@@ -77,10 +80,12 @@ public class UserServiceTest {
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(sampleUser));
         when(passwordEncoder.matches("rawPassword", "encodedPassword")).thenReturn(true);
         when(jwtTokenProvider.generateToken(any())).thenReturn("mockJwtToken");
+        when(refreshTokenRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
         AuthDtos.AuthResponse response = userService.login("test@example.com", "rawPassword");
 
         assertNotNull(response);
+        assertNotNull(response.getRefreshToken());
         assertEquals("mockJwtToken", response.getToken());
         assertEquals("test@example.com", response.getEmail());
     }

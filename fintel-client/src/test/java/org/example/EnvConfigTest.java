@@ -19,11 +19,4 @@ public class EnvConfigTest {
         assertNotNull(baseUrl);
         assertTrue(baseUrl.startsWith("http"));
     }
-
-    @Test
-    void testGetKeysDoNotNullPointer() {
-        assertNotNull(EnvConfig.getOpenAiKey());
-        assertNotNull(EnvConfig.getMistralKey());
-        assertNotNull(EnvConfig.getGeminiKey());
-    }
 }

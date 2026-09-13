@@ -115,4 +115,22 @@ public class UserController {
         userService.resetPassword(request.getToken(), request.getNewPassword());
         return ResponseEntity.ok(Map.of("message", "Password has been successfully reset"));
     }
+
+    @Operation(summary = "Refresh access token using refresh token")
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthDtos.TokenRefreshResponse> refreshToken(@Valid @RequestBody AuthDtos.RefreshTokenRequest request) {
+        log.info("Refreshing access token");
+        AuthDtos.TokenRefreshResponse response = userService.refreshAccessToken(request.getRefreshToken());
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Logout and revoke refresh token")
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, String>> logout(@RequestBody(required = false) AuthDtos.RefreshTokenRequest request) {
+        if (request != null && request.getRefreshToken() != null) {
+            log.info("Revoking refresh token on logout");
+            userService.revokeRefreshToken(request.getRefreshToken());
+        }
+        return ResponseEntity.ok(Map.of("message", "Logged out successfully"));
+    }
 }
