@@ -6,9 +6,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
-@Table(name = "budgets")
+@Table(name = "budgets", indexes = {
+        @Index(name = "idx_budget_user_category", columnList = "user_id, category")
+})
 public class Budget {
 
     public enum PeriodType { MONTHLY, QUARTERLY, YEARLY }
@@ -37,9 +41,11 @@ public class Budget {
     private int year;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "period_type", nullable = false, length = 20)
     private PeriodType periodType;
 
+    @Column(name = "`month`")
     private Integer month;
 
     private Integer quarter;

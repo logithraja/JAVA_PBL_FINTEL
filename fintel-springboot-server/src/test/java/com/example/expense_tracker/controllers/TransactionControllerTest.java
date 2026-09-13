@@ -182,4 +182,18 @@ public class TransactionControllerTest {
                         .with(authentication(authPrincipalUser2)))
                 .andExpect(status().isForbidden());
     }
+
+    @Test
+    void testGetPagedTransactions_Success() throws Exception {
+        org.springframework.data.domain.Page<Transaction> page =
+                new org.springframework.data.domain.PageImpl<>(List.of(sampleTransaction));
+        when(transactionService.getTransactionsPageByUserId(eq(1), any())).thenReturn(page);
+
+        mockMvc.perform(get("/api/v1/transaction/paged/user/1?page=0&size=20")
+                        .with(authentication(authPrincipalUser1)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].transactionName").value("Coffee"))
+                .andExpect(jsonPath("$.totalElements").value(1))
+                .andExpect(jsonPath("$.totalPages").value(1));
+    }
 }

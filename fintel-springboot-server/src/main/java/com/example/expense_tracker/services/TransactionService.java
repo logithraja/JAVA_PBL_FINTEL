@@ -11,6 +11,7 @@ import com.example.expense_tracker.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,24 @@ public class TransactionService {
             combinedResults.addAll(pageResults);
         }
         return combinedResults;
+    }
+
+    public Page<Transaction> getTransactionsPageByUserId(int userId, Pageable pageable) {
+        log.info("Getting paginated transactions for user: {}, pageable: {}", userId, pageable);
+        return transactionRepository.findAllByUserId(userId, pageable);
+    }
+
+    public Page<Transaction> getTransactionsPageByUserIdAndYearOrMonth(int userId, int year, Integer month, Pageable pageable) {
+        log.info("Getting paginated transactions for user: {}, year: {}, month: {}, pageable: {}", userId, year, month, pageable);
+        if (month == null) {
+            LocalDate startDate = LocalDate.of(year, 1, 1);
+            LocalDate endDate = LocalDate.of(year, 12, 31);
+            return transactionRepository.findAllByUserIdAndTransactionDateBetween(userId, startDate, endDate, pageable);
+        } else {
+            LocalDate startDate = LocalDate.of(year, month, 1);
+            LocalDate endDate = LocalDate.of(year, month, YearMonth.of(year, month).lengthOfMonth());
+            return transactionRepository.findAllByUserIdAndTransactionDateBetween(userId, startDate, endDate, pageable);
+        }
     }
 
     public List<Transaction> getAllTransactionsByUserIdAndYear(int userId, int year) {

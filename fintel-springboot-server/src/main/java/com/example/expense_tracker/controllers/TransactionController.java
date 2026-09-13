@@ -11,6 +11,10 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -66,6 +70,32 @@ public class TransactionController {
                 size
         );
         return ResponseEntity.ok(recentTransactionList);
+    }
+
+    @Operation(summary = "Get paginated transactions for a user with optional year and month filtering")
+    @GetMapping("/paged/user/{userId}")
+    public ResponseEntity<Page<Transaction>> getPagedTransactionsByUserId(
+            @PathVariable int userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month,
+            @AuthenticationPrincipal UserPrincipal principal
+    ) {
+        verifyUserOwnership(userId, principal);
+        int safePage = Math.max(0, page);
+        int safeSize = Math.max(1, Math.min(size, 100));
+        Pageable pageable = PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.DESC, "transactionDate", "id"));
+        log.info("Getting paginated transactions for user: {}, page: {}, size: {}, year: {}, month: {}",
+                userId, safePage, safeSize, year, month);
+
+        Page<Transaction> result;
+        if (year != null) {
+            result = transactionService.getTransactionsPageByUserIdAndYearOrMonth(userId, year, month, pageable);
+        } else {
+            result = transactionService.getTransactionsPageByUserId(userId, pageable);
+        }
+        return ResponseEntity.ok(result);
     }
 
     @Operation(summary = "Get all distinct transaction years for a user")

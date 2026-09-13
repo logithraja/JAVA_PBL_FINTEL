@@ -407,6 +407,104 @@ public class ApiClient {
         return transactions;
     }
 
+    public static class PageResult<T> {
+        private final List<T> content;
+        private final int pageNumber;
+        private final int pageSize;
+        private final long totalElements;
+        private final int totalPages;
+        private final boolean isFirst;
+        private final boolean isLast;
+
+        public PageResult(List<T> content, int pageNumber, int pageSize, long totalElements, int totalPages, boolean isFirst, boolean isLast) {
+            this.content = content != null ? content : Collections.emptyList();
+            this.pageNumber = pageNumber;
+            this.pageSize = pageSize;
+            this.totalElements = totalElements;
+            this.totalPages = totalPages;
+            this.isFirst = isFirst;
+            this.isLast = isLast;
+        }
+
+        public List<T> getContent() { return content; }
+        public int getPageNumber() { return pageNumber; }
+        public int getPageSize() { return pageSize; }
+        public long getTotalElements() { return totalElements; }
+        public int getTotalPages() { return totalPages; }
+        public boolean isFirst() { return isFirst; }
+        public boolean isLast() { return isLast; }
+    }
+
+    public static PageResult<Transaction> getPagedTransactions(int userId, Integer year, Integer month, int page, int size) {
+        HttpURLConnection conn = null;
+        String apiPath = "/api/v1/transaction/paged/user/" + userId + "?page=" + page + "&size=" + size;
+        if (year != null) apiPath += "&year=" + year;
+        if (month != null) apiPath += "&month=" + month;
+
+        try {
+            conn = ApiUtil.fetchApi(apiPath, ApiUtil.RequestMethod.GET, null);
+            if (conn == null || conn.getResponseCode() != 200) {
+                return new PageResult<>(Collections.emptyList(), page, size, 0, 0, true, true);
+            }
+
+            String results = ApiUtil.readApiResponse(conn);
+            if (results == null) return new PageResult<>(Collections.emptyList(), page, size, 0, 0, true, true);
+
+            JsonObject pageObj = JsonParser.parseString(results).getAsJsonObject();
+            JsonArray contentArray = pageObj.has("content") && pageObj.get("content").isJsonArray()
+                    ? pageObj.getAsJsonArray("content")
+                    : new JsonArray();
+
+            List<Transaction> transactions = new ArrayList<>();
+            for (int i = 0; i < contentArray.size(); i++) {
+                JsonObject transactionJsonObj = contentArray.get(i).getAsJsonObject();
+                int transactionId = transactionJsonObj.get("id").getAsInt();
+
+                TransactionCategory transactionCategory = null;
+                if (transactionJsonObj.has("transactionCategory")
+                        && !transactionJsonObj.get("transactionCategory").isJsonNull()) {
+                    JsonObject catObj = transactionJsonObj.get("transactionCategory").getAsJsonObject();
+                    int catId = catObj.get("id").getAsInt();
+                    String catName = catObj.get("categoryName").getAsString();
+                    String catColor = catObj.get("categoryColor").getAsString();
+
+                    transactionCategory = new TransactionCategory(catId, catName, catColor);
+                }
+
+                String transactionName = transactionJsonObj.get("transactionName").getAsString();
+                double transactionAmount = transactionJsonObj.get("transactionAmount").getAsDouble();
+                LocalDate transactionDate = LocalDate.parse(transactionJsonObj.get("transactionDate").getAsString());
+                String transactionTime = null;
+                if (transactionJsonObj.has("transactionTime") && !transactionJsonObj.get("transactionTime").isJsonNull()) {
+                    transactionTime = transactionJsonObj.get("transactionTime").getAsString();
+                }
+                String transactionType = transactionJsonObj.get("transactionType").getAsString();
+
+                transactions.add(new Transaction(
+                        transactionId,
+                        transactionCategory,
+                        transactionName,
+                        transactionAmount,
+                        transactionDate,
+                        transactionTime,
+                        transactionType
+                ));
+            }
+
+            long totalElements = pageObj.has("totalElements") ? pageObj.get("totalElements").getAsLong() : transactions.size();
+            int totalPages = pageObj.has("totalPages") ? pageObj.get("totalPages").getAsInt() : 1;
+            boolean isFirst = pageObj.has("first") ? pageObj.get("first").getAsBoolean() : (page == 0);
+            boolean isLast = pageObj.has("last") ? pageObj.get("last").getAsBoolean() : true;
+
+            return new PageResult<>(transactions, page, size, totalElements, totalPages, isFirst, isLast);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new PageResult<>(Collections.emptyList(), page, size, 0, 0, true, true);
+        } finally {
+            if (conn != null) conn.disconnect();
+        }
+    }
+
     public static List<Integer> getAllDistinctYears(int userId) {
         List<Integer> distinctYears = new ArrayList<>();
         HttpURLConnection conn = null;

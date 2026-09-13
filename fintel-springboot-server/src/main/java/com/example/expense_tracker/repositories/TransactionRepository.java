@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 // @Param is already imported above
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -26,6 +27,15 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     List<Transaction> findAllByUserIdOrderByTransactionDateDesc(int userId, Pageable pageable);
     
+    Page<Transaction> findAllByUserId(int userId, Pageable pageable);
+
+    Page<Transaction> findAllByUserIdAndTransactionDateBetween(
+            int userId,
+            LocalDate startDate,
+            LocalDate endDate,
+            Pageable pageable
+    );
+
     List<Transaction> findAllByUserIdAndTransactionDateBetweenOrderByTransactionDateDesc(
             int userId,
             LocalDate startDate,

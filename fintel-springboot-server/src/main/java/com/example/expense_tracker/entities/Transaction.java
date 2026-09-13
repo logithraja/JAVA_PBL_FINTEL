@@ -8,7 +8,10 @@ import jakarta.validation.constraints.Positive;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "transaction")
+@Table(name = "transaction", indexes = {
+        @Index(name = "idx_transaction_user_date", columnList = "user_id, transaction_date"),
+        @Index(name = "idx_transaction_user_category", columnList = "user_id, category_id")
+})
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
