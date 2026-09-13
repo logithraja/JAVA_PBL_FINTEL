@@ -45,6 +45,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                if (userDetails instanceof UserPrincipal principal) {
+                    org.slf4j.MDC.put(CorrelationIdFilter.USER_ID_MDC_KEY, String.valueOf(principal.getId()));
+                }
             }
         } catch (Exception ex) {
             log.error("Could not set user authentication in security context", ex);

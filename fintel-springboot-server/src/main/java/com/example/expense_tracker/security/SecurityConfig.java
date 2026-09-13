@@ -71,6 +71,9 @@ public class SecurityConfig {
                         ).permitAll()
                         // H2 Console (if needed)
                         .requestMatchers("/h2-console/**").permitAll()
+                        // Actuator Health and Info public, other metrics authenticated
+                        .requestMatchers("/actuator/health", "/actuator/health/**", "/actuator/info").permitAll()
+                        .requestMatchers("/actuator/**").authenticated()
                         // All API endpoints require authentication
                         .requestMatchers("/api/v1/**").authenticated()
                         .anyRequest().authenticated()

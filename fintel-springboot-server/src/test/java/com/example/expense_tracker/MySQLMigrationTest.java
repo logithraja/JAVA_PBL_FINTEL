@@ -24,12 +24,14 @@ public class MySQLMigrationTest {
     @Autowired(required = false)
     private Flyway flyway;
 
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MySQLMigrationTest.class);
+
     @Test
     void testFlywayMigrationAgainstRealMySQL() {
         assertNotNull(flyway, "Flyway should be configured");
         var info = flyway.info().current();
         assertNotNull(info, "Migration should be applied");
-        System.out.println("Current migration version on MySQL: " + info.getVersion().getVersion());
+        log.info("Current migration version on MySQL: {}", info.getVersion().getVersion());
         assertTrue(info.getState().isApplied(), "Migrations must be applied");
         assertTrue(info.getVersion().compareTo(org.flywaydb.core.api.MigrationVersion.fromVersion("1")) >= 0);
     }
