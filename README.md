@@ -1,5 +1,7 @@
 <div align="center">
-  <img src="assets/Fintel_readme.png" alt="Fintel" width="480" style="border-radius:12px"/>
+  <img src="assets/icon.png" alt="Fintel Logo" width="130" style="border-radius:24px"/>
+  <h1 align="center" style="font-size: 2.8rem; font-weight: 800; margin-top: 14px; margin-bottom: 6px; letter-spacing: 1px;">FINTEL</h1>
+  <p align="center" style="font-size: 1.15rem; color: #64748B; margin-top: 0; font-weight: 500;">Personal Finance Management &amp; Autonomous AI Intelligence Suite</p>
 </div>
 
 <br />
