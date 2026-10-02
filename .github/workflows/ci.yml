@@ -1,4 +1,4 @@
-name: Finvora CI
+name: Fintel CI
 
 on:
   push:
