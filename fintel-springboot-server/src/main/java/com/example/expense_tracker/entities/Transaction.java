@@ -1,5 +1,7 @@
 package com.example.expense_tracker.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +14,7 @@ import java.time.LocalDate;
         @Index(name = "idx_transaction_user_date", columnList = "user_id, transaction_date"),
         @Index(name = "idx_transaction_user_category", columnList = "user_id, category_id")
 })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +26,13 @@ public class Transaction {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Account account;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
     @NotBlank(message = "Transaction name cannot be blank")

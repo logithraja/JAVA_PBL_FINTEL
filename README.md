@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/Fintel_readme.png" alt="Fintel" width="470" style="border-radius:12px"/>
+  <img src="assets/Fintel_readme.png" alt="Fintel" width="480" style="border-radius:12px"/>
 </div>
 
 <br />
@@ -10,16 +10,16 @@
   <img src="https://img.shields.io/badge/License-MIT-8B5CF6?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="License"/>
 </a>
 
-<a href="https://github.com/yuvanvishnupandi/Finance_Tracker_APP/stargazers">
-  <img src="https://img.shields.io/github/stars/yuvanvishnupandi/Finance_Tracker_APP?style=for-the-badge&logo=github&color=FBBF24&labelColor=111827&label=Stars" alt="Stars"/>
+<a href="https://github.com/logithraja/JAVA_PBL_FINTEL/stargazers">
+  <img src="https://img.shields.io/github/stars/logithraja/JAVA_PBL_FINTEL?style=for-the-badge&logo=github&color=FBBF24&labelColor=111827&label=Stars" alt="Stars"/>
 </a>
 
-<a href="https://github.com/yuvanvishnupandi/Finance_Tracker_APP/network/members">
-  <img src="https://img.shields.io/github/forks/yuvanvishnupandi/Finance_Tracker_APP?style=for-the-badge&logo=github&color=3B82F6&labelColor=111827&label=Forks" alt="Forks"/>
+<a href="https://github.com/logithraja/JAVA_PBL_FINTEL/network/members">
+  <img src="https://img.shields.io/github/forks/logithraja/JAVA_PBL_FINTEL?style=for-the-badge&logo=github&color=3B82F6&labelColor=111827&label=Forks" alt="Forks"/>
 </a>
 
-<a href="https://github.com/yuvanvishnupandi/Finance_Tracker_APP/commits/main">
-  <img src="https://img.shields.io/github/last-commit/yuvanvishnupandi/Finance_Tracker_APP?style=for-the-badge&color=22C55E&labelColor=111827&label=Last%20Commit" alt="Last Commit"/>
+<a href="https://github.com/logithraja/JAVA_PBL_FINTEL/commits/main">
+  <img src="https://img.shields.io/github/last-commit/logithraja/JAVA_PBL_FINTEL?style=for-the-badge&color=22C55E&labelColor=111827&label=Last%20Commit" alt="Last Commit"/>
 </a>
 
 </p>
@@ -58,59 +58,69 @@
 
 ---
 
+## 📸 Application Showcase
+
 <div align="center">
 
 <table>
   <tr>
-    <td><img src="assets/img1.jpeg" width="400" style="border-radius:8px"/></td>
-    <td><img src="assets/img2.jpeg" width="400" style="border-radius:8px"/></td>
+    <td align="center"><b>Modern Executive Dashboard</b></td>
+    <td align="center"><b>Fintel Conversational AI</b></td>
   </tr>
   <tr>
-    <td><img src="assets/img3.jpeg" width="400" style="border-radius:8px"/></td>
-    <td><img src="assets/img7.jpeg" width="400" style="border-radius:8px"/></td>
+    <td><img src="assets/screenshot_dashboard.png" width="460" style="border-radius:8px"/></td>
+    <td><img src="assets/screenshot_ai_assistant.png" width="460" style="border-radius:8px"/></td>
   </tr>
   <tr>
-    <td><img src="assets/img5.jpeg" width="400" style="border-radius:8px"/></td>
-     <td><img src="assets/img6.jpeg" width="400" style="border-radius:8px"/></td>
+    <td align="center"><b>Future You — What-If Engine</b></td>
+    <td align="center"><b>Automated Budget Allocation</b></td>
   </tr>
- 
+  <tr>
+    <td><img src="assets/screenshot_whatif_scenario.png" width="460" style="border-radius:8px"/></td>
+    <td><img src="assets/screenshot_budget_progress.png" width="460" style="border-radius:8px"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Interactive Analytics & Charts</b></td>
+    <td align="center"><b>Proactive AI Anomalies & Alerts</b></td>
+  </tr>
+  <tr>
+    <td><img src="assets/screenshot_charts.png" width="460" style="border-radius:8px"/></td>
+    <td><img src="assets/screenshot_ai_alerts.png" width="460" style="border-radius:8px"/></td>
+  </tr>
 </table>
 
 </div>
 
 ---
-## What you get
-<div align="center">
-<img src="assets/dashboard.png" alt="Fintel — overview" width="100%" />
 
-</div>
-<details>
-<summary><b>See all features</b></summary>
+## ✨ Features at a Glance
+
+<details open>
+<summary><b>Explore Core & Advanced Capabilities</b></summary>
 
 <table>
 <tr>
 <td width="50%" valign="top">
 
-#### 💰 Core financial tracking
+#### 💰 Core Financial Tracking
 
-- **Expense Tracking** — monitor total expenses, view spending trends, and receive automated insights.
-- **Budget Management** — track overall budget utilization and monitor category-specific limits.
-- **Savings Goals** — track progress bars and percentage gauges for specific financial targets.
-- **Transaction History** — chronological logs of transactions with precise dates and times.
-- **Data Export** — single-click exporting of financial data into PDF and CSV format.
-- **Currency Converter** — instantly convert between different currencies.
-- **Robust Security** — BCrypt password hashing, stateless JWT authentication, and strict user data isolation.
+- **Expense Tracking** — Monitor cash flow, categorised transactions, and real-time ledger updates.
+- **Budget Management** — Set monthly spending thresholds per category with rollover rules and progress visualization.
+- **Savings Goals** — Define multi-month targets with dynamic pacing gauges.
+- **Multi-Account Support** — Checking, savings, credit cards, and cash wallets with dedicated balances.
+- **Data Export** — 1-click export to itemized CSV and professional PDF reports.
+- **Currency Converter** — Real-time cross-currency conversions.
+- **Enterprise Security** — BCrypt password hashing, stateless JJWT auth with refresh token rotation, and strict tenant isolation.
 
 </td>
 <td width="50%" valign="top">
 
-#### 🧠 AI features
+#### 🧠 Intelligent AI Engine
 
-- **Dedicated AI Assistant** — a conversational AI window that knows your exact balance, transactions, and goals.
-- **Voice-Activated Chat** — inline voice prompting with infinite Google TTS chunking.
-- **AI Receipt Scanner** — upload receipts to automatically extract names, amounts, and dates with zero manual entry.
-- **Multi-LLM Engine** — resilient routing powered by OpenAI, Mistral, and Gemini with automatic timeout & fallback.
-- **Predictive AI Alerts** — real-time anomaly detection and proactive budget threshold warnings.
+- **Conversational Financial Copilot** — Context-aware AI assistant equipped with user balances, transactions, and goals.
+- **Multi-LLM Fallback Architecture** — Resilient cascade across OpenAI GPT-4o-mini, Mistral Large, and Google Gemini 2.5 Flash with automatic failover.
+- **AI Vision Receipt Scanner** — Upload paper receipts or digital PDFs to auto-extract vendor, amount, date, and category.
+- **Proactive Anomaly Alerts** — Background heuristic & LLM surveillance identifying overspending risk before month-end.
 
 </td>
 </tr>
@@ -122,52 +132,22 @@
 
 #### 🔮 Future You — Scenario Engine
 
-- **What-If Simulation** — simulate a large purchase and project its impact on your budget and savings goals over 12 months.
-- **Baseline Forecasting** — linear regression per category using historical transaction data (min 3 months).
-- **Monte Carlo Simulation** — 1000-iteration probabilistic projections with confidence intervals.
-- **Vulnerability Classification** — detects overspending patterns using coefficient of variation, trend analysis, and overspend frequency.
-- **Goal Impact Analysis** — shows how a scenario affects each savings goal's deadline and required monthly contributions.
+- **What-If Simulation** — Simulate capital purchases and evaluate impact across 12-month projections.
+- **Baseline Forecasting** — Ordinary Least Squares (OLS) linear regression on historical spending patterns.
+- **Monte Carlo Simulation** — 1,000-iteration stochastic projection with confidence intervals.
+- **Vulnerability Classification** — Coefficient of variation and trend-based risk clustering.
+- **Goal Impact Modeling** — Real-time recalculation of target goal deadlines based on proposed scenarios.
 
 </td>
 <td width="50%" valign="top">
 
 #### ❤️ Financial Health Score
 
-- **Overall Score (0-100)** with letter grade (A+ through F) and animated gauge visualization.
-- **Savings Rate** — measures income vs. expenses over time.
-- **Spending Consistency** — coefficient of variation analysis of monthly expenses.
-- **Goal Progress** — average progress across all savings goals.
-- **Budget Adherence** — percentage of months spent within the average.
-- **Personalized Recommendations** — actionable tips based on weak score components.
-
-</td>
-</tr>
-</table>
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-#### 🎨 UI / UX
-
-- **Sidebar Navigation** — persistent sidebar with profile card, section labels, and active-item highlighting.
-- **Time-Aware Greeting** — dashboard greets you by time of day (Good Morning / Afternoon / Evening).
-- **Sparkline Charts** — mini inline charts on stat cards showing income, expense, and balance trends.
-- **Chat Bubble Redesign** — AI chat uses styled message bubbles with avatars, typing indicator, and fade-in animations.
-- **Theme Toggle** — light/dark mode switch applied globally.
-- **Dialog Icons** — all popup dialogs display the Fintel app icon in the title bar.
-
-</td>
-<td width="50%" valign="top">
-
-#### 🏗️ Architecture highlights
-
-- **Java-only stack** — pure JavaFX client + Spring Boot server, no Python/R.
-- **Modular backend** — separate services for forecasting, vulnerability classification, scenario simulation, and health scoring.
-- **MySQL production database** — H2 used for tests only.
-- **Apache Commons Math** — statistical analysis (regression, descriptive statistics, probability distributions).
-- **97 automated tests** — comprehensive coverage across controllers and services.
-- **Swagger / OpenAPI** — auto-generated API documentation at `/swagger-ui.html`.
+- **Composite Scoring (0-100)** with letter grading (A+ through F) and animated SVG gauge.
+- **Savings Rate** — Income vs. expenditure efficiency ratio.
+- **Spending Consistency** — Variance stability tracking across consecutive quarters.
+- **Goal Adherence** — Milestones progress velocity.
+- **Tailored Action Items** — Automated rule-based advice targeting weak metrics.
 
 </td>
 </tr>
@@ -185,21 +165,21 @@
 <td align="center" width="180" height="180">
 <a href="https://www.oracle.com/java/">
 <img src="https://skillicons.dev/icons?i=java" width="90"/><br><br>
-<b>Java (17+)</b>
+<b>Java 17 / 21+</b>
 </a>
 </td>
 
 <td align="center" width="180" height="180">
 <a href="https://spring.io/projects/spring-boot">
 <img src="https://skillicons.dev/icons?i=spring" width="90"/><br><br>
-<b>Spring Boot 3</b>
+<b>Spring Boot 3.2</b>
 </a>
 </td>
 
 <td align="center" width="180" height="180">
 <a href="https://openjfx.io/">
-   <img src="./assets/javafxlogo.webp" alt="JavaFX" width="900"/>
-  <b>JavaFX 23</b>
+<img src="./assets/javafxlogo.webp" alt="JavaFX" width="90"/><br><br>
+<b>JavaFX 23</b>
 </a>
 </td>
 
@@ -222,23 +202,23 @@
 </td>
 
 <td align="center" width="180" height="180">
-<a href="https://deepmind.google/technologies/gemini/">
-<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/googlegemini.svg" width="90"/><br><br>
-<b>Gemini 2.5 Flash</b>
+<a href="https://flywaydb.org/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/flyway.svg" width="90"/><br><br>
+<b>Flyway Migrations</b>
 </a>
 </td>
 
 <td align="center" width="180" height="180">
-<a href="https://openai.com/">
-<img src="./assets/openai.jpg" alt="OpenAI" width="900"/><br><br>
-  <b>OpenAI GPT-4o-mini</b>
+<a href="https://www.docker.com/">
+<img src="https://skillicons.dev/icons?i=docker" width="90"/><br><br>
+<b>Docker & Compose</b>
 </a>
 </td>
 
 <td align="center" width="180" height="180">
-<a href="https://mistral.ai/">
-<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/mistralai.svg" width="90"/><br><br>
-<b>Mistral Large / Pixtral</b>
+<a href="https://commons.apache.org/proper/commons-math/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/apache.svg" width="90"/><br><br>
+<b>Apache Commons Math</b>
 </a>
 </td>
 
@@ -247,177 +227,228 @@
 
 <br>
 
-<h2 id="architecture">🏛️ Overall System Architecture</h2>
+<h2 id="architecture">🏛️ System Architecture</h2>
 
-The application follows a decoupled client-server architecture, allowing rapid local processing backed by cloud AI inference and statistical analysis.
+Fintel is architected as an enterprise-grade decoupled system with a JavaFX client, Spring Boot REST server, Flyway schema migrations, and secure AI proxying:
 
 ```mermaid
 graph TD
-    subgraph Client Layer
-        A[JavaFX Desktop Client]
-        AC[ApiClient / ApiUtil]
+    subgraph Client Layer (fintel-client)
+        A[JavaFX Desktop Application]
+        AC[ApiClient / ApiUtil HTTP Engine]
         Env[EnvConfig .env Loader]
     end
 
     subgraph Security & API Gateway
         Sec[Spring Security Filter Chain]
-        JWT[JWT Authentication Filter]
-        CORS[Global CORS Filter]
+        JWT[Stateless JJWT + Refresh Rotation]
+        Rate[Bucket Rate Limiting Filter]
+        CORS[Configurable CORS Policy]
     end
 
-    subgraph Server Services
-        UC[UserController / UserService]
-        TC[TransactionController / TransactionService]
-        CC[TransactionCategoryController / Service]
-        GC[SavingsGoalController / Service]
-        FS[ForecastService]
+    subgraph Core Services (fintel-springboot-server)
+        UC[UserService / Auth]
+        TC[TransactionService]
+        ACCS[AccountService]
+        BC[BudgetService]
+        GC[SavingsGoalService]
+        FS[ForecastService - OLS Regression]
         VS[VulnerabilityClassifier]
-        SS[ScenarioSimulationService]
+        SS[ScenarioSimulationService - Monte Carlo]
         HS[HealthScoreService]
     end
 
-    subgraph External AI APIs
+    subgraph External AI Services
         OpenAI[OpenAI GPT-4o-mini]
         Mistral[Mistral Large / Pixtral]
         Gemini[Google Gemini 2.5 Flash]
     end
 
-    subgraph Storage Layer
+    subgraph Database Layer
+        Flyway[Flyway Migrations V1-V3]
         DB[(MySQL 8 Database)]
     end
 
     A --> AC
     AC -->|Bearer JWT Header| Sec
-    Sec --> JWT
-    JWT --> UC & TC & CC & GC
-    UC & TC & CC & GC --> DB
+    Sec --> JWT --> Rate --> CORS
+    Rate --> UC & TC & ACCS & BC & GC
+    Rate --> FS & VS & SS & HS
 
+    UC & TC & ACCS & BC & GC --> DB
     FS & VS & SS & HS --> DB
+    Flyway --> DB
 
     A --> Env
-    A -->|AI Fallback Chain| OpenAI
+    UC & TC -->|Multi-LLM Fallback| OpenAI
     OpenAI -.->|Fallback 1| Mistral
     Mistral -.->|Fallback 2| Gemini
 ```
 
 <br />
 
-<h2 id="local-setup">🚀 Local Setup & Getting Started</h2>
+<h2 id="local-setup">🚀 Quick Start & Setup</h2>
 
 ### Prerequisites
 
-- **Java Development Kit (JDK)**: JDK 17, JDK 21, or JDK 26.
-- **Apache Maven**: Version 3.9+ installed and on system PATH.
-- **MySQL Server 8**: Running on `localhost:3306` with a configured root user.
+- **JDK 17 or higher** (JDK 17, 21, or 26 supported)
+- **Apache Maven 3.9+**
+- **MySQL 8.0+** (or Docker)
+
+---
 
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/yuvanvishnupandi/Finance_Tracker_APP.git
-cd Finance_Tracker_APP
+git clone https://github.com/logithraja/JAVA_PBL_FINTEL.git
+cd JAVA_PBL_FINTEL
 ```
 
-### 2. Configure Database
+### 2. Configure Environment
 
-Create the MySQL database:
+Copy `.env.example` to `.env` and fill in your database credentials and optional AI API keys:
 
-```sql
-CREATE DATABASE expense_tracker_db;
+```bash
+cp .env.example .env
 ```
-
-The server connects using these defaults (configurable in `expense-tracker-springboot-server/src/main/resources/application-dev.properties`):
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/expense_tracker_db
-spring.datasource.username=root
-spring.datasource.password=your_password
-spring.jpa.hibernate.ddl-auto=update
-```
-
-### 3. Configure Environment Variables
-
-Create a `.env` file in the root directory (or set system environment variables):
 
 ```env
-# Server Security
-JWT_SECRET=your-secure-256-bit-secret-key-here-minimum-32-characters
-JWT_EXPIRATION_MS=86400000
+# Database Settings
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=fintel_db
+DB_USER=root
+DB_PASSWORD=your_mysql_password_here
 
-# Client AI Provider Keys (Optional: configure at least one for AI features)
-OPENAI_API_KEY=your_openai_api_key_here
-MISTRAL_API_KEY=your_mistral_api_key_here
-GEMINI_API_KEY=your_gemini_api_key_here
+# JWT Security
+JWT_SECRET=fintelSuperSecretKeyThatIsAtLeast32BytesLongForSecurity!
 
-# Client Backend Endpoint
-FINTEL_API_URL=http://localhost:8080
+# Multi-LLM API Keys (Optional)
+OPENAI_API_KEY=
+MISTRAL_API_KEY=
+GEMINI_API_KEY=
 ```
 
-### 4. Start Spring Boot Server
+### 3. Create Database
 
+Log in to MySQL and create the database:
+
+```sql
+CREATE DATABASE fintel_db;
+```
+
+*(Flyway automatically applies all schema migrations `V1__init_schema.sql`, `V2__phase3_features.sql`, and `V3__fix_budget_period_type.sql` on startup).*
+
+---
+
+### 4. Run the Application
+
+#### Option A: One-Click Startup Script (Windows)
+
+Launch both the Spring Boot backend and JavaFX desktop client simultaneously:
+
+```powershell
+.\run-all.ps1
+```
+*Or double-click `run-all.bat`.*
+
+#### Option B: Manual Startup
+
+**Terminal 1 — Spring Boot Server:**
 ```bash
-cd expense-tracker-springboot-server
+cd fintel-springboot-server
 mvn spring-boot:run
 ```
+- API Base: `http://localhost:8080`
+- Swagger UI Documentation: `http://localhost:8080/swagger-ui.html`
+- OpenAPI JSON Spec: `http://localhost:8080/v3/api-docs`
+- Actuator Health Check: `http://localhost:8080/actuator/health`
 
-- Server starts on `http://localhost:8080`
-- Interactive OpenAPI / Swagger UI: `http://localhost:8080/swagger-ui.html`
-- OpenAPI JSON documentation: `http://localhost:8080/v3/api-docs`
-
-### 5. Start JavaFX Frontend Client
-
-In a separate terminal:
-
+**Terminal 2 — JavaFX Client:**
 ```bash
-cd expense-tracker-client
+cd fintel-client
 mvn compile javafx:run
 ```
 
-<br />
-
-## 🧪 Testing
-
-Run the automated test suites for both modules:
+#### Option C: Docker Compose (Backend + MySQL)
 
 ```bash
-# Run server unit and integration tests (97 tests)
-mvn test -f expense-tracker-springboot-server/pom.xml
-
-# Run client tests
-mvn test -f expense-tracker-client/pom.xml
+docker-compose up --build -d
 ```
 
-Tests run against an in-memory H2 database (configured in `application-test.properties`), so no MySQL instance is needed to run the test suite.
+---
 
-<br />
+## 🧪 Automated Testing
 
-<h2 id="environment-variables">Configuration Reference</h2>
+Fintel includes 124+ automated tests covering security, controllers, services, algorithms, and integration:
 
-<details>
-<summary><b>Server Profiles & Properties</summary>
+```bash
+# Run Backend Test Suite (118 tests: OLS regression, Monte Carlo, JWT, migrations, controllers)
+mvn test -f fintel-springboot-server/pom.xml
 
-| Property | Profile | Description |
-|----------|---------|-------------|
-| `spring.profiles.active` | `dev` | Active environment profile (`dev` = MySQL, `test` = H2 in-memory) |
-| `server.port` | `8080` | Backend HTTP API port |
-| `spring.datasource.url` (dev) | `dev` | `jdbc:mysql://localhost:3306/expense_tracker_db` |
-| `spring.datasource.url` (test) | `test` | `jdbc:h2:mem:testdb` (in-memory, auto-closed) |
-| `spring.jpa.hibernate.ddl-auto` | `dev` | `update` (auto-creates/updates tables) |
-| `app.jwt.secret` | `dev` | 32+ char HMAC key for JWT signing |
-| `app.jwt.expiration-ms` | `dev` | Token expiration in milliseconds (24h) |
+# Run Frontend Client Tests (6 tests: API utility, budget store, environment config)
+mvn test -f fintel-client/pom.xml
+```
 
-</details>
+Tests execute against an isolated in-memory H2 database with zero external dependencies required.
 
-<br />
+---
 
-## 🔒 Security Highlights
+## 📦 Client Fat-JAR & Native Bundling
 
-- **Password Hashing**: BCrypt encryption on signup with configurable strength.
-- **Stateless Authentication**: JJWT token issuance with signature verification.
-- **Data Isolation**: Endpoints verify that the authenticated user owns the requested transactions, categories, and goals before reading or modifying data.
-- **CORS & CSRF**: Secure CORS configuration bean supporting configurable origins with CSRF disabled for stateless REST.
+To package the standalone client executable:
 
-<br />
+```powershell
+.\package-client.ps1
+```
 
-## License
+This compiles a shaded, self-contained executable JAR at `fintel-client/target/fintel-client-1.0-SNAPSHOT.jar`, and invokes JDK `jpackage` (if available) to generate a native Windows application image.
 
-Fintel is [MIT licensed](LICENSE).
+---
+
+## 📁 Repository Structure
+
+```
+JAVA_PBL_FINTEL/
+├── .github/workflows/          # GitHub Actions CI matrix (Ubuntu, Windows, JDK 17 & 21)
+├── assets/                     # Application screenshots, logos, and UI assets
+├── docs/                       # Project documentation & Academic PBL Report
+│   └── Fintel_PBL_Report.docx  # Final PBL Project Report
+├── scripts/                    # Database seeding and utility scripts
+│   └── seed_demo_transactions.sql
+├── fintel-springboot-server/   # Spring Boot REST API Backend
+│   ├── src/main/java/          # Controllers, entities, repositories, security, services
+│   ├── src/main/resources/     # Application properties, Flyway migrations, Logback
+│   ├── src/test/java/          # Comprehensive JUnit 5 test suite
+│   ├── Dockerfile              # Multi-stage production container build
+│   └── pom.xml
+├── fintel-client/              # JavaFX Desktop Frontend Client
+│   ├── src/main/java/          # Views, controllers, models, utils, AI monitor
+│   ├── src/main/resources/     # Stylesheets, icons, views
+│   ├── src/test/java/          # Client unit tests
+│   └── pom.xml
+├── .env.example                # Sample environment template
+├── .gitignore                  # Production-grade git ignore patterns
+├── docker-compose.yml          # Container orchestration (Server + MySQL 8)
+├── LICENSE                     # MIT License
+├── package-client.ps1          # Standalone client bundler
+├── run-all.ps1 / run-all.bat   # Simultaneous launcher scripts
+├── run-server.ps1 / .bat       # Backend launcher
+├── run-client.ps1 / .bat       # Frontend launcher
+└── README.md                   # Project documentation
+```
+
+---
+
+## 🔒 Security & Quality Assurance
+
+- **Zero Plaintext Secrets**: All tokens, keys, and connection strings are managed via `.env` and environment variables.
+- **Refresh Token Rotation**: Automatic revocation upon reuse detection prevents replay attacks.
+- **Data Isolation**: Strict user-level authorization verification across all REST endpoints.
+- **Resilient AI Ingestion**: Guarded by in-flight request locking, local disk caching, and multi-provider failover.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).

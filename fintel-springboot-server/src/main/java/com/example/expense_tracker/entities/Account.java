@@ -1,5 +1,6 @@
 package com.example.expense_tracker.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 @Table(name = "accounts", indexes = {
         @Index(name = "idx_accounts_user", columnList = "user_id")
 })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Account {
 
     @Id

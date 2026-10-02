@@ -2,15 +2,16 @@ name: Finvora CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, production-hardening ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, production-hardening ]
 
 jobs:
   build-and-test:
     name: Build and Test (${{ matrix.os }}, Java ${{ matrix.java }})
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest ]
         java: [ '17', '21' ]
@@ -26,8 +27,14 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: 'maven'
 
-      - name: Build and Test Spring Boot Server
-        run: mvn clean test -f expense-tracker-springboot-server/pom.xml
+      - name: Test Spring Boot Server
+        run: mvn clean test -f fintel-springboot-server/pom.xml
 
-      - name: Build and Test JavaFX Client
-        run: mvn clean test -f expense-tracker-client/pom.xml
+      - name: Package Spring Boot Server (JAR)
+        run: mvn clean package -DskipTests -f fintel-springboot-server/pom.xml
+
+      - name: Test JavaFX Client
+        run: mvn clean test -f fintel-client/pom.xml
+
+      - name: Package JavaFX Client (Fat JAR)
+        run: mvn clean package -DskipTests -f fintel-client/pom.xml
