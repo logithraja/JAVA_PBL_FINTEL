@@ -235,54 +235,70 @@ Fintel is architected as an enterprise-grade decoupled system with a JavaFX clie
 
 ```mermaid
 graph TD
-    subgraph Client Layer (fintel-client)
-        A[JavaFX Desktop Application]
-        AC[ApiClient / ApiUtil HTTP Engine]
-        Env[EnvConfig .env Loader]
+    subgraph ClientLayer ["Client Layer (fintel-client)"]
+        A["JavaFX Desktop Application"]
+        AC["ApiClient / ApiUtil HTTP Engine"]
+        Env["EnvConfig .env Loader"]
     end
 
-    subgraph Security & API Gateway
-        Sec[Spring Security Filter Chain]
-        JWT[Stateless JJWT + Refresh Rotation]
-        Rate[Bucket Rate Limiting Filter]
-        CORS[Configurable CORS Policy]
+    subgraph SecurityGateway ["Security & API Gateway"]
+        Sec["Spring Security Filter Chain"]
+        JWT["Stateless JJWT + Refresh Rotation"]
+        Rate["Bucket Rate Limiting Filter"]
+        CORS["Configurable CORS Policy"]
     end
 
-    subgraph Core Services (fintel-springboot-server)
-        UC[UserService / Auth]
-        TC[TransactionService]
-        ACCS[AccountService]
-        BC[BudgetService]
-        GC[SavingsGoalService]
-        FS[ForecastService - OLS Regression]
-        VS[VulnerabilityClassifier]
-        SS[ScenarioSimulationService - Monte Carlo]
-        HS[HealthScoreService]
+    subgraph CoreServices ["Core Services (fintel-springboot-server)"]
+        UC["UserService / Auth"]
+        TC["TransactionService"]
+        ACCS["AccountService"]
+        BC["BudgetService"]
+        GC["SavingsGoalService"]
+        FS["ForecastService (OLS Regression)"]
+        VS["VulnerabilityClassifier"]
+        SS["ScenarioSimulationService (Monte Carlo)"]
+        HS["HealthScoreService"]
     end
 
-    subgraph External AI Services
-        OpenAI[OpenAI GPT-4o-mini]
-        Mistral[Mistral Large / Pixtral]
-        Gemini[Google Gemini 2.5 Flash]
+    subgraph ExternalAI ["External AI Services"]
+        OpenAI["OpenAI GPT-4o-mini"]
+        Mistral["Mistral Large / Pixtral"]
+        Gemini["Google Gemini 2.5 Flash"]
     end
 
-    subgraph Database Layer
-        Flyway[Flyway Migrations V1-V3]
-        DB[(MySQL 8 Database)]
+    subgraph DatabaseLayer ["Database Layer"]
+        Flyway["Flyway Migrations (V1-V3)"]
+        DB[("MySQL 8 Database")]
     end
 
     A --> AC
     AC -->|Bearer JWT Header| Sec
-    Sec --> JWT --> Rate --> CORS
-    Rate --> UC & TC & ACCS & BC & GC
-    Rate --> FS & VS & SS & HS
+    Sec --> JWT
+    JWT --> Rate
+    Rate --> CORS
+    CORS --> UC
+    CORS --> TC
+    CORS --> ACCS
+    CORS --> BC
+    CORS --> GC
+    CORS --> FS
+    CORS --> VS
+    CORS --> SS
+    CORS --> HS
 
-    UC & TC & ACCS & BC & GC --> DB
-    FS & VS & SS & HS --> DB
+    UC --> DB
+    TC --> DB
+    ACCS --> DB
+    BC --> DB
+    GC --> DB
+    FS --> DB
+    VS --> DB
+    SS --> DB
+    HS --> DB
     Flyway --> DB
 
     A --> Env
-    UC & TC -->|Multi-LLM Fallback| OpenAI
+    UC -.->|AI Fallback| OpenAI
     OpenAI -.->|Fallback 1| Mistral
     Mistral -.->|Fallback 2| Gemini
 ```
